@@ -28,4 +28,4 @@ python3 mvp/reto02-seguros/quote_engine.py
 - Decisión que no queda escrita, no se tomó.
 
 ## Centro de mando
-Notion (página raíz del equipo): _pega aquí el link_
+Notion (página raíz del equipo): https://app.notion.com/p/jddevs/Hackathon-Colsubsidio-2026-Scala-Labs-3a4aaa9c5e0b818cb1d0f13475744ca1?source=copy_link
