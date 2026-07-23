@@ -23,12 +23,16 @@ Se trabaja solo por SERIE. Nunca nombres ni datos personales reales en código,
 demos, logs o repositorio. La base oficial de afiliados NO entra al repo (vive en
 el Drive del reto). Los datos de personas en demos son sintéticos.
 
-### IV. La base v2 tiene valores enmascarados — no asumir semántica
-Los valores categóricos de la base oficial (SIGMA, LAMBDA, RHO…) están
-enmascarados. El mapeo inferido vive en
-`hustler/investigacion/2026-07-23_analisis-base-afiliados-v3.md` y se usa
-declarándolo. Columnas sin diccionario (SEGMENTO_POBLACIONAL, PIRAMIDE_NUEVA,
-EMPRESA_FOCO) no se usan hasta tener semántica oficial.
+### IV. La base v2 tiene valores enmascarados — usar sin interpretar
+La organización confirmó (23-jul) que el enmascaramiento (SIGMA, LAMBDA, RHO…) es
+anonimización deliberada, consistente por diseño y sin divulgar la clasificación
+original. Regla: los valores enmascarados SÍ se usan como features del motor (la
+consistencia basta para scoring y agrupaciones), pero NO se interpretan etiquetas
+en entregables externos ni en el pitch — los segmentos se describen por sus
+características observables. El mapeo inferido de
+`hustler/investigacion/2026-07-23_analisis-base-afiliados-v3.md` es hipótesis
+interna de trabajo. EMPRESA_FOCO sigue sin contexto oficial: no usarla hasta
+aclararlo.
 
 ### V. Demo primero: P1 completa vale más que P1+P2 a medias
 Cada user story se prioriza (P1, P2, P3) y debe ser demostrable de punta a punta
