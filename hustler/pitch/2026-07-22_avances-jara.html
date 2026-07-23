@@ -127,7 +127,7 @@
   <!-- 0 RESUMEN -->
   <section class="panelbox on" data-p="0">
     <div class="stats">
-      <div class="stat"><div class="n">1,56 M</div><div class="l">afiliados analizados (base oficial)</div></div>
+      <div class="stat"><div class="n">500 K</div><div class="l">muestra oficial analizada (base v2 del 23-jul; la caja tiene 1,6M afiliados)</div></div>
       <div class="stat"><div class="n">26</div><div class="l">seguros catalogados (7 familias)</div></div>
       <div class="stat"><div class="n">6</div><div class="l">segmentos por estructura familiar</div></div>
       <div class="stat"><div class="n">4</div><div class="l">aseguradoras aliadas identificadas</div></div>
@@ -141,10 +141,10 @@
         <div class="prev" onclick="goTab(1)">
           <div class="ph"><span class="t">Análisis de la base oficial</span><span class="f"><a href="docs/2026-07-22_analisis-base-afiliados.html" target="_blank" onclick="event.stopPropagation()">Abrir el análisis ↗</a></span></div>
           <div class="body">
-            <div class="mb"><div class="mrow"><span>Sin grupo registrado</span><span>58,0%</span></div><div class="mtrack"><div class="mfill" style="width:100%"></div></div></div>
-            <div class="mb"><div class="mrow"><span>Monoparental</span><span>23,5%</span></div><div class="mtrack"><div class="mfill" style="width:40%"></div></div></div>
-            <div class="mb"><div class="mrow"><span>Nuclear · Pareja · Ampliada · Sin dato</span><span>18,6%</span></div><div class="mtrack"><div class="mfill" style="width:32%;background:#41505f"></div></div></div>
-            <div style="font-size:12px;color:var(--tx3);margin-top:8px">1.566.028 afiliados · 75,8% categoría A · verificado con recálculo independiente</div>
+            <div class="mb"><div class="mrow"><span>Sin grupo registrado</span><span>57,3%</span></div><div class="mtrack"><div class="mfill" style="width:100%"></div></div></div>
+            <div class="mb"><div class="mrow"><span>Monoparental</span><span>24,3%</span></div><div class="mtrack"><div class="mfill" style="width:42%"></div></div></div>
+            <div class="mb"><div class="mrow"><span>Nuclear · Pareja · Ampliada · Sin dato</span><span>18,5%</span></div><div class="mtrack"><div class="mfill" style="width:32%;background:#41505f"></div></div></div>
+            <div style="font-size:12px;color:var(--tx3);margin-top:8px">Base v2 (23-jul): 500.000 filas, sin PII, valores enmascarados (mapeo verificado por 4 dimensiones) · 72,8% categoría A · NUEVO: rango salarial disponible</div>
           </div>
           <span class="go">Ver los 6 segmentos e insights →</span>
         </div>
@@ -174,11 +174,11 @@
         </div>
 
         <div class="prev" onclick="goTab(4)">
-          <div class="ph"><span class="t">Limitaciones de la data</span><span class="f">5 notas</span></div>
+          <div class="ph"><span class="t">Limitaciones de la data</span><span class="f">8 notas · base v2</span></div>
           <div class="body">
-            <div class="mnote">⚠️ DROGUERIA cae de 6,9% a 0,09% a los 46 años — posible artefacto</div>
-            <div class="mnote">⚠️ 3 de 5 marcas de consumo casi vacías; sin fechas de uso</div>
-            <div class="mnote">⚠️ "Sin grupo familiar" es proxy registral, no estado civil</div>
+            <div class="mnote">✅ Base v2 (23-jul): sin PII — nuestro hallazgo fue atendido</div>
+            <div class="mnote">⚠️ Valores enmascarados: mapeo inferido, pedir diccionario oficial</div>
+            <div class="mnote">⚠️ Anomalía de DROGUERIA a los 46 persiste; PISCILAGO murió (100% NO)</div>
           </div>
           <span class="go">Ver las 5 limitaciones →</span>
         </div>
@@ -216,17 +216,18 @@
   <section class="panelbox" data-p="1">
     <div class="card">
       <h2>Segmentos por estructura familiar registrada</h2>
-      <div class="lead">Ojo con la variable: mide beneficiarios <b style="color:#fff">registrados en la caja</b>, no estado civil. "Sin grupo" no significa soltero — es un proxy. <span class="src" style="display:inline">Fuente: <a href="https://drive.google.com/drive/folders/1Bw3QhsnSN3kIS9qBfH06pA8pVo8ESwNX" target="_blank">base oficial de afiliados — Drive del reto</a> (Usos_Productos_Afiliados_SIN_ID.csv, 1.566.028 registros)</span></div>
-      <div class="bar"><div class="row"><b>Sin grupo familiar registrado</b><span class="v">58,0% · 908.102</span></div><div class="track"><div class="fill" data-w="100"></div></div></div>
-      <div class="bar"><div class="row"><b>Familia monoparental</b><span class="v">23,5% · 367.713</span></div><div class="track"><div class="fill" data-w="40"></div></div></div>
-      <div class="bar"><div class="row"><b>Familia nuclear (con hijos)</b><span class="v">9,4% · 147.358</span></div><div class="track"><div class="fill mut" data-w="16"></div></div></div>
-      <div class="bar"><div class="row"><b>Pareja conyugal (53% es &gt;55 años)</b><span class="v">5,5% · 85.695</span></div><div class="track"><div class="fill mut" data-w="9"></div></div></div>
-      <div class="bar"><div class="row"><b>Monoparental ampliada</b><span class="v">2,2% · 33.963</span></div><div class="track"><div class="fill mut" data-w="4"></div></div></div>
-      <div class="bar"><div class="row"><b>Sin dato</b><span class="v">1,5% · 23.197</span></div><div class="track"><div class="fill mut" data-w="3"></div></div></div>
+      <div class="lead">Ojo con la variable: mide beneficiarios <b style="color:#fff">registrados en la caja</b>, no estado civil. "Sin grupo" no significa soltero — es un proxy. <b style="color:#fff">Base v2 (23-jul):</b> muestra de 500.000, sin PII, valores enmascarados con letras griegas — las etiquetas de abajo son nuestro mapeo, verificado por 4 dimensiones contra la base v1 (pendiente diccionario oficial). <span class="src" style="display:inline">Fuente: <a href="https://drive.google.com/drive/folders/1Bw3QhsnSN3kIS9qBfH06pA8pVo8ESwNX" target="_blank">base oficial de afiliados — Drive del reto</a> (Usos_Productos_Afiliados_SIN_ID.xlsx, 500.000 registros, actualizada 23-jul) · <a href="docs/2026-07-23_analisis-base-afiliados-v3.html" target="_blank">análisis v3 completo ↗</a></span></div>
+      <div class="bar"><div class="row"><b>Sin grupo familiar registrado (LAMBDA)</b><span class="v">57,3% · 286.457</span></div><div class="track"><div class="fill" data-w="100"></div></div></div>
+      <div class="bar"><div class="row"><b>Familia monoparental (RHO)</b><span class="v">24,3% · 121.478</span></div><div class="track"><div class="fill" data-w="42"></div></div></div>
+      <div class="bar"><div class="row"><b>Familia nuclear (EPSILON)</b><span class="v">9,4% · 46.999</span></div><div class="track"><div class="fill mut" data-w="16"></div></div></div>
+      <div class="bar"><div class="row"><b>Pareja conyugal (IOTA — 51% es &gt;55 años)</b><span class="v">5,1% · 25.263</span></div><div class="track"><div class="fill mut" data-w="9"></div></div></div>
+      <div class="bar"><div class="row"><b>Monoparental ampliada (CHI)</b><span class="v">2,4% · 11.843</span></div><div class="track"><div class="fill mut" data-w="4"></div></div></div>
+      <div class="bar"><div class="row"><b>Sin dato (THETA)</b><span class="v">1,6% · 7.933</span></div><div class="track"><div class="fill mut" data-w="3"></div></div></div>
       <div class="stats" style="margin-top:18px">
-        <div class="stat"><div class="n">75,8%</div><div class="l">de la base es categoría A (menor ingreso)</div></div>
-        <div class="stat"><div class="n">47%</div><div class="l">tiene entre 20 y 35 años</div></div>
-        <div class="stat"><div class="n">82%</div><div class="l">del segmento monoparental es categoría A (57% mujeres)</div></div>
+        <div class="stat"><div class="n">72,8%</div><div class="l">de la muestra es categoría A (menor ingreso)</div></div>
+        <div class="stat"><div class="n">49,6%</div><div class="l">tiene entre 20 y 35 años</div></div>
+        <div class="stat"><div class="n">80,3%</div><div class="l">del segmento monoparental es categoría A (58,5% mujeres)</div></div>
+        <div class="stat"><div class="n">67%</div><div class="l">gana ≤1,5 SMLV (NUEVO: rango salarial en la base v2)</div></div>
       </div>
     </div>
     <div class="card">
@@ -234,10 +235,11 @@
       <div class="lead">Los presento como hallazgos; qué hacemos con ellos lo decidimos juntos.</div>
       <table>
         <tr><th>Insight</th><th>Implicación posible</th><th></th></tr>
-        <tr><td><b>El ejemplo del brief ("casado con 3 hijos") es el 9,4%</b> de la base; los segmentos grandes son sin-grupo (58%) y monoparental (23,5%)</td><td>Diseñar para los segmentos que realmente existen</td><td></td></tr>
-        <tr><td><b>3 de cada 4 afiliados son categoría A</b></td><td>Sugiere priorizar productos de precio bajo</td><td><span class="team">decisión de equipo</span></td></tr>
-        <tr><td><b>Monoparental: grande, 82% cat. A, 57% mujeres</b> — hogares con un solo adulto proveedor registrado</td><td>Candidato a persona del pitch</td><td><span class="team">decisión de equipo</span></td></tr>
-        <tr><td><b>La señal de consumo es real si se controla por edad</b>: droguería en 20–35 crece con la estructura familiar (7,1% → 9,8% → 11,7% → 15,1%)</td><td>Usable como señal secundaria del motor</td><td></td></tr>
+        <tr><td><b>El ejemplo del brief ("casado con 3 hijos") es el 9,4%</b> de la base; los segmentos grandes son sin-grupo (57,3%) y monoparental (24,3%)</td><td>Diseñar para los segmentos que realmente existen</td><td></td></tr>
+        <tr><td><b>3 de cada 4 afiliados son categoría A</b> (72,8% en la base v2)</td><td>Sugiere priorizar productos de precio bajo</td><td><span class="team">decisión de equipo</span></td></tr>
+        <tr><td><b>Monoparental: grande, 80% cat. A, 58,5% mujeres</b> — hogares con un solo adulto proveedor registrado</td><td>Candidato a persona del pitch</td><td><span class="team">decisión de equipo</span></td></tr>
+        <tr><td><b>NUEVO (base v2): rango salarial por afiliado</b> — 60,5% gana entre 1 y 1,5 SMLV; ~67% gana ≤1,5 SMLV</td><td>El motor puede calcular la prima como % del ingreso REAL — la asequibilidad deja de ser proxy y se vuelve cálculo directo. Insumo directo para la pregunta 3 del chat</td><td></td></tr>
+        <tr><td><b>La señal de consumo es real si se controla por edad</b>: droguería en 20–35 crece con la estructura familiar (21,8% → 28,4% → 32,4% → 39,4% en la base v2)</td><td>Usable como señal secundaria del motor</td><td></td></tr>
       </table>
     </div>
   </section>
@@ -284,9 +286,9 @@
       <table>
         <tr><th>Segmento (tamaño real)</th><th>Producto candidato</th><th>Alternativas</th><th>Variable que lo justifica</th></tr>
         <tr><td><b>Sin grupo, 20–35, cat. A</b> (mayoría)</td><td>SOAT (si tiene vehículo) / Accidentes Personales</td><td>AP Digital</td><td>Obligatorio + bajo costo; protege su ingreso</td></tr>
-        <tr><td><b>Monoparental</b> (23,5%)</td><td>Vida con beneficiarios</td><td>Exequial; Accidentes+Exequial</td><td>Dependientes a cargo de un solo adulto registrado</td></tr>
+        <tr><td><b>Monoparental</b> (24,3%)</td><td>Vida con beneficiarios</td><td>Exequial; Accidentes+Exequial</td><td>Dependientes a cargo de un solo adulto registrado</td></tr>
         <tr><td><b>Nuclear</b> (9,4%)</td><td>Vida familiar</td><td>Hogar y contenido</td><td>Hijos + patrimonio</td></tr>
-        <tr><td><b>Pareja conyugal</b> (5,5%)</td><td>Vida y Ahorro (&lt;55) / Exequial (&gt;55)</td><td>Hogar</td><td>La mitad del segmento es &gt;55: la edad modula el producto</td></tr>
+        <tr><td><b>Pareja conyugal</b> (5,1%)</td><td>Vida y Ahorro (&lt;55) / Exequial (&gt;55)</td><td>Hogar</td><td>La mitad del segmento es &gt;55: la edad modula el producto</td></tr>
         <tr><td><b>&gt;55</b> (corte transversal)</td><td>Exequial</td><td>Asistencias médicas</td><td>Etapa de vida</td></tr>
       </table>
       <p style="margin-top:14px;font-size:13.5px;color:var(--tx2)">Pendiente (capa de hiperpersonalización que pide el brief): definir en equipo las características finas de cada oferta — coberturas, montos y condiciones moduladas por las variables de cada perfil, no solo el producto.</p>
@@ -296,10 +298,13 @@
   <!-- 4 LIMITACIONES -->
   <section class="panelbox" data-p="4">
     <div class="card">
-      <h2>Limitaciones de la data (para no construir sobre arena)</h2>
-      <div class="lead">Cosas que la base no soporta o que hay que preguntar a la organización.</div>
-      <div class="note"><div>⚠️</div><div><b>DROGUERIA tiene una anomalía:</b> el uso cae de 6,9% (36–45 años) a 0,09% (46–55). Un acantilado así no es comportamiento real — parece un artefacto de cómo se construyó la marca. Propongo preguntar a la organización; mientras tanto, usarla solo en menores de 46.</div></div>
-      <div class="note"><div>⚠️</div><div><b>3 de las 5 marcas de consumo están casi vacías:</b> Hoteles (0,03% con "SI"), Agencias (0,02%) y Vivienda (0,07%). No sirven como criterio de recomendación.</div></div>
+      <h2>Limitaciones de la data (para no construir sobre arena) — actualizado a la base v2 del 23-jul</h2>
+      <div class="lead">Cosas que la base no soporta o que hay que preguntar a la organización. La organización actualizó la base el 23-jul: muestra de 500.000 (antes censo de 1,56M), sin PII, valores enmascarados y columnas nuevas — <a href="docs/2026-07-23_analisis-base-afiliados-v3.html" target="_blank">análisis v3 completo ↗</a>.</div>
+      <div class="note" style="border-left-color:var(--acc2)"><div>✅</div><div><b>El hallazgo de PII fue atendido:</b> la base v2 ya no trae NOMBRE_COMPLETO. Nuestro manejo por SERIE queda validado y el registro del hallazgo se conserva en el análisis v1.</div></div>
+      <div class="note"><div>⚠️</div><div><b>Los valores vienen enmascarados (letras griegas):</b> SIGMA/LAMBDA/RHO… Las etiquetas que usamos son mapeo nuestro, verificado por 4 dimensiones contra la base v1 — sólido pero no oficial. <b>Pedir el diccionario a la organización antes del pitch.</b></div></div>
+      <div class="note"><div>⚠️</div><div><b>La anomalía de DROGUERIA persiste en la v2:</b> el uso cae de 21,3% (36–45 años) a 0,35% (46–55). El acantilado a los 46 sigue siendo implausible como comportamiento real. Regla vigente: usarla solo en menores de 46.</div></div>
+      <div class="note"><div>⚠️</div><div><b>PISCILAGO murió como señal:</b> en la v2 es 100% "NO" (antes 4,9% SI). Con Hoteles (0,03%), Agencias (0,02%) y Vivienda (0,01%) casi vacías, <b>4 de las 5 marcas no sirven</b> — Droguería queda como la única con señal, y solo en &lt;46.</div></div>
+      <div class="note"><div>⚠️</div><div><b>3 columnas nuevas sin diccionario:</b> SEGMENTO_POBLACIONAL, PIRAMIDE_NUEVA y EMPRESA_FOCO podrían traer señal útil, pero sin semántica oficial son inutilizables. Preguntar a los mentores/organización.</div></div>
       <div class="note"><div>⚠️</div><div><b>Las marcas no tienen fecha:</b> son SI/NO histórico. La base no soporta afirmaciones tipo "acaba de usar X" — cualquier lógica de timing del MVP se simula o se valida con la organización.</div></div>
       <div class="note"><div>⚠️</div><div><b>"Sin grupo familiar" es un proxy registral,</b> no estado civil: la familia puede existir y no estar registrada en la caja (o estar cubierta por otra caja). Las etiquetas de segmentos deben leerse así.</div></div>
       <div class="note"><div>⚠️</div><div><b>La base no dice quién ya tiene seguros.</b> Afirmaciones tipo "segmento desatendido" necesitarían una fuente externa que hoy no tenemos.</div></div>
@@ -349,7 +354,7 @@
         <div class="step"><div class="n">5</div><div class="t">Más ventas → más data</div><p>El ciclo se acelera solo: entre más crece, mejor vende; entre más vende, más rápido crece</p></div>
       </div>
       <p style="margin-top:14px;font-size:13.5px;color:var(--tx2)"><b style="color:#fff">La prueba empírica (2ª entrevista):</b> 7 trimestres consecutivos de crecimiento acelerándose y 7 de loss ratio cayendo — "esa forma de X no existe en seguros". Sobre sustrato humano, crecer rápido deteriora la calidad; sobre sustrato de IA, la mejora: más ventas = más data = ciclos de aprendizaje más cortos. Y el canal importa: su app genera <b style="color:#fff">~100 veces más data que la distribución por agentes, en un solo sistema</b> — mientras Geico opera con más de 600 sistemas que no se hablan entre sí (cita de Ajit Jain, Berkshire). La base de trazabilidad única del MVP es el antídoto de ese "600 sistemas".</p>
-      <p style="margin-top:10px;font-size:13.5px;color:var(--tx2)"><b style="color:#fff">La ventaja de partida:</b> Lemonade construyó su flywheel desde cero; Colsubsidio arranca con él girando — 1,56 M de perfiles con estructura familiar, categoría, edad y marcas de uso del ecosistema. Y el mismo motor puede mejorar el marketing de las demás líneas de la caja (droguerías, recreación, crédito): el canal de seguros termina subsidiando inteligencia comercial para todo el ecosistema <span class="team">decisión de equipo</span></p>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--tx2)"><b style="color:#fff">La ventaja de partida:</b> Lemonade construyó su flywheel desde cero; Colsubsidio arranca con él girando — 1,6 M de afiliados reales (y una base oficial de 500 K perfiles con estructura familiar, categoría, edad y — desde la v2 — rango salarial). Y el mismo motor puede mejorar el marketing de las demás líneas de la caja (droguerías, recreación, crédito): el canal de seguros termina subsidiando inteligencia comercial para todo el ecosistema <span class="team">decisión de equipo</span></p>
       <div class="note" style="margin-top:12px;margin-bottom:0"><div>⚠️</div><div><b>La condición que hace funcionar el flywheel es la confianza (habeas data).</b> Lemonade lo promete explícito: "we will never sell that data… we don't use it for any purpose other than your insurance needs" — la confianza es el precio de entrada de la data. En Colombia: Ley 1581/2012, autorización con finalidades explícitas. Usar las respuestas del chat para marketing del ecosistema es viable solo si el consentimiento se diseña dentro del flujo (inline, como la idoneidad). Bien manejado es otro requisito convertido en argumento de confianza; mal manejado, es la pregunta incómoda del jurado.</div></div>
       <span class="src">Fuentes: <a href="https://youtu.be/fBmk4mqZf1g" target="_blank">entrevista 1 — After Earnings (citas textuales)</a> · <a href="https://youtu.be/h_3Qn_K9CXs" target="_blank">entrevista 2 — RiskReversal (forma de X, 100x data, 600 sistemas)</a> · <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981" target="_blank">Ley 1581/2012 — protección de datos personales</a> · análisis: <a href="docs/2026-07-23_insights-lemonade-reto02.html" target="_blank">entrevista 1</a> · <a href="docs/2026-07-23_insights-lemonade-riskreversal.html" target="_blank">entrevista 2</a></span>
     </div>
@@ -361,8 +366,8 @@
         <tr><th>Afirmación</th><th>Estado</th></tr>
         <tr><td><b>Colsubsidio ya es distribuidor multi-aseguradora</b> (MetLife, Chubb, BMI, SURA en el catálogo)
           <span class="src">Fuentes: <a href="https://www.colsubsidio.com/seguros" target="_blank">colsubsidio.com/seguros</a> · <a href="https://www.metlife.com.co/seguros-masivos/colsubsidio/" target="_blank">MetLife–Convenio Colsubsidio</a> · <a href="https://www.chubb.com/co-es/personas-y-familias/colsubsidio.html" target="_blank">Chubb–Aliados Colsubsidio</a></span></td><td><span class="tag dato">dato</span></td></tr>
-        <tr><td><b>El precio es la barrera del 76% de la base</b> (categoría A) — un descuento por paquete ataca justo eso
-          <span class="src">Fuente: <a href="https://drive.google.com/drive/folders/1Bw3QhsnSN3kIS9qBfH06pA8pVo8ESwNX" target="_blank">base oficial de afiliados (Drive del reto)</a>, 1.566.028 registros procesados por código</span></td><td><span class="tag dato">dato</span></td></tr>
+        <tr><td><b>El precio es la barrera de ~3 de cada 4 afiliados</b> (72,8% categoría A; 67% gana ≤1,5 SMLV según la base v2) — un descuento por paquete ataca justo eso, y el rango salarial nuevo permite calcular la prima como % del ingreso real
+          <span class="src">Fuente: <a href="https://drive.google.com/drive/folders/1Bw3QhsnSN3kIS9qBfH06pA8pVo8ESwNX" target="_blank">base oficial de afiliados v2 (Drive del reto)</a>, 500.000 registros procesados por código (23-jul)</span></td><td><span class="tag dato">dato</span></td></tr>
         <tr><td><b>Cada segmento necesita una mezcla distinta</b> — lo muestra el mapa segmento → producto
           <span class="src">Fuente: <a href="https://drive.google.com/drive/folders/1Bw3QhsnSN3kIS9qBfH06pA8pVo8ESwNX" target="_blank">base oficial de afiliados (Drive del reto)</a> cruzada con el catálogo propio (URLs por producto en productos-seguros.json)</span></td><td><span class="tag dato">dato</span></td></tr>
         <tr><td><b>SOAT como ancla de paquetes:</b> obligatorio, renovación anual, alto volumen según los organizadores

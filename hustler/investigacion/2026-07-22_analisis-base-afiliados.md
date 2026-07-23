@@ -1,5 +1,10 @@
 # Análisis de la base de afiliados — Reto 02 Seguros (v2, corregido)
 
+> ⚠️ **HISTÓRICO (23-jul):** la organización publicó una base actualizada (500K
+> filas, sin PII, valores enmascarados, columnas nuevas). El análisis vigente es
+> [[2026-07-23_analisis-base-afiliados-v3]]. Este doc queda como registro de la
+> base v1 y del hallazgo de PII que fue atendido.
+
 Fuente: `Usos_Productos_Afiliados_SIN_ID.csv` entregado por la organización (Drive
 "Recursos Reto Seguros"). **1.566.028 filas**, separador `;`, 16 columnas. Procesado
 por código (no cabe en Excel).
