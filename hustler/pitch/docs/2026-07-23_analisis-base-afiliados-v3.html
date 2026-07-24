@@ -194,8 +194,13 @@ consistente en todas:</p>
 </tbody>
 </table>
 <p>⚠️ Este mapeo es <strong>inferencia nuestra</strong>, no diccionario oficial. Es sólido (4
-dimensiones coinciden con la v1), pero hay que <strong>pedir el diccionario de valores a la
-organización</strong> antes del pitch. Mientras tanto, todos los entregables lo declaran.</p>
+dimensiones coinciden con la v1), pero la organización confirmó el 23-jul que el
+enmascaramiento es deliberado, &ldquo;sin divulgar la clasificación original de
+Colsubsidio&rdquo; → <strong>no esperar diccionario de valores, y NO presumir el mapeo en el
+pitch</strong> (es ingeniería inversa de algo que decidieron ocultar). Uso correcto:
+hipótesis interna de trabajo; ante el jurado, describir los segmentos por sus
+características observables (tamaño, edad, género, salario), no por la etiqueta
+reconstruida.</p>
 <h2>Distribuciones clave (v3)</h2>
 <ul>
 <li><strong>Categoría:</strong> A 72,8% · B 16,4% · C 9,8% · sin dato 1,0% — <em>(v1: 75,8/14,5/8,8)</em>.
@@ -219,18 +224,31 @@ se vuelve un cálculo directo. Es el insumo que le faltaba a la pregunta 3 del c
 (&ldquo;¿cuánto puedes pagar al mes?&rdquo;): el sistema puede validar que la prima recomendada
 no exceda un umbral responsable del ingreso. Conecta directo con el argumento de
 inclusión (microseguro para el 67% que gana ≤1,5 SMLV).</p>
-<h2>Columnas nuevas sin diccionario (preguntar a la organización)</h2>
+<h2>Contexto oficial de la organización (23-jul, grupo del reto — Andrea Garzón)</h2>
+<p>La organización aclaró en el grupo de WhatsApp del reto:</p>
 <ul>
-<li><strong>SEGMENTO_POBLACIONAL</strong> (5 valores): TAU 46,2% (97% cat A) · PI 26,9% · ETA 25,5%
-  · OMEGA 1,0% (96% &ldquo;sin dato&rdquo; de categoría — parece el &ldquo;sin dato&rdquo; poblacional) ·
-  XI 0,3% (99% cat C — ¿segmento premium/especial?). Semántica desconocida.</li>
-<li><strong>PIRAMIDE_NUEVA</strong> (10 valores): distribución amplia (ETA 31,2%, XI 21,7%,
-  UPSILON 20,4%…). Semántica desconocida.</li>
-<li><strong>EMPRESA_FOCO</strong>: EMP_000001 = 81,7% · EMP_000002 = 18,3%. ¿Empresa priorizada?
-  Semántica desconocida.</li>
+<li>El enmascaramiento (LAMBDA, SIGMA…) es una <strong>anonimización deliberada</strong> que
+  &ldquo;preserva la consistencia de los datos para análisis, agrupaciones y conteos, sin
+  divulgar la clasificación original de Colsubsidio&rdquo;.</li>
+<li><strong>CATEGORIA</strong> = categoría del afiliado dentro del sistema de subsidio familiar.</li>
+<li><strong>SEGMENTO_GRUPO_FAMILIAR</strong> = composición del hogar / estructura familiar.</li>
+<li><strong>SEGMENTO_POBLACIONAL</strong> = segmentación individual del afiliado construida a
+  partir de ingresos, edad y PAC (⚠️ &ldquo;PAC&rdquo; sin definir — preguntar).</li>
+<li><strong>PIRAMIDE_NUEVA</strong> = clasifica a la <strong>empresa aportante</strong> dentro de la pirámide
+  empresarial de Colsubsidio (es del empleador, no del afiliado).</li>
 </ul>
-<p>Estas tres columnas pueden traer señal útil para el motor — sin diccionario son
-inutilizables. <strong>Primera pregunta para los mentores/organización.</strong></p>
+<p><strong>Desbloqueo práctico:</strong> al ser consistentes por diseño, los valores enmascarados
+son <strong>usables tal cual como features del motor de scoring</strong> — el modelo no necesita
+saber qué significa LAMBDA, solo que sea estable. SEGMENTO_POBLACIONAL (composite
+oficial de ingreso+edad+PAC) es candidata directa a feature. PIRAMIDE_NUEVA queda
+como señal secundaria B2B (baja prioridad para el MVP).</p>
+<ul>
+<li><strong>EMPRESA_FOCO</strong>: EMP_000001 = 81,7% · EMP_000002 = 18,3%. Única columna que
+  sigue sin explicación oficial — preguntar.</li>
+</ul>
+<p>Distribuciones de referencia: SEGMENTO_POBLACIONAL → TAU 46,2% (97% cat A) ·
+PI 26,9% · ETA 25,5% · OMEGA 1,0% (96% &ldquo;sin dato&rdquo; de categoría) · XI 0,3% (99%
+cat C). PIRAMIDE_NUEVA → ETA 31,2%, XI 21,7%, UPSILON 20,4%…</p>
 <h2>Señales de consumo (v3)</h2>
 <ul>
 <li><strong>DROGUERIA (única marca con señal): la anomalía PERSISTE y se amplificó.</strong>
@@ -262,8 +280,10 @@ inutilizables. <strong>Primera pregunta para los mentores/organización.</strong
 - Nueva oportunidad: RANGO_SALARIAL → prima como % del ingreso</p>
 <h2>Preguntas actualizadas para la organización</h2>
 <ol>
-<li>¿Diccionario de valores enmascarados? (CATEGORIA, SEGMENTO_GRUPO_FAMILIAR,
-   SEGMENTO_POBLACIONAL, PIRAMIDE_NUEVA, EMPRESA_FOCO)</li>
+<li>~~¿Diccionario de valores enmascarados?~~ → RESUELTO PARCIAL (23-jul): dieron la
+   semántica por columna; los valores seguirán ocultos por diseño. No insistir.</li>
+<li>¿Qué significa <strong>PAC</strong> (variable usada en SEGMENTO_POBLACIONAL)?</li>
+<li>¿Qué es <strong>EMPRESA_FOCO</strong>? (única columna sin contexto oficial)</li>
 <li>La anomalía de DROGUERIA a los 46 años persiste en la v2 — ¿artefacto confirmado?</li>
 <li>¿La muestra de 500K es aleatoria de la base de 1,56M? (afecta si podemos
    extrapolar conteos absolutos)</li>

@@ -41,8 +41,13 @@ consistente en todas:
 | PI | (residuo nuevo, 27 filas) | 27 | 0,0% | — | — | — | — | — |
 
 ⚠️ Este mapeo es **inferencia nuestra**, no diccionario oficial. Es sólido (4
-dimensiones coinciden con la v1), pero hay que **pedir el diccionario de valores a la
-organización** antes del pitch. Mientras tanto, todos los entregables lo declaran.
+dimensiones coinciden con la v1), pero la organización confirmó el 23-jul que el
+enmascaramiento es deliberado, "sin divulgar la clasificación original de
+Colsubsidio" → **no esperar diccionario de valores, y NO presumir el mapeo en el
+pitch** (es ingeniería inversa de algo que decidieron ocultar). Uso correcto:
+hipótesis interna de trabajo; ante el jurado, describir los segmentos por sus
+características observables (tamaño, edad, género, salario), no por la etiqueta
+reconstruida.
 
 ## Distribuciones clave (v3)
 
@@ -69,18 +74,32 @@ se vuelve un cálculo directo. Es el insumo que le faltaba a la pregunta 3 del c
 no exceda un umbral responsable del ingreso. Conecta directo con el argumento de
 inclusión (microseguro para el 67% que gana ≤1,5 SMLV).
 
-## Columnas nuevas sin diccionario (preguntar a la organización)
+## Contexto oficial de la organización (23-jul, grupo del reto — Andrea Garzón)
 
-- **SEGMENTO_POBLACIONAL** (5 valores): TAU 46,2% (97% cat A) · PI 26,9% · ETA 25,5%
-  · OMEGA 1,0% (96% "sin dato" de categoría — parece el "sin dato" poblacional) ·
-  XI 0,3% (99% cat C — ¿segmento premium/especial?). Semántica desconocida.
-- **PIRAMIDE_NUEVA** (10 valores): distribución amplia (ETA 31,2%, XI 21,7%,
-  UPSILON 20,4%…). Semántica desconocida.
-- **EMPRESA_FOCO**: EMP_000001 = 81,7% · EMP_000002 = 18,3%. ¿Empresa priorizada?
-  Semántica desconocida.
+La organización aclaró en el grupo de WhatsApp del reto:
 
-Estas tres columnas pueden traer señal útil para el motor — sin diccionario son
-inutilizables. **Primera pregunta para los mentores/organización.**
+- El enmascaramiento (LAMBDA, SIGMA…) es una **anonimización deliberada** que
+  "preserva la consistencia de los datos para análisis, agrupaciones y conteos, sin
+  divulgar la clasificación original de Colsubsidio".
+- **CATEGORIA** = categoría del afiliado dentro del sistema de subsidio familiar.
+- **SEGMENTO_GRUPO_FAMILIAR** = composición del hogar / estructura familiar.
+- **SEGMENTO_POBLACIONAL** = segmentación individual del afiliado construida a
+  partir de ingresos, edad y PAC (⚠️ "PAC" sin definir — preguntar).
+- **PIRAMIDE_NUEVA** = clasifica a la **empresa aportante** dentro de la pirámide
+  empresarial de Colsubsidio (es del empleador, no del afiliado).
+
+**Desbloqueo práctico:** al ser consistentes por diseño, los valores enmascarados
+son **usables tal cual como features del motor de scoring** — el modelo no necesita
+saber qué significa LAMBDA, solo que sea estable. SEGMENTO_POBLACIONAL (composite
+oficial de ingreso+edad+PAC) es candidata directa a feature. PIRAMIDE_NUEVA queda
+como señal secundaria B2B (baja prioridad para el MVP).
+
+- **EMPRESA_FOCO**: EMP_000001 = 81,7% · EMP_000002 = 18,3%. Única columna que
+  sigue sin explicación oficial — preguntar.
+
+Distribuciones de referencia: SEGMENTO_POBLACIONAL → TAU 46,2% (97% cat A) ·
+PI 26,9% · ETA 25,5% · OMEGA 1,0% (96% "sin dato" de categoría) · XI 0,3% (99%
+cat C). PIRAMIDE_NUEVA → ETA 31,2%, XI 21,7%, UPSILON 20,4%…
 
 ## Señales de consumo (v3)
 
@@ -116,10 +135,12 @@ inutilizables. **Primera pregunta para los mentores/organización.**
 
 ## Preguntas actualizadas para la organización
 
-1. ¿Diccionario de valores enmascarados? (CATEGORIA, SEGMENTO_GRUPO_FAMILIAR,
-   SEGMENTO_POBLACIONAL, PIRAMIDE_NUEVA, EMPRESA_FOCO)
-2. La anomalía de DROGUERIA a los 46 años persiste en la v2 — ¿artefacto confirmado?
-3. ¿La muestra de 500K es aleatoria de la base de 1,56M? (afecta si podemos
+1. ~~¿Diccionario de valores enmascarados?~~ → RESUELTO PARCIAL (23-jul): dieron la
+   semántica por columna; los valores seguirán ocultos por diseño. No insistir.
+2. ¿Qué significa **PAC** (variable usada en SEGMENTO_POBLACIONAL)?
+3. ¿Qué es **EMPRESA_FOCO**? (única columna sin contexto oficial)
+4. La anomalía de DROGUERIA a los 46 años persiste en la v2 — ¿artefacto confirmado?
+5. ¿La muestra de 500K es aleatoria de la base de 1,56M? (afecta si podemos
    extrapolar conteos absolutos)
-4. ¿Las bandas residuales de RANGO_SALARIAL ("Menor a 2", "Entre 2 y 4"…) son
+6. ¿Las bandas residuales de RANGO_SALARIAL ("Menor a 2", "Entre 2 y 4"…) son
    errores de codificación?
