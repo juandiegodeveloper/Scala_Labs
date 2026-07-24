@@ -18,8 +18,8 @@ Scala_Labs/
 ├── proceso-dt/            ← la HISTORIA para el pitch (design thinking)
 │   ├── 1-ideacion/        (ideas, matriz de escenarios, montecarlo)
 |   |────Montecarlo model
-## Cómo correr
 ```
+## Cómo correr
 - `montecarlo_decision.py` — modelo de decisión de reto (200.000 escenarios)
 - `mvp/reto01-credito/` — motor de scoring, esquema SQL, flujo n8n, prompts Gemini
 - `mvp/reto02-seguros/` — motor de cotización, esquema SQL, flujo n8n, prompts Gemini
