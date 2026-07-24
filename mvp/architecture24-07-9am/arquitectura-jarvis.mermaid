@@ -1,0 +1,68 @@
+flowchart TD
+    subgraph ENT["1 · Captación"]
+        A1[Campañas]
+        A2[Código QR]
+        A3[Redirección SOAT]
+        A4[Referidos]
+    end
+
+    A1 --> J
+    A2 --> J
+    A3 --> J
+    A4 --> J
+
+    subgraph CORE["2 · Núcleo conversacional"]
+        J["JARVIS<br/>Interfaz LLM"]
+        Q["Onboarding<br/>11 preguntas estructuradas"]
+        R{"Router Python<br/>clasificación de necesidad"}
+        J --> Q --> R
+    end
+
+    KB[("RAG<br/>base de conocimiento")] -.alimenta.-> J
+    DB[("SQL<br/>productos, tarifas, clientes")] -.alimenta.-> J
+
+    R -->|Seguro SIMPLE<br/>flujo primario| S1
+    R -->|Seguro COMPLEJO| C1
+
+    subgraph SIMPLE["3A · Autoservicio asistido por IA"]
+        S1["Jarvis recomienda<br/>productos priorizados"]
+        S2{"¿Cliente acepta?"}
+        S3["Captura de datos<br/>complementarios"]
+        S4["Motor de cotización"]
+        S5{"¿Ya es afiliado?"}
+        S6["Embudo de afiliación"]
+        S7["Emisión / cierre de venta"]
+        S8["Nurturing<br/>reintento posterior"]
+        S1 --> S2
+        S2 -->|Sí| S3 --> S4 --> S5
+        S2 -->|No| S8
+        S5 -->|No| S6 --> S7
+        S5 -->|Sí| S7
+    end
+
+    subgraph COMPLEJO["3B · Asesoría humana especializada"]
+        C1["Jarvis continúa la gestión<br/>y ofrece escalamiento"]
+        C2["Asesor humano<br/>Colsubsidio"]
+        C3["Registro completo<br/>de la conversación"]
+        C4{"Outcome"}
+        C1 --> C2 --> C3 --> C4
+        C4 -->|Positivo: venta| S7
+        C4 -->|Negativo: no venta| C5["Cierre sin venta"]
+    end
+
+    subgraph DATA["4 · Capa de datos y aprendizaje"]
+        D1[("Dataset de<br/>interacciones humanas")]
+        D2["Entrenamiento de modelos<br/>detección de patrones de conversión"]
+    end
+
+    C3 --> D1
+    C5 --> D1
+    D1 --> D2
+    D2 -.mejora clasificación.-> R
+    D2 -.mejora argumentación.-> J
+    S7 --> DB
+
+    style J fill:#1f4e79,color:#fff
+    style R fill:#c55a11,color:#fff
+    style D2 fill:#2e7d32,color:#fff
+    style S7 fill:#2e7d32,color:#fff
