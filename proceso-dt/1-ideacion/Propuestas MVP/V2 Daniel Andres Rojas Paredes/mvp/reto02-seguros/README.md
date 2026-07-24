@@ -92,6 +92,67 @@ ResultadoScoring ──► reporting.py ──► tabla_ranking / ficha_texto
                                        stdout (cli.py)
 ```
 
+## Contexto: otros archivos en la carpeta
+
+Además del paquete `motor_scoring`, en esta carpeta viven **4 archivos del MVP
+v1** (`quote_engine.py`, `schema_seguros.sql`, `n8n_flow_seguros.json`,
+`gemini_prompts_seguros.md`) que se añadieron en el commit base de Scala Labs
+(`dfd8dcc`). No están integrados con el motor de scoring; conviene entender la
+diferencia para no confundirlos.
+
+### `quote_engine.py` — cotizador del MVP v1
+
+Motor **cotizador** de ~150 líneas. Toma 5 respuestas (edad, dependientes,
+vivienda, ingreso, preocupación), mapea preocupación → producto por
+diccionario, aplica un factor de edad y **calcula prima y cobertura**. Cierra
+emitiendo un número de póliza vía hash. Cataloga **5 productos** (vida,
+accidentes, exequial, hogar, desempleo).
+
+**Diferencia con `motor_scoring/engine.py`:** son cosas distintas, no
+versiones. Coexisten:
+
+| | `quote_engine.py` | `motor_scoring/engine.py` |
+| --- | --- | --- |
+| Rol | **Cotizador** (calcula plata) | **Ranker** (ordena por afinidad) |
+| Pregunta que responde | "¿Cuál te vendo y en cuánto?" | "¿Qué producto te encaja más y por qué?" |
+| Productos | 5 | 12 |
+| Entradas | 5 respuestas | 11 variables (V1..V11) |
+| Salida | prima + cobertura + póliza | ranking de 12 con `lift`, `pct`, `baseline`, triggers, aportes por variable |
+| Diseño | Un archivo, dicts hardcodeados | Paquete con Strategy/Chain, catálogo separado, baseline calculado, tests |
+| Auditabilidad | Baja | Alta (racional por peso, datos declarados vs. fuentes públicas) |
+
+Son **complementarios**: el motor de scoring decidiría *qué* póliza ranquear
+#1; el cotizador la cotizaría. Hoy no están integrados.
+
+### `schema_seguros.sql` — persistencia del MVP v1
+
+Esquema mínimo SQLite/Postgres, 4 tablas modelando la cadena documentada en
+`juampablos.md`:
+
+```
+producto_seguro ──► conversacion ──► cotizacion ──► poliza
+   (catálogo)      (respuestas del   (producto +      (número +
+                    cliente, JSON,    cobertura +      consentimiento +
+                    canal, necesidad) prima +          vigencia)
+                                      idoneidad)
+```
+
+**Para qué se usa:** persistir el flujo del `quote_engine` cuando lo orquesta
+n8n con Gemini. Cada conversación se guarda, cada cotización queda con estado
+(`cotizada` / `aceptada` / `emitida` / `descartada`) para auditar la venta
+adecuada (regulatorio). El schema está **alineado con `quote_engine.py`**
+(mismas 5 pólizas, mismos campos: `prima_mensual`, `cobertura`, `idoneidad`,
+`estado`), **no con `motor_scoring`** — el motor de scoring no persiste nada.
+
+Los archivos `n8n_flow_seguros.json` y `gemini_prompts_seguros.md` completan
+ese MVP v1: el flujo del orquestador n8n y los prompts del modelo Gemini que
+conducen la conversación.
+
+> **Nota:** en `origin/main` estos 4 archivos ya fueron eliminados por el
+> commit `b5789cb` (2026-07-23). Vale la pena confirmar con el equipo si
+> el MVP v1 se descontinuó o si fue reemplazado por otra pieza aguas arriba
+> antes de mezclar este branch con `main`.
+
 ## Instalación
 
 ```bash
