@@ -6,16 +6,35 @@ auditables contra fuentes públicas (DANE, Fasecolda, INC, SURA).
 
 ## Archivos
 
+```
+mvp/reto02-seguros/
+├── motor_scoring/            paquete Python del motor
+│   ├── __init__.py           API pública: re-exporta MotorScoring y ScoringCatalog
+│   ├── models.py             dataclasses inmutables del dominio
+│   ├── catalog.py            datos de negocio (productos, pesos, triggers)
+│   ├── baseline.py           cálculo del piso por producto (Strategy)
+│   ├── ranking.py            ordenamiento + post-procesos (Strategy + Chain)
+│   ├── engine.py             orquestador — único punto de entrada
+│   ├── reporting.py          formateo a texto plano
+│   └── cli.py                demo por consola
+├── tests/
+│   └── test_motor_scoring.py suite pytest
+├── pyproject.toml            empaquetado + config de ruff/pytest
+├── README.md                 este archivo
+└── PULL_REQUEST.md           justificación de diseño (lift, triggers)
+```
+
 | Archivo | Rol | Qué expone |
 | --- | --- | --- |
-| `models.py` | Objetos de valor del dominio (dataclasses `frozen`). Base común, sin lógica. | `ProductDef`, `VariableDef`, `TriggerDef`, `ChecklistDef`, `Baseline`, `AporteVariable`, `ResultadoProducto`, `ResultadoScoring` |
-| `catalog.py` | Capa de datos: productos, variables, matriz de pesos, racionales, checklist y disparadores. Constantes puras, sin lógica. | `PRODUCTS`, `VARIABLES`, `WEIGHTS`, `RATIONALE`, `CHECKLIST`, `TRIGGERS`, `CASE_PRESETS` |
-| `baseline.py` | Calcula el piso teórico (E[score]) por producto usando solo variables estructurales. Patrón *Strategy* para poder cambiar la distribución. | `BaselineProvider` (Protocol), `UniformBaseline`, `es_estructural` |
-| `ranking.py` | Política de ordenamiento + reglas de post-proceso (gate por trigger, promoción por trigger, promoción explícita). Patrones *Strategy* + *Chain*. | `RankingStrategy`, `LiftRanking`, `RankingPostProcessor`, `TriggerGate`, `TriggerPromoter`, `ExplicitProductPromoter` |
-| `engine.py` | Orquestador. Envuelve el catálogo, valida perfil, corre el pipeline y arma el resultado auditable. Es el único punto de entrada público. | `ScoringCatalog`, `MotorScoring` |
-| `reporting.py` | Formateo a texto plano para consola / asesor (tablas y ficha de cierre). Desacoplado del motor porque la presentación cambia más rápido que el cálculo. | `tabla_baselines`, `tabla_ranking`, `ficha_texto` |
-| `cli.py` | Demo por consola: imprime pisos, ranking de cada caso preset, ficha del primer caso e influencia de variables. | `main` (invocable con `python -m motor_scoring.cli`) |
-| `test_motor_scoring.py` | Suite `pytest`: cubre validación, aritmética, baseline, ranking, triggers y promoción explícita. | Casos de test |
+| `motor_scoring/__init__.py` | API pública del paquete. Permite `from motor_scoring import MotorScoring` como aparece en el ejemplo de uso. | `MotorScoring`, `ScoringCatalog` |
+| `motor_scoring/models.py` | Objetos de valor del dominio (dataclasses `frozen`). Base común, sin lógica. | `ProductDef`, `VariableDef`, `TriggerDef`, `ChecklistDef`, `Baseline`, `AporteVariable`, `ResultadoProducto`, `ResultadoScoring` |
+| `motor_scoring/catalog.py` | Capa de datos: productos, variables, matriz de pesos, racionales, checklist y disparadores. Constantes puras, sin lógica. | `PRODUCTS`, `VARIABLES`, `WEIGHTS`, `RATIONALE`, `CHECKLIST`, `TRIGGERS`, `CASE_PRESETS` |
+| `motor_scoring/baseline.py` | Calcula el piso teórico (E[score]) por producto usando solo variables estructurales. Patrón *Strategy* para poder cambiar la distribución. | `BaselineProvider` (Protocol), `UniformBaseline`, `PopulationBaseline`, `es_estructural` |
+| `motor_scoring/ranking.py` | Política de ordenamiento + reglas de post-proceso (gate por trigger, promoción por trigger, promoción explícita). Patrones *Strategy* + *Chain*. | `RankingStrategy`, `LiftRanking`, `PctRanking`, `ScoreRanking`, `RankingPostProcessor`, `TriggerGate`, `TriggerPromoter`, `ExplicitProductPromoter` |
+| `motor_scoring/engine.py` | Orquestador. Envuelve el catálogo, valida perfil, corre el pipeline y arma el resultado auditable. Es el único punto de entrada público. | `ScoringCatalog`, `MotorScoring` |
+| `motor_scoring/reporting.py` | Formateo a texto plano para consola / asesor (tablas y ficha de cierre). Desacoplado del motor porque la presentación cambia más rápido que el cálculo. | `tabla_baselines`, `tabla_ranking`, `ficha_texto` |
+| `motor_scoring/cli.py` | Demo por consola: imprime pisos, ranking de cada caso preset, ficha del primer caso e influencia de variables. | `main` (invocable con `python -m motor_scoring.cli`) |
+| `tests/test_motor_scoring.py` | Suite `pytest`: cubre validación, aritmética, baseline, ranking, triggers y promoción explícita. | Casos de test |
 | `pyproject.toml` | Empaquetado (Python ≥ 3.11), extras `dev` (pytest, ruff) y config de lint (ruff con convención Google). | Config del paquete `motor-scoring-colsubsidio` |
 | `PULL_REQUEST.md` | Justificación del diseño de `lift`, disparadores y separación estructural / condicional. Lectura obligada antes de cambiar pesos. | Documentación de decisiones |
 
