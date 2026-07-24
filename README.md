@@ -13,6 +13,8 @@ Trabajo colaborativo y documentación del reto. Parte de los activos son **preex
 - `mvp/reto02-seguros/` — motor de cotización, esquema SQL, flujo n8n, prompts Gemini
 - `mvp/demo/index.html` — demo navegable de ambos flujos (abre en el navegador)
 - `01_…`, `02_…`, `03_…` — checklist, dossier y arranque de MVP (documentación)
+- `hustler/` — investigación de sector, catálogo de seguros y reporte navegable Días 1–2 (Juan Pablo)
+- `recursos-marca/` — brandbook Colsubsidio: logos, paleta oficial y tokens listos para usar (`BRAND.md`)
 
 ## Cómo correr
 ```bash
