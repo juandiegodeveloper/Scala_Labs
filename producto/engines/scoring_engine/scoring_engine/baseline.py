@@ -35,7 +35,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Protocol
 
-from motor_scoring.models import Baseline, ProductDef, TriggerDef, VariableDef
+from scoring_engine.models import Baseline, ProductDef, TriggerDef, VariableDef
 
 #: Distribución por variable: ``{code: {categoria: probabilidad}}``.
 Prior = Mapping[str, Mapping[str, float]]

@@ -8,7 +8,7 @@ auditables contra fuentes públicas (DANE, Fasecolda, INC, SURA).
 
 ```
 mvp/reto02-seguros/
-├── motor_scoring/            paquete Python del motor
+├── scoring_engine/            paquete Python del motor
 │   ├── __init__.py           API pública: re-exporta MotorScoring y ScoringCatalog
 │   ├── models.py             dataclasses inmutables del dominio
 │   ├── catalog.py            datos de negocio (productos, pesos, triggers)
@@ -18,7 +18,7 @@ mvp/reto02-seguros/
 │   ├── reporting.py          formateo a texto plano
 │   └── cli.py                demo por consola
 ├── tests/
-│   └── test_motor_scoring.py suite pytest
+│   └── test_scoring_engine.py suite pytest
 ├── pyproject.toml            empaquetado + config de ruff/pytest
 ├── README.md                 este archivo
 └── PULL_REQUEST.md           justificación de diseño (lift, triggers)
@@ -26,15 +26,15 @@ mvp/reto02-seguros/
 
 | Archivo | Rol | Qué expone |
 | --- | --- | --- |
-| `motor_scoring/__init__.py` | API pública del paquete. Permite `from motor_scoring import MotorScoring` como aparece en el ejemplo de uso. | `MotorScoring`, `ScoringCatalog` |
-| `motor_scoring/models.py` | Objetos de valor del dominio (dataclasses `frozen`). Base común, sin lógica. | `ProductDef`, `VariableDef`, `TriggerDef`, `ChecklistDef`, `Baseline`, `AporteVariable`, `ResultadoProducto`, `ResultadoScoring` |
-| `motor_scoring/catalog.py` | Capa de datos: productos, variables, matriz de pesos, racionales, checklist y disparadores. Constantes puras, sin lógica. | `PRODUCTS`, `VARIABLES`, `WEIGHTS`, `RATIONALE`, `CHECKLIST`, `TRIGGERS`, `CASE_PRESETS` |
-| `motor_scoring/baseline.py` | Calcula el piso teórico (E[score]) por producto usando solo variables estructurales. Patrón *Strategy* para poder cambiar la distribución. | `BaselineProvider` (Protocol), `UniformBaseline`, `PopulationBaseline`, `es_estructural` |
-| `motor_scoring/ranking.py` | Política de ordenamiento + reglas de post-proceso (gate por trigger, promoción por trigger, promoción explícita). Patrones *Strategy* + *Chain*. | `RankingStrategy`, `LiftRanking`, `PctRanking`, `ScoreRanking`, `RankingPostProcessor`, `TriggerGate`, `TriggerPromoter`, `ExplicitProductPromoter` |
-| `motor_scoring/engine.py` | Orquestador. Envuelve el catálogo, valida perfil, corre el pipeline y arma el resultado auditable. Es el único punto de entrada público. | `ScoringCatalog`, `MotorScoring` |
-| `motor_scoring/reporting.py` | Formateo a texto plano para consola / asesor (tablas y ficha de cierre). Desacoplado del motor porque la presentación cambia más rápido que el cálculo. | `tabla_baselines`, `tabla_ranking`, `ficha_texto` |
-| `motor_scoring/cli.py` | Demo por consola: imprime pisos, ranking de cada caso preset, ficha del primer caso e influencia de variables. | `main` (invocable con `python -m motor_scoring.cli`) |
-| `tests/test_motor_scoring.py` | Suite `pytest`: cubre validación, aritmética, baseline, ranking, triggers y promoción explícita. | Casos de test |
+| `scoring_engine/__init__.py` | API pública del paquete. Permite `from scoring_engine import MotorScoring` como aparece en el ejemplo de uso. | `MotorScoring`, `ScoringCatalog` |
+| `scoring_engine/models.py` | Objetos de valor del dominio (dataclasses `frozen`). Base común, sin lógica. | `ProductDef`, `VariableDef`, `TriggerDef`, `ChecklistDef`, `Baseline`, `AporteVariable`, `ResultadoProducto`, `ResultadoScoring` |
+| `scoring_engine/catalog.py` | Capa de datos: productos, variables, matriz de pesos, racionales, checklist y disparadores. Constantes puras, sin lógica. | `PRODUCTS`, `VARIABLES`, `WEIGHTS`, `RATIONALE`, `CHECKLIST`, `TRIGGERS`, `CASE_PRESETS` |
+| `scoring_engine/baseline.py` | Calcula el piso teórico (E[score]) por producto usando solo variables estructurales. Patrón *Strategy* para poder cambiar la distribución. | `BaselineProvider` (Protocol), `UniformBaseline`, `PopulationBaseline`, `es_estructural` |
+| `scoring_engine/ranking.py` | Política de ordenamiento + reglas de post-proceso (gate por trigger, promoción por trigger, promoción explícita). Patrones *Strategy* + *Chain*. | `RankingStrategy`, `LiftRanking`, `PctRanking`, `ScoreRanking`, `RankingPostProcessor`, `TriggerGate`, `TriggerPromoter`, `ExplicitProductPromoter` |
+| `scoring_engine/engine.py` | Orquestador. Envuelve el catálogo, valida perfil, corre el pipeline y arma el resultado auditable. Es el único punto de entrada público. | `ScoringCatalog`, `MotorScoring` |
+| `scoring_engine/reporting.py` | Formateo a texto plano para consola / asesor (tablas y ficha de cierre). Desacoplado del motor porque la presentación cambia más rápido que el cálculo. | `tabla_baselines`, `tabla_ranking`, `ficha_texto` |
+| `scoring_engine/cli.py` | Demo por consola: imprime pisos, ranking de cada caso preset, ficha del primer caso e influencia de variables. | `main` (invocable con `python -m scoring_engine.cli`) |
+| `tests/test_scoring_engine.py` | Suite `pytest`: cubre validación, aritmética, baseline, ranking, triggers y promoción explícita. | Casos de test |
 | `pyproject.toml` | Empaquetado (Python ≥ 3.11), extras `dev` (pytest, ruff) y config de lint (ruff con convención Google). | Config del paquete `motor-scoring-colsubsidio` |
 | `PULL_REQUEST.md` | Justificación del diseño de `lift`, disparadores y separación estructural / condicional. Lectura obligada antes de cambiar pesos. | Documentación de decisiones |
 
@@ -94,7 +94,7 @@ ResultadoScoring ──► reporting.py ──► tabla_ranking / ficha_texto
 
 ## Contexto: otros archivos en la carpeta
 
-Además del paquete `motor_scoring`, en esta carpeta viven **4 archivos del MVP
+Además del paquete `scoring_engine`, en esta carpeta viven **4 archivos del MVP
 v1** (`quote_engine.py`, `schema_seguros.sql`, `n8n_flow_seguros.json`,
 `gemini_prompts_seguros.md`) que se añadieron en el commit base de Scala Labs
 (`dfd8dcc`). No están integrados con el motor de scoring; conviene entender la
@@ -108,10 +108,10 @@ diccionario, aplica un factor de edad y **calcula prima y cobertura**. Cierra
 emitiendo un número de póliza vía hash. Cataloga **5 productos** (vida,
 accidentes, exequial, hogar, desempleo).
 
-**Diferencia con `motor_scoring/engine.py`:** son cosas distintas, no
+**Diferencia con `scoring_engine/engine.py`:** son cosas distintas, no
 versiones. Coexisten:
 
-| | `quote_engine.py` | `motor_scoring/engine.py` |
+| | `quote_engine.py` | `scoring_engine/engine.py` |
 | --- | --- | --- |
 | Rol | **Cotizador** (calcula plata) | **Ranker** (ordena por afinidad) |
 | Pregunta que responde | "¿Cuál te vendo y en cuánto?" | "¿Qué producto te encaja más y por qué?" |
@@ -142,7 +142,7 @@ n8n con Gemini. Cada conversación se guarda, cada cotización queda con estado
 (`cotizada` / `aceptada` / `emitida` / `descartada`) para auditar la venta
 adecuada (regulatorio). El schema está **alineado con `quote_engine.py`**
 (mismas 5 pólizas, mismos campos: `prima_mensual`, `cobertura`, `idoneidad`,
-`estado`), **no con `motor_scoring`** — el motor de scoring no persiste nada.
+`estado`), **no con `scoring_engine`** — el motor de scoring no persiste nada.
 
 Los archivos `n8n_flow_seguros.json` y `gemini_prompts_seguros.md` completan
 ese MVP v1: el flujo del orquestador n8n y los prompts del modelo Gemini que
@@ -164,7 +164,7 @@ Requiere Python 3.11+. El motor en sí no tiene dependencias.
 ## Uso
 
 ```python
-from motor_scoring import MotorScoring
+from scoring_engine import MotorScoring
 
 motor = MotorScoring()
 resultado = motor.calcular({
@@ -187,7 +187,7 @@ print(resultado.top.nombre, resultado.top.lift)
 ## Demostración
 
 ```bash
-python -m motor_scoring.cli
+python -m scoring_engine.cli
 ```
 
 ## Tests
@@ -200,5 +200,5 @@ ruff check .
 ## Documentación
 
 - Contrato de entrada/salida y flujo de ejecución: docstring de
-  `motor_scoring/engine.py`.
+  `scoring_engine/engine.py`.
 - Justificación del diseño de lift y disparadores: `PULL_REQUEST.md`.

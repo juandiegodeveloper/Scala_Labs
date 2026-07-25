@@ -7,8 +7,8 @@ PDF para el asesor) no debería obligar a tocar la aritmética.
 
 from __future__ import annotations
 
-from motor_scoring.engine import MotorScoring
-from motor_scoring.models import Baseline, ResultadoScoring
+from scoring_engine.engine import MotorScoring
+from scoring_engine.models import Baseline, ResultadoScoring
 
 #: Umbral de peso a partir del cual un racional se considera determinante y se
 #: muestra al cliente en la ficha.

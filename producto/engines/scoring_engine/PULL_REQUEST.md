@@ -149,7 +149,7 @@ El archivo único de 1.221 líneas se separó en capas con una responsabilidad
 cada una:
 
 ```
-motor_scoring/
+scoring_engine/
 ├── models.py      Objetos de valor inmutables (dataclasses congelados)
 ├── catalog.py     Solo datos: productos, variables, pesos, racionales
 ├── baseline.py    Cálculo del piso            [Strategy]
@@ -158,7 +158,7 @@ motor_scoring/
 ├── reporting.py   Formateo a texto
 └── cli.py         Demostración
 tests/
-└── test_motor_scoring.py   52 tests
+└── test_scoring_engine.py   52 tests
 ```
 
 ### Patrones aplicados y qué desacoplan
@@ -221,7 +221,7 @@ resultado = motor.calcular_scores(perfil, producto_explicito="autos")
 resultado.ranking[0].pct
 
 # Ahora
-from motor_scoring import MotorScoring
+from scoring_engine import MotorScoring
 motor = MotorScoring()
 resultado = motor.calcular(perfil, producto_explicito="autos")
 resultado.top.lift
@@ -229,7 +229,7 @@ resultado.top.lift
 
 Cambios de API: `calcular_scores` → `calcular`; `resultado.desglose` →
 `resultado.aportes`; `ficha_texto` y los formateadores se movieron a
-`motor_scoring.reporting` y reciben el motor como primer argumento.
+`scoring_engine.reporting` y reciben el motor como primer argumento.
 
 Para reproducir el comportamiento anterior:
 

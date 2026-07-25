@@ -12,7 +12,7 @@ Entradas
 
 Salidas
 -------
-Un :class:`~motor_scoring.models.ResultadoScoring` con:
+Un :class:`~scoring_engine.models.ResultadoScoring` con:
 
 * ``ranking``: los 12 productos ordenados, cada uno con ``score``, ``pct``,
   ``baseline_pct``, ``lift``, ``modo_cierre``, ``triggered_by`` y ``rank``.
@@ -61,9 +61,9 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping, Sequence
 from functools import cached_property
 
-from motor_scoring import catalog
-from motor_scoring.baseline import BaselineProvider, UniformBaseline, es_estructural
-from motor_scoring.models import (
+from scoring_engine import catalog
+from scoring_engine.baseline import BaselineProvider, UniformBaseline, es_estructural
+from scoring_engine.models import (
     AporteVariable,
     Baseline,
     ChecklistDef,
@@ -73,7 +73,7 @@ from motor_scoring.models import (
     TriggerDef,
     VariableDef,
 )
-from motor_scoring.ranking import (
+from scoring_engine.ranking import (
     ExplicitProductPromoter,
     LiftRanking,
     RankingPostProcessor,
@@ -267,9 +267,9 @@ class MotorScoring:
             catalogo: Fuente de datos de negocio. Por defecto, el catálogo
                 Colsubsidio embebido.
             baseline_provider: Estrategia de cálculo del piso. Por defecto,
-                :class:`~motor_scoring.baseline.UniformBaseline`.
+                :class:`~scoring_engine.baseline.UniformBaseline`.
             strategy: Política de ordenamiento. Por defecto,
-                :class:`~motor_scoring.ranking.LiftRanking`.
+                :class:`~scoring_engine.ranking.LiftRanking`.
             post_processors: Reglas que ajustan el ranking, en orden de
                 aplicación. Por defecto, bloqueo y promoción por disparador.
                 Pasar ``()`` deja el orden crudo de la estrategia, útil para

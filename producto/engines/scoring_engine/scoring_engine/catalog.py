@@ -13,7 +13,7 @@ de esa categoría al producto ``PRODUCTS[i]``.
 
 from __future__ import annotations
 
-from motor_scoring.models import (
+from scoring_engine.models import (
     ChecklistDef,
     ProductDef,
     TriggerDef,

@@ -16,11 +16,11 @@ from __future__ import annotations
 
 import pytest
 
-from motor_scoring.baseline import PopulationBaseline, UniformBaseline, es_estructural
-from motor_scoring.catalog import CASE_PRESETS
-from motor_scoring.engine import MotorScoring, ScoringCatalog
-from motor_scoring.models import ProductDef, TriggerDef, VariableDef
-from motor_scoring.ranking import (
+from scoring_engine.baseline import PopulationBaseline, UniformBaseline, es_estructural
+from scoring_engine.catalog import CASE_PRESETS
+from scoring_engine.engine import MotorScoring, ScoringCatalog
+from scoring_engine.models import ProductDef, TriggerDef, VariableDef
+from scoring_engine.ranking import (
     ExplicitProductPromoter,
     LiftRanking,
     PctRanking,
@@ -474,7 +474,7 @@ class TestReporting:
 
     def test_ficha_de_producto_sin_checklist(self, motor: MotorScoring) -> None:
         """Productos sin checklist documentado deben degradar con gracia."""
-        from motor_scoring.reporting import ficha_texto
+        from scoring_engine.reporting import ficha_texto
 
         resultado = motor.calcular(PERFIL_BASE, producto_explicito="cancer")
         texto = ficha_texto(motor, resultado, afiliado=True)
@@ -482,7 +482,7 @@ class TestReporting:
 
     def test_ficha_muestra_el_motivo_del_disparador(self, motor: MotorScoring) -> None:
         """El hecho declarado debe aparecer entre las razones."""
-        from motor_scoring.reporting import ficha_texto
+        from scoring_engine.reporting import ficha_texto
 
         resultado = motor.calcular(
             {**PERFIL_BASE, "V9": "Sí"}, producto_explicito="mascotas"
@@ -491,6 +491,6 @@ class TestReporting:
 
     def test_tabla_baselines_marca_disparadores(self, motor: MotorScoring) -> None:
         """La tabla de pisos debe señalar qué productos exigen un hecho."""
-        from motor_scoring.reporting import tabla_baselines
+        from scoring_engine.reporting import tabla_baselines
 
         assert "V9=Sí" in tabla_baselines(motor.baselines, motor)

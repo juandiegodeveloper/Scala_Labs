@@ -1,13 +1,13 @@
 """Demostración por consola del motor.
 
-Ejecutar con ``python -m motor_scoring.cli``.
+Ejecutar con ``python -m scoring_engine.cli``.
 """
 
 from __future__ import annotations
 
-from motor_scoring.catalog import CASE_PRESETS
-from motor_scoring.engine import MotorScoring
-from motor_scoring.reporting import ficha_texto, tabla_baselines, tabla_ranking
+from scoring_engine.catalog import CASE_PRESETS
+from scoring_engine.engine import MotorScoring
+from scoring_engine.reporting import ficha_texto, tabla_baselines, tabla_ranking
 
 ANCHO = 104
 

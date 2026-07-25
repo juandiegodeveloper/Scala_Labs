@@ -17,7 +17,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import Protocol
 
-from motor_scoring.models import ResultadoProducto
+from scoring_engine.models import ResultadoProducto
 
 
 class RankingStrategy(Protocol):
