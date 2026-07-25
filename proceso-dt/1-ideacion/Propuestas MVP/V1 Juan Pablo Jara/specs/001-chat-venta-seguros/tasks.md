@@ -15,7 +15,7 @@
 
 - [ ] T001 Crear estructura `producto/engines/{data,db,tests}` y `producto/demo/` con READMEs de una línea, según plan.md "Source Code" (JD)
 - [ ] T002 [P] Copiar catálogo a `producto/engines/data/productos-seguros.json` desde `proceso-dt/1-ideacion/Propuestas MVP/V1 Juan Pablo Jara/catalogo-seguros/productos-seguros.json` (JP)
-- [ ] T003 [P] Script one-shot `producto/engines/data/exportar_reglas.py` que lee `proceso-dt/1-ideacion/Motor_Scoring_Seguros_Colsubsidio.xlsx` (hojas "Variables y Categorías" y "Matriz de Pesos") y genera `producto/engines/data/scoring_reglas.csv` — research D2 (Daniel, con Melissa validando la salida)
+- [x] T003 [P] ~~Script one-shot que lee el Excel~~ → **invertida y hecha**: script `producto/engines/data/exportar_catalog.py` exporta `scoring_engine/catalog.py` (fuente de verdad validada por Melissa en la iteración 2) a `productos.csv`, `variables.csv`, `matriz_pesos.csv`, `triggers.csv`, `checklist.csv`, `fuentes.csv` (+ XLSX opcional con heat-map). Melissa/Caro auditan sobre esos archivos; ver `producto/engines/data/README.md` (Daniel)
 - [ ] T004 [P] Crear `producto/engines/data/perfiles_demo.json`: 3 perfiles sintéticos por SERIE — (1) mujer 29 monoparental cat. A 1–1,5 SMLV, (2) hombre 24 soltero informal, (3) no afiliado — campos del contrato `score(perfil)` (JP)
 
 ## Phase 2: Foundational
