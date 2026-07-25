@@ -9,6 +9,12 @@ Necesitamos un MVP completo que demuestre potencial de negocio y que puede
 crecer sin riesgo. Como dijo JD: **mejor un MVP completo que uno a medias.**
 El domingo es solo para ponerlo bonito, ensayar y entregar.
 
+> **Veredicto del mentor Jorge (sesión del viernes):** *"Entorno simulado, con
+> flujos automatizados, pero sobre bases de datos sanitizadas."* Es decir: firma
+> y pago se SIMULAN (en el mensaje del producto se cuentan como visión), los
+> flujos corren de verdad, y la base de Colsubsidio se usa limpia. Este plan
+> está construido sobre ese veredicto.
+
 ---
 
 ## Priorización (idea de JD: matriz de Eisenhower)
@@ -75,9 +81,10 @@ predicciones"*. Se vende la visión, se construye lo simple.
    Esto va en la tarde, cuando el flujo principal ya esté conectado.
 
 ### 🔧 Sebas
-1. El pago en modo prueba: **intentar el sandbox de una pasarela real** (Wompi
-   o Mercado Pago tienen modo de prueba — se ve 100% real y no cobra). Timebox:
-   si en 2 horas no está funcionando, se hace la pantalla simulada y listo.
+1. El pago en modo prueba: **la pantalla simulada con look real es lo acordado
+   con Jorge** (entorno simulado). Si dentro de las mismas 2 horas alcanza a
+   salir el sandbox de una pasarela real (Wompi o Mercado Pago en modo prueba),
+   mejor — pero es un bonus, no la meta. Nadie pelea con una pasarela hoy.
 2. El cierre de la compra: número de póliza + comprobante que queda guardado.
 3. Apoyar a JD con el canal (WhatsApp o chat web).
 
@@ -94,11 +101,12 @@ predicciones"*. Se vende la visión, se construye lo simple.
    cambia nada.
 
 ### 🎨 Caro
-1. Escribir el paso a paso de las pantallas del chat en un documento simple:
-   qué pregunta el asesor en cada momento, con qué palabras, y qué ve el
-   usuario. **Tú pones el contenido; las pantallas las genera Juan Pablo en
-   minutos con Claude Design** (con el mismo estilo visual del pitch) y tú
-   revisas que hayan quedado fieles a lo que definiste.
+1. Buena noticia: **el paso a paso ya casi lo tienes** — tu documento del
+   asistente de venta (el de In Review, que ya distingue afiliado/no afiliado)
+   ES el insumo. Mañana solo: completar la información ficticia que dijiste y
+   revisar que las pantallas que genere Juan Pablo con Claude Design queden
+   fieles a lo que definiste. Tú pones el contenido, la herramienta pone el
+   dibujo.
 2. La lista de palabras por seguro: cómo pide la gente cada producto ("SOAT",
    "moto", "carro", "perro", "gato", "mi familia"…). Es el insumo de la tarea 1
    de Daniel.
