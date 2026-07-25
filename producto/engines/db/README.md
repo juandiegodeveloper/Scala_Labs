@@ -1,9 +1,11 @@
-# DB de trazabilidad · Reto 02 (Seguros)
+# DB de negocio · Reto 02 (Seguros)
 
-Una sola DB, un solo esquema (FR-008). Todo lo que pasa en el chat se escribe aquí — para poder demostrarle al jurado en vivo la cadena **señal → score → oferta → decisión → póliza** (SC-003).
+DB de la cadena regulatoria **señal → score → oferta → decisión → póliza** (SC-003). Todo lo que se emite (cotizaciones, pólizas) y la máquina de estados del chat se escribe aquí — para demostrarle al jurado en vivo la trazabilidad de la venta.
+
+> **Renombrado 25-jul (colisión con PR #9):** este archivo antes se llamaba `trazabilidad.db`. La trazabilidad de interacciones/aprendizaje (sessions, events, features, outputs, labels) vive ahora en `interactions.db` (paquete `producto/db/`). Las dos DBs coexisten con puente en `producto/db/puente_negocio.py`: al emitir póliza aquí, se dispara `label='compro'` allá.
 
 - **Motor**: SQLite (D3, cerrada 2026-07-24). Cero infra, archivo único.
-- **Ubicación del archivo**: `producto/engines/db/trazabilidad.db` (gitignored — se regenera desde `schema_seguros.sql`).
+- **Ubicación del archivo**: `producto/engines/db/negocio.db` (gitignored — se regenera desde `schema_seguros.sql`).
 - **Constitución II**: la prima **solo la escribe el motor**; la UI nunca envía primas. No hay póliza sin `consentimiento_ts` y sin `cotizacion_id`.
 - **Constitución III**: todo dato personal es **sintético**. No usamos PII real ni siquiera en demo.
 
@@ -176,8 +178,8 @@ python -m producto.engines.db --path /tmp/otra.db stats
 
 Regenerar la DB desde cero sin la CLI (por si no tienes el módulo instalable):
 ```bash
-cd producto/engines/db && rm -f trazabilidad.db
-python3 -c "import sqlite3, pathlib as p; d=p.Path('.'); c=sqlite3.connect('trazabilidad.db'); c.executescript((d/'schema_seguros.sql').read_text()); c.executescript((d/'seeds_demo.sql').read_text())"
+cd producto/engines/db && rm -f negocio.db
+python3 -c "import sqlite3, pathlib as p; d=p.Path('.'); c=sqlite3.connect('negocio.db'); c.executescript((d/'schema_seguros.sql').read_text()); c.executescript((d/'seeds_demo.sql').read_text())"
 ```
 
 ---

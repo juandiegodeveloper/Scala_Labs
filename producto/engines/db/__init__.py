@@ -1,9 +1,15 @@
-"""Puerta única de acceso a la DB de trazabilidad · Reto 02 (Seguros).
+"""Puerta única de acceso a la DB de negocio · Reto 02 (Seguros).
 
 Este módulo es el **único** punto del proyecto donde se hace INSERT/UPDATE/DELETE
-sobre `trazabilidad.db`. Todo lo demás (chat, motor, n8n) habla con la DB a
+sobre `negocio.db`. Todo lo demás (chat, motor, n8n) habla con la DB a
 través de estas funciones — nunca directo con `sqlite3`. Esa restricción existe
 para que las reglas del proyecto se cumplan por diseño, no por disciplina:
+
+Renombrado 25-jul (colisión con PR #9): antes `trazabilidad.db`. Ahora la
+trazabilidad de interacciones/aprendizaje vive en `interactions.db` (PR #9,
+paquete `producto/db/`). Este archivo guarda la cadena regulatoria de
+negocio: cotización → póliza. Las dos DBs coexisten con puente en
+`producto/db/puente_negocio.py`.
 
 Invariantes que este módulo garantiza
 -------------------------------------
@@ -22,7 +28,7 @@ Ubicación de archivos
 ---------------------
 * `schema_seguros.sql`  — DDL de las 5 tablas (colocado junto a este módulo).
 * `seeds_demo.sql`      — 5 historias sintéticas para el pitch.
-* `trazabilidad.db`     — archivo SQLite (gitignored; se regenera).
+* `negocio.db`          — archivo SQLite (gitignored; se regenera).
 
 Ejemplo de uso desde el chat
 ----------------------------
@@ -72,7 +78,7 @@ from typing import Any, Iterator
 BASE_DIR: Path = Path(__file__).parent
 SCHEMA_PATH: Path = BASE_DIR / "schema_seguros.sql"
 SEEDS_PATH: Path = BASE_DIR / "seeds_demo.sql"
-DEFAULT_DB_PATH: Path = BASE_DIR / "trazabilidad.db"
+DEFAULT_DB_PATH: Path = BASE_DIR / "negocio.db"
 
 POLIZA_PREFIX: str = "COL-2026-"
 
@@ -93,7 +99,7 @@ PASOS_VALIDOS: frozenset[str] = frozenset({
 # ─────────────────────────────────────────────────────────────────────────────
 
 class DBError(Exception):
-    """Base para errores del módulo de trazabilidad."""
+    """Base para errores del módulo de negocio."""
 
 
 class ValidacionError(DBError):
@@ -117,7 +123,7 @@ def session(path: Path | str = DEFAULT_DB_PATH) -> Iterator[sqlite3.Connection]:
     al salir sin error; rollback si algo lanza.
 
     Args:
-        path: Ruta al archivo `.db`. Default: `trazabilidad.db` junto a este módulo.
+        path: Ruta al archivo `.db`. Default: `negocio.db` junto a este módulo.
 
     Yields:
         Una conexión abierta y configurada.
@@ -576,7 +582,7 @@ def _cmd_stats(args: argparse.Namespace) -> None:
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="producto.engines.db",
-        description="DB única de trazabilidad · Reto 02 · Colsubsidio 2026",
+        description="DB de negocio · Reto 02 · Colsubsidio 2026",
     )
     parser.add_argument(
         "--path", type=Path, default=DEFAULT_DB_PATH,

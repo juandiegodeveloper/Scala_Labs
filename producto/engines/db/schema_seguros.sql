@@ -1,4 +1,4 @@
--- Reto 02 · Esquema único de trazabilidad (Venta Automatizada de Seguros)
+-- Reto 02 · Esquema de negocio (Venta Automatizada de Seguros)
 -- Hackathon Colsubsidio 2026 · Scala Labs
 --
 -- FR-008 + Constitución III: una sola DB, un solo esquema. Todo dato personal
