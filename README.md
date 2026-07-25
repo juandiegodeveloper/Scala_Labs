@@ -1,11 +1,11 @@
+<img width="1500" height="600" alt="Banner Scala Labs Hackathon Notion" src="https://github.com/user-attachments/assets/b32af668-9cdc-4b69-af04-47453fff23ab" />
 # Scala Labs — Hackathon Colsubsidio 30X
 
 Repositorio **privado** del equipo Scala Labs para la Hackathon Colsubsidio 30X (22–26 jul 2026).
 Trabajo colaborativo y documentación del reto. Parte de los activos son **preexistentes** (ver Bitácora de PI en Notion) y el resto se construye durante el evento.
 
 ## Retos
-- **Reto 01** — Crédito Hiperpersonalizado
-- **Reto 02** — Venta Automatizada de Seguros _(foco principal según el diagnóstico Montecarlo)_
+- **Reto 01** — Venta Automatizada de Seguros _(foco principal según el diagnóstico Montecarlo)_
 
 ## Estructura
 
