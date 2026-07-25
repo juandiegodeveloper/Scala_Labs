@@ -13,8 +13,11 @@ CREATE TABLE IF NOT EXISTS sessions (
   consent_compra   INTEGER NOT NULL DEFAULT 0,
   estado_final     TEXT DEFAULT 'activa',            -- cerrada | abandonada | handoff_asesor | activa
   producto_cerrado TEXT,
-  paso_abandono    TEXT
+  paso_abandono    TEXT,
+  aseguradora_id   TEXT                              -- convenio al que se remite el lead (nullable; discovery 25-jul)
 );
+-- migración para DBs ya creadas: ALTER TABLE sessions ADD COLUMN aseguradora_id TEXT;
+-- (trazabilidad.py init_db() la aplica sola)
 
 CREATE TABLE IF NOT EXISTS events (
   event_id               INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +53,7 @@ CREATE TABLE IF NOT EXISTS outputs (
 
 CREATE TABLE IF NOT EXISTS labels (
   session_id  TEXT NOT NULL REFERENCES sessions(session_id),
-  label       TEXT NOT NULL,             -- compro | abandono | handoff | no_elegible
+  label       TEXT NOT NULL,             -- compro | abandono | handoff | no_elegible | remitido_aseguradora
   producto_id TEXT,
   ts          TEXT NOT NULL
 );

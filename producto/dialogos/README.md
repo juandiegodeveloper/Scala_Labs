@@ -15,6 +15,15 @@ el orquestador (Make) y la capa LLM los consuman sin que Caro toque flujos ni c�
 2. JP lo versiona aquí vía rama + PR (historial = trazabilidad de cada versión).
 3. Make/LLM consumen SIEMPRE la versión de `main`.
 
+## Cierre real del proceso (discovery 25-jul)
+
+Colsubsidio es canal de comercialización: quien cotiza, valida y recauda es la
+aseguradora del convenio. En producción, Amparito entrega a la aseguradora un lead
+validado, calificado y con consentimiento **en segundos** — versus el correo manual de
+una vez al día del proceso actual. El pago en chat es visión si la aseguradora habilita
+su pasarela. Para el mensaje final de venta directa del demo, el copy puede cerrar con:
+*"tu solicitud quedó lista y va directo a la aseguradora — te llega la confirmación al correo"*.
+
 ## Regla de oro (innegociable)
 
 **Las cifras (prima, score, % de afinidad) y su porqué los pone el motor

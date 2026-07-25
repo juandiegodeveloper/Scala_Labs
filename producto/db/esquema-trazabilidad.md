@@ -32,6 +32,7 @@ dataset. Después: modelo offline. Nunca ML en línea, nunca tokens para aprende
 | estado_final | TEXT | `cerrada` · `abandonada` · `handoff_asesor` · `activa` |
 | producto_cerrado | TEXT | id del catálogo, si aplica |
 | paso_abandono | TEXT | en qué paso se fue (el abandono es señal — H8.2) |
+| aseguradora_id | TEXT nullable | convenio al que se remite el lead (discovery 25-jul) — en producción el cierre real es remitir el lead validado a la aseguradora, que cotiza y recauda |
 
 ### `events` — todo lo que pasa, en orden
 | Campo | Tipo | Nota |
@@ -69,7 +70,7 @@ dataset. Después: modelo offline. Nunca ML en línea, nunca tokens para aprende
 | Campo | Tipo | Nota |
 |---|---|---|
 | session_id | TEXT FK | |
-| label | TEXT | `compro` · `abandono` · `handoff` · `no_elegible` |
+| label | TEXT | `compro` · `abandono` · `handoff` · `no_elegible` · `remitido_aseguradora` |
 | producto_id | TEXT | |
 | ts | TEXT ISO | |
 
