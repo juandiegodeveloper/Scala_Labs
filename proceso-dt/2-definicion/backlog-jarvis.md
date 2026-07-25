@@ -286,7 +286,7 @@ Formato: **Como** [rol] **quiero** [qué] **para** [para qué] · *Criterios* ·
 
 ## 5. Cómo lo bajamos a ejecución
 
-1. Cerrar el stack con Jorge (H0.1) desbloquea todo el EPIC 0 y define qué es simulado.
+1. Cerrar el stack con Jorge Pilo, quien nos asesoró, y con la (H0.1) desbloquea todo el EPIC 0 y define qué es simulado.
 2. Carolina valida las 11 preguntas (H3.2) y el modo de cierre (H4.5): desbloquea el motor v2.
 3. Daniel refactoriza el motor (H4.1, H4.2, H4.4): el corazón del "porqué".
 4. En paralelo, C monta la interfaz conversacional (EPIC 1, 3, 5) y el cierre (EPIC 6).
