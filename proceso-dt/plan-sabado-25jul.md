@@ -14,20 +14,50 @@ El domingo es solo para ponerlo bonito, ensayar y entregar.
 ## Priorización (idea de JD: matriz de Eisenhower)
 
 **✅ MAÑANA (lo único que importa):** unir el motor + el chat + los datos en un
-solo flujo que corra completo · la pantalla de pago de prueba · la opción de
-hablar con una persona · subir el demo a internet · grabar el video del demo.
+solo flujo que corra completo · el pago en modo prueba · el traspaso a humano
+cuando aplica · **el uso visible de la base de datos de Colsubsidio**
+(recomendación del mentor Jorge — ver "el bucle" abajo) · subir el demo a
+internet · grabar el video del demo.
 
 **📅 DOMINGO (si mañana cerramos bien):** pulir textos y colores · ensayar el
 pitch · revisión final · entrega en la plataforma.
 
-**⏳ SOLO SI SOBRA TIEMPO (nadie lo arranca sin avisar):** probar el modelo
-contra la base de datos de Colsubsidio · sugerir seguros adicionales después de
-la compra.
+**⏳ SOLO SI SOBRA TIEMPO (nadie lo arranca sin avisar):** sugerir seguros
+adicionales después de la compra · afinar el mapa de prospección con más cortes.
 
-**❌ NO VAMOS A HACER (y está bien así):** meter los 26 seguros al motor (con
-los 11 que pesaron Caro y Meli basta y sobra) · entrenar modelos de machine
-learning (eso se CUENTA como visión, no se construye) · automatizar la conexión
-Notion–GitHub · cualquier idea nueva que aparezca mañana (se anota para el lunes).
+**❌ NO ENTRA EN EL MVP (queda para después, según cómo avance el proyecto):**
+meter los 26 seguros al motor (con los 11 que pesaron las expertas basta y
+sobra) · entrenar modelos de machine learning con la data (el sistema YA captura
+la data que lo hará posible — eso se cuenta como el siguiente paso natural) ·
+automatizar la conexión Notion–GitHub · cualquier idea nueva que aparezca mañana
+(se anota y se decide después).
+
+---
+
+## El bucle de retroalimentación (ya está adentro — solo hay que MOSTRARLO)
+
+La venta de seguros no es solo el chat que cierra: es saber **a quién escribirle,
+cuándo, con qué oferta y por qué**. Nuestro sistema ya resuelve la mitad de eso
+desde el diseño, y mañana lo hacemos visible con dos piezas baratas:
+
+1. **Lo que el sistema aprende en cada conversación.** Mientras Camila chatea,
+   cada paso queda guardado: quién es, qué le interesó, qué seguro le gustó,
+   cómo se le explicó, si compró o en qué momento se fue. Eso YA funciona (la
+   base de trazabilidad que armó Daniel). En el demo se muestra al final: "esto
+   aprendió el sistema de Camila en 3 minutos".
+2. **El mapa de prospección con la base de Colsubsidio** (lo que pidió Jorge):
+   corremos nuestro motor sobre la base real de afiliados y sacamos, por cada
+   seguro, los grupos de personas con mayor afinidad. Resultado: una vista
+   simple de "a quiénes vale la pena escribirles primero y con qué oferta". La
+   base que "no servía" se convierte en el arranque del motor de prospección —
+   eso es exactamente lo que el jurado quiere ver.
+
+**¿Y el machine learning?** Hoy no hace falta y nos pondría en riesgo: la base
+no trae la respuesta "compró/no compró", así que no hay de dónde aprender
+todavía. Pero cada conversación del sistema FABRICA esa respuesta. El cuento
+para el jurado es redondo: *"hoy decidimos con reglas expertas trazables;
+con la data que el propio sistema genera, mañana esas reglas se vuelven
+predicciones"*. Se vende la visión, se construye lo simple.
 
 ---
 
@@ -36,14 +66,18 @@ Notion–GitHub · cualquier idea nueva que aparezca mañana (se anota para el l
 ### 🧠 Daniel (desde las 11am)
 1. Enseñarle al chat a entender qué seguro pide la persona cuando escribe con
    sus palabras ("quiero un SOAT", "algo para mi perro"). **No es machine
-   learning**: es comparar contra una lista de palabras que arma Caro. La guía
-   exacta de cómo hacerlo ya está escrita — Juan Pablo te la pasa.
+   learning**: es comparar contra la lista de palabras que arma Caro. La guía
+   exacta ya está escrita — Juan Pablo te la pasa.
 2. Dejar el motor listo para que n8n (o Make) lo pueda llamar y recibir la
    respuesta.
-3. Apoyar la conexión final de la tarde.
+3. Con Melissa: correr el motor sobre la base de Colsubsidio (ya limpia) y
+   sacar el **mapa de prospección** (los grupos con mayor afinidad por seguro).
+   Esto va en la tarde, cuando el flujo principal ya esté conectado.
 
 ### 🔧 Sebas
-1. La pantalla de pago de prueba: se ve real, pero no cobra (modo demo).
+1. El pago en modo prueba: **intentar el sandbox de una pasarela real** (Wompi
+   o Mercado Pago tienen modo de prueba — se ve 100% real y no cobra). Timebox:
+   si en 2 horas no está funcionando, se hace la pantalla simulada y listo.
 2. El cierre de la compra: número de póliza + comprobante que queda guardado.
 3. Apoyar a JD con el canal (WhatsApp o chat web).
 
@@ -60,41 +94,48 @@ Notion–GitHub · cualquier idea nueva que aparezca mañana (se anota para el l
    cambia nada.
 
 ### 🎨 Caro
-1. Dibujar las pantallas del chat, paso a paso, como se las mostraríamos a un
-   usuario (a mano, en Canva, o como te sea más fácil — son los "planos" para
-   la reunión con Emmy y para que JD arme la interfaz igual a lo que diseñes).
+1. Escribir el paso a paso de las pantallas del chat en un documento simple:
+   qué pregunta el asesor en cada momento, con qué palabras, y qué ve el
+   usuario. **Tú pones el contenido; las pantallas las genera Juan Pablo en
+   minutos con Claude Design** (con el mismo estilo visual del pitch) y tú
+   revisas que hayan quedado fieles a lo que definiste.
 2. La lista de palabras por seguro: cómo pide la gente cada producto ("SOAT",
    "moto", "carro", "perro", "gato", "mi familia"…). Es el insumo de la tarea 1
    de Daniel.
-3. Definir en qué casos el asesor ofrece "¿quieres hablar con una persona?" y
-   con qué palabras lo dice.
+3. La lista de seguros que SÍ necesitan una persona (por su complejidad o
+   requisitos) y las frases con que el asesor confirma el traspaso.
 
-### 📊 Melissa (1 hora, cuando puedas)
+### 📊 Melissa (por chat, a tu ritmo)
 1. Escribir 2 personas de ejemplo (edad, familia, ingreso…) con el resultado
-   EXACTO que el motor debe darles. Es nuestra prueba de que nada se dañó al
-   conectar todo.
-
-### ✅ Lizeth (por chat, sin reuniones)
-1. Cuando el flujo esté conectado (tarde), revisarlo contra los requisitos que
+   EXACTO que el motor debe darles — nuestra prueba de que nada se dañó al
+   conectar todo (1 hora).
+2. Cuando el flujo esté conectado (tarde): revisarlo contra los requisitos que
    definiste y comentar qué falta o qué sobra.
+3. Con Daniel: el mapa de prospección sobre la base de Colsubsidio (tarde).
 
 ### 🎬 Juan Pablo
-1. Reunión con Emmy: avance del pitch + los dibujos de pantallas de Caro.
+1. Reunión con Emmy: avance del pitch + las pantallas del chat (generadas con
+   Claude Design sobre el paso a paso de Caro).
 2. Conectar y probar todo de punta a punta (con los 2 ejemplos de Melissa).
 3. Subir el demo a internet con un link que cualquiera pueda abrir + grabar el
    video del recorrido para el pitch.
 
 ---
 
-## La venta con ayuda humana (queda COMPLETA en el MVP)
+## El traspaso a humano (reglas claras — la promesa es venta 24/7 SIN humanos)
 
-La idea, en simple: **el asesor digital puede llamar a una persona como un
-recurso más** — igual que consulta el motor o el catálogo. Es una dupla, no un
-reemplazo: la persona entra solo cuando de verdad aporta (un seguro complejo, o
-si el usuario lo pide), nunca por defecto ni a cada rato. En el demo se muestra
-así: en el momento indicado el chat ofrece "¿prefieres que te acompañe una
-persona?" y se ve el traspaso (simulado). Caro define el cuándo y el cómo se
-dice; JD/Sebas lo montan en el flujo.
+El asesor **nunca ofrece hablar con una persona por iniciativa propia** — si lo
+hiciera, la promesa de venta automatizada se debilita. El traspaso ocurre solo
+en dos casos:
+
+1. **El usuario lo pide** ("quiero hablar con alguien", "¿me pueden llamar?") →
+   el asesor lo confirma con calidez y hace el traspaso (simulado en el demo).
+2. **El usuario pide un seguro que exige intervención humana** (la lista la
+   define Caro) → el asesor lo explica y conecta.
+
+La idea de fondo (para el pitch): la persona es **un recurso más al que el
+sistema puede acceder** — como consulta el motor o el catálogo. Una dupla
+cuando aporta, nunca un reemplazo del flujo automático.
 
 ---
 
@@ -103,15 +144,15 @@ dice; JD/Sebas lo montan en el flujo.
 | Hora | Qué pasa |
 |---|---|
 | 9:00 | Daily: validamos este plan (10 min) y arrancamos |
-| 1:30 | Punto de control de 15 min: ¿WhatsApp sí o no? ¿algún frente trabado? |
+| 1:30 | Punto de control de 15 min: ¿WhatsApp sí o no? ¿pasarela sí o no? ¿algún frente trabado? |
 | 5:00 | **Se congela**: no entra nada nuevo. Solo conectar, probar, grabar |
 | Noche | Demo en internet + video grabado + revisión de que lo construido cumple lo prometido |
 
 ## No se nos puede olvidar
 
-- **Registro en la plataforma (Hackradar)**: confirmar que están registradas
-  las 5 personas correctas (el cupo es de 5; Lizeth acordó entrar como apoyo).
-  Falta 1 cupo — confirmar quién es "Juan Muñoz" y que Sebas quede dentro.
+- **Registro en la plataforma (Hackradar)**: el cupo es de 5. Confirmar quién es
+  "Juan Muñoz", que estén los 5 correctos y que nadie que deba estar quede por
+  fuera (Melissa acordó entrar como apoyo).
 - Si alguien se siente saturado o trabado más de 30 minutos: lo dice en el
   grupo. Nadie pierde una tarde peleando solo con algo.
 
