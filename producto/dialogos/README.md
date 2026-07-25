@@ -7,6 +7,7 @@ el orquestador (Make) y la capa LLM los consuman sin que Caro toque flujos ni c�
 |---|---|
 | `especificacion-asistente-colsubsidio.md` | Prompt general (tono, reglas de conversación, flujo de 4 pasos con rama afiliado/no afiliado) + especificación por póliza (datos que pide cada producto y cómo cierra) |
 | `asistente-venta-colsubsidio.html` | Prototipo interactivo del asistente (referencia de la experiencia esperada) |
+| `flujo-proceso-venta.mermaid` | Diagrama de flujo de la conversación (9 productos, rama afiliado, diálogos de respaldo, venta directa vs. intermediario). ⚠️ Pendiente v2: agregar el consentimiento como paso propio antes del cierre (condición del DoR) |
 
 ## Flujo de trabajo acordado (25-jul)
 
