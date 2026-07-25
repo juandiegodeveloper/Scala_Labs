@@ -1,17 +1,17 @@
-# Diálogos de respaldo — plantillas versionadas
+# Diálogos del asistente — fuente de verdad conversacional
 
-**Qué es esto:** las plantillas de conversación del asistente de venta, en un JSON
-que **Make consume directamente** (HTTP GET al raw de GitHub o copia en el escenario).
-Viven en el repo para que tengan trazabilidad y para que **Caro pueda editar los
-textos sin tocar los flujos de Make**.
+Todo lo que el asistente dice vive aquí, versionado, para que el orquestador (Make)
+y la capa LLM lo consuman desde `main` sin que Caro toque flujos ni código.
 
-## Regla de oro (innegociable)
+| Archivo | Qué es |
+|---|---|
+| `especificacion-asistente-colsubsidio.md` | Prompt general (tono, reglas de conversación, flujo de 4 pasos con rama afiliado/no afiliado) + especificación por póliza (datos que pide cada producto y cómo cierra) — **Carolina Pinzón** |
+| `asistente-venta-colsubsidio.html` | Prototipo interactivo del asistente (referencia de la experiencia esperada) |
+| `flujo-proceso-venta.mermaid` | Diagrama de flujo de la conversación (9 productos, rama afiliado, diálogos de respaldo, venta directa vs. intermediario). ⚠️ Pendiente v2: agregar el consentimiento como paso propio antes del cierre (condición del DoR) |
+| `perfilamiento-y-comunicacion-colsubsidio.xlsx` / `.json` | 35 perfiles × 9 pólizas con "por qué" + 3 ángulos de mensaje (riesgo/tranquilidad/cobertura) — fuente xlsx de Caro + JSON para el motor |
+| `plantillas-dialogos-v1.json` | **Plantillas de respaldo que Make consume** (HTTP GET al raw de GitHub o copia en el escenario): base de tono por paso + fallback literal si el LLM falla + variantes afiliado/no_afiliado y auto/asesor |
 
-> **Las cifras y el porqué los pone SIEMPRE el motor determinista.**
-> Las plantillas solo insertan las variables `{{...}}` tal cual las entrega el
-> motor. Ni el LLM ni las plantillas inventan, redondean o reescriben números.
-
-## Cómo se usa
+## Cómo se usan las plantillas (Make/LLM)
 
 1. **Base de tono:** el LLM recibe la plantilla del paso actual como referencia de
    tono y estructura, y puede parafrasear **sin tocar las variables del motor**.
@@ -22,19 +22,20 @@ textos sin tocar los flujos de Make**.
    (la bifurcación se decide en la pregunta 1 del flujo) y `auto` / `asesor` según
    el modo de cierre que entrega el motor.
 
-## Cómo editar (Caro)
+## Flujo de trabajo acordado (25-jul)
 
-- Edita solo los textos dentro de `"plantillas"`. No cambies las claves ni las
-  variables `{{...}}`.
-- Los arrays son variantes: Make rota o elige una — agrega las que quieras.
-- Toda edición va por rama + PR (JD mergea), igual que el resto del repo.
+1. Caro edita/actualiza sus documentos y los envía por WhatsApp (en las plantillas
+   JSON: solo los textos dentro de `"plantillas"`, sin cambiar claves ni `{{...}}`).
+2. JP los versiona aquí vía rama + PR (historial = trazabilidad de cada versión).
+3. Make/LLM consumen SIEMPRE la versión de `main`.
 
-## Pendiente v1.1
+## Regla de oro (innegociable)
 
-- Incorporar el lenguaje del doc **"Asistente de venta (lenguaje)"** de Caro
-  (Notion, In Review) cuando esté descargado al repo.
-- Validar `confianza.me_pagaran` con Carolina (dato de <24 h por confirmar).
+**Las cifras (prima, score, % de afinidad) y su porqué los pone el motor
+determinista vía endpoint — el LLM y estas plantillas solo conversan.**
+Las plantillas insertan las variables `{{...}}` tal cual las entrega el motor;
+nadie inventa, redondea ni reescribe números. Ningún texto de este directorio
+lleva cifras de negocio hardcodeadas.
 
 ---
-*Construido con Claude Fable 5 (sesión central del sábado 25-jul), a partir del
-backlog Jarvis (journey + EPICs 3/5/6) y las decisiones pactadas con JD el 25-jul.*
+Artefactos de Carolina Pinzón · versionados por JP (sesión Claude Fable 5, 2026-07-25).
