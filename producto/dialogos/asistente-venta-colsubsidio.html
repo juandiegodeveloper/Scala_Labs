@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Colsubsidio — Asistente de seguros</title>
+<title>Colsubsidio — Asesor de seguros</title>
 <style>
   :root{
     --paper: #F2EFE6;
@@ -209,7 +209,7 @@
     <div class="brand">
       <div class="mark">CS</div>
       <div class="brand-text">
-        <div class="name">Colsubsidio · Asistente de seguros</div>
+        <div class="name">Colsubsidio · Asesor de seguros</div>
         <div class="tag">Toma tu póliza hablando, sin formularios</div>
       </div>
     </div>
@@ -223,7 +223,7 @@
       <div class="chat-header">
         <div class="avatar" id="headerAvatar">🛡️</div>
         <div>
-          <div class="name">Asistente Colsubsidio</div>
+          <div class="name">Asesor Colsubsidio</div>
           <div class="status"><span class="dot"></span>en línea</div>
         </div>
       </div>
@@ -243,7 +243,7 @@
         <div class="product-icon" id="productIcon">🛡️</div>
         <div>
           <div class="product-name" id="productName">Sin producto aún</div>
-          <div class="product-sub" id="productSub">Cuéntale al asistente qué quieres asegurar</div>
+          <div class="product-sub" id="productSub">Cuéntale al Asesor qué quieres asegurar</div>
         </div>
       </div>
 
@@ -296,7 +296,7 @@ const PRODUCT_ICONS = {
   "Educación": "🎓"
 };
 
-const SYSTEM_PROMPT = `Eres el "Asistente de Seguros" de Colsubsidio, un chat que ayuda a las personas a tomar una póliza directamente, hablando de forma natural, como de humano a humano — sin sentirse un formulario.
+const SYSTEM_PROMPT = `Eres el "Asesor de Seguros" de Colsubsidio, un chat que ayuda a las personas a tomar una póliza directamente, hablando de forma natural, como de humano a humano — sin sentirse un formulario.
 
 TONO Y CONVERSACIÓN (aplica siempre, para cualquier producto):
 1. Máximo una pregunta por mensaje. Nunca encadenes varias preguntas.
@@ -382,7 +382,7 @@ Una vez tengas cédula y correo (para venta directa), pasa a stage "cierre": men
 
 DIÁLOGOS DE RESPALDO (aplican en cualquier punto del flujo, sin importar qué tan avanzada esté la conversación — esto complementa la regla general 6):
 
-1. Si preguntan sobre el propio asistente (quién eres, cómo funcionas): responde con seguridad y utilidad, no con timidez ni disculpas. Ejemplo: "Sí, soy un asistente de Colsubsidio y soy experto en ayudarte a elegir tu mejor seguro. ¿Seguimos con [lo que faltaba]?".
+1. Si preguntan sobre el propio asesor (quién eres, cómo funcionas): responde con seguridad y utilidad, no con timidez ni disculpas. Ejemplo: "Sí, soy un asesor de Colsubsidio y soy experto en ayudarte a elegir tu mejor seguro. ¿Seguimos con [lo que faltaba]?".
 
 2. Si el mensaje es chit-chat o un tema totalmente ajeno a seguros (clima, chistes, fútbol, etc.): reconócelo con calidez breve y redirige en el mismo mensaje, sin sonar cortante. Ejemplo: "Jaja, buena esa 😄 Pero volvamos a lo tuyo — ¿seguimos con [pregunta pendiente]?".
 
@@ -618,7 +618,7 @@ async function processTurn(userText){
       const datos = mockAffiliateLookup(cedula);
       const syntheticMsg = `[DATOS_AFILIADO] nombre: ${datos.nombre}, edad: ${datos.edad}, género: ${datos.genero}, ocupación: ${datos.ocupacion}, ciudad de residencia: ${datos.ciudad}. (Estos datos vienen del sistema de afiliados de Colsubsidio. Por seguridad de la información, puedes usar el nombre para dirigirte a la persona, pero NUNCA repitas ni confirmes en voz alta la edad, género, ocupación o ciudad — úsalos solo internamente, según tus instrucciones.)`;
       history.push({ role:'user', content: syntheticMsg });
-      await processTurn(null); // auto-continúa para que el asistente resuma y confirme
+      await processTurn(null); // auto-continúa para que el asesor resuma y confirme
     }
   }catch(e){
     setTyping(false);
@@ -677,9 +677,9 @@ function init(){
   productIcon.textContent = '🛡️';
   headerAvatar.textContent = '🛡️';
   productName.textContent = 'Sin producto aún';
-  productSub.textContent = 'Cuéntale al asistente qué quieres asegurar';
+  productSub.textContent = 'Cuéntale al asesor qué quieres asegurar';
 
-  const greeting = '¡Hola! 👋 Soy el asistente de seguros de Colsubsidio. Cuéntame, ¿qué te gustaría proteger hoy — tu carro, tu casa, tu mascota, un viaje, o algo más?';
+  const greeting = '¡Hola! 👋 Soy el asesor de seguros de Colsubsidio. Cuéntame, ¿qué te gustaría proteger hoy — tu carro, tu casa, tu mascota, un viaje, o algo más?';
   addBubble('assistant', greeting);
   history.push({ role:'assistant', content: JSON.stringify({
     reply: greeting, producto: null, tipo_venta: null, es_afiliado: null, consultar_afiliado: false,

@@ -104,7 +104,9 @@ Reglas de oro (del playbook): una pregunta a la vez, nunca un formulario. "Lo qu
 > Claro que sí, con gusto. Te conecto con un asesor de Colsubsidio que retoma justo donde vamos, sin que repitas nada. *(traspaso simulado en el demo)*
 
 **Producto que exige asesor** *(handoff caso 2 — lista la define Caro)*
-> Este seguro merece una mirada más personal para quedar bien cubierto. Te conecto con un asesor experto de Colsubsidio; le paso todo lo que ya hablamos para que no repitas.
+> Para tu situación específica, quiero conectarte con el asesor especializado en [Vida/Salud/Educación], que acompaña casos como el tuyo. Retoma justo aquí, con tu recomendación lista, sin que repitas nada.
+
+*(Reframe: el traspaso no es a alguien "mejor", es al especialista en su caso — se siente personalización, no escalamiento. El paréntesis de "traspaso simulado" es nota de diseño; NO se copia al HTML visible.)*
 
 **El usuario se va a mitad de camino**
 > Sin problema, cuando quieras retomamos justo aquí. Te dejo guardado lo que llevamos. 👋

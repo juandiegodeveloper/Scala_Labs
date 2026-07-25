@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asistente de Seguros Colsubsidio · Scala Labs</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<title>Amparito · Tu asesora digital de seguros Colsubsidio · Scala Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --azul:#0067B1; --azul-80:#3385C1; --azul-40:#99C2E0;
     --amarillo:#FFD000; --amarillo-40:#FFEC99;
     --grafito:#575756; --grafito-60:#9A9A99; --grafito-20:#DDDDDD;
     --blanco:#ffffff; --hueso:#f7f9fb; --linea:#e6ebf0;
-    --f-texto:'Plus Jakarta Sans',sans-serif;
-    --f-cifra:'Montserrat',sans-serif;
+    --f-texto:'Poppins',sans-serif;   /* aprox. gratis de Hurme Geometric Sans 4 (fuente de pago de Colsubsidio) */
+    --f-cifra:'Poppins',sans-serif;
     --sombra:0 6px 24px rgba(0,103,177,.10);
     --r:16px;
   }
@@ -41,7 +41,7 @@
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
   /* HERO */
-  .hero{background:linear-gradient(135deg,var(--azul),#004d84);color:#fff;padding:64px 0 72px}
+  .hero{background:linear-gradient(135deg,rgba(0,103,177,.90),rgba(0,77,132,.95)),url('hero.jpg') center/cover no-repeat,#0067B1;color:#fff;padding:64px 0 72px}
   .hero h1{color:#fff;font-size:40px;font-weight:800;max-width:15ch}
   .hero p{color:#dbe9f5;font-size:18px;margin:16px 0 28px;max-width:52ch}
   .cta{display:inline-flex;align-items:center;gap:9px;background:var(--amarillo);color:#3a3a2e;font-weight:800;border:0;border-radius:12px;padding:14px 26px;font-size:16px;cursor:pointer;box-shadow:0 6px 18px rgba(255,208,0,.35)}
@@ -130,7 +130,7 @@
     <div class="wrap">
       <img src="colsubsidio-blanco.png" alt="Colsubsidio" style="height:38px;margin-bottom:22px">
       <h1>El seguro que de verdad te sirve, en 3 minutos.</h1>
-      <p>Sin llamar a nadie, sin formularios y sin letra pequeña. Un asesor te escucha, te recomienda con un porqué claro y te deja asegurado. 24/7.</p>
+      <p>Sin llamar a nadie, sin formularios y sin letra pequeña. Amparito te escucha, te recomienda con un porqué claro y te deja asegurado. 24/7.</p>
       <button class="cta" onclick="go('cotiza')">Cotiza tu seguro →</button>
       <div class="badges">
         <span><b>Respaldado</b> por Colsubsidio</span>
@@ -158,9 +158,9 @@
   <div class="seccion">
     <div class="wrap">
       <h2 style="text-align:center">Cotiza tu seguro</h2>
-      <p class="lead" style="text-align:center;margin:0 auto 28px">Habla con el asistente como le hablarías a una persona. Empieza escribiendo o toca una opción.</p>
+      <p class="lead" style="text-align:center;margin:0 auto 28px">Habla con Amparito como le hablarías a una persona. Empieza escribiendo o toca una opción.</p>
       <div class="chatwrap">
-        <div class="chathead"><div class="av">C</div><div><b>Asistente de Seguros</b><span>Colsubsidio · en línea</span></div></div>
+        <div class="chathead"><div class="av">A</div><div><b>Amparito</b><span>Tu asesora digital de confianza · en línea</span></div></div>
         <div class="chatbody" id="chat"></div>
         <div class="quick" id="quick"></div>
         <form class="chatform" id="form" autocomplete="off">
@@ -178,15 +178,15 @@
   <div class="seccion">
     <div class="wrap">
       <h2>Documentación</h2>
-      <p class="lead">Cómo funciona el asistente, para el equipo de Colsubsidio y para quien se pierda en el chat.</p>
+      <p class="lead">Cómo funciona Amparito, para el equipo de Colsubsidio y para quien se pierda en el chat.</p>
 
       <div class="card">
-        <h3>Qué hace el asistente</h3>
+        <h3>Qué hace Amparito</h3>
         <p>Lleva a la persona de "no sé qué seguro necesito" a "quedé asegurado" sin intervención humana, sobre 9 productos (Autos y Motos, Patinetas y Bicicletas, Hogar, Mascotas, Viajes, Exequial, Vida, Salud y Educación). Identifica el producto, valida si es afiliado, recolecta solo los datos necesarios, recomienda con un porqué y cierra.</p>
       </div>
       <div class="card">
         <h3>Cómo decide qué recomendar</h3>
-        <p>La conversación la lleva un modelo de lenguaje; las cifras y la priorización de productos las pone un motor determinista de reglas expertas (scoring), no el modelo. Por eso cada recomendación tiene un porqué que se puede auditar. Los productos complejos (Vida, Salud, Educación) ofrecen, al cerrar, la opción de hablar con un asesor.</p>
+        <p>La conversación la lleva un modelo de lenguaje; las cifras y la priorización de productos las pone un motor determinista de reglas expertas (scoring), no el modelo. Por eso cada recomendación tiene un porqué que se puede auditar. Los productos complejos (Vida, Salud, Educación) ofrecen, al cerrar, la opción de hablar con un asesor humano especializado.</p>
       </div>
       <div class="card">
         <h3>Qué datos pide y por qué</h3>
@@ -194,11 +194,11 @@
       </div>
 
       <h2 style="font-size:22px;margin:34px 0 14px">Preguntas frecuentes</h2>
-      <details class="faq"><summary>¿Tengo que ser afiliado a Colsubsidio?</summary><div class="a">No. El asistente atiende a afiliados y no afiliados. Si eres afiliado, te hacemos menos preguntas porque ya tenemos parte de tu información.</div></details>
-      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">Para la mayoría de productos, sí: puedes quedar asegurado solo. En Vida, Salud y Educación, al momento de comprar puedes elegir seguir solo o hablar con un asesor humano.</div></details>
+      <details class="faq"><summary>¿Tengo que ser afiliado a Colsubsidio?</summary><div class="a">No. Amparito atiende a afiliados y no afiliados. Si eres afiliado, te hace menos preguntas porque ya tenemos parte de tu información.</div></details>
+      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">No. En la mayoría de seguros quedas asegurado en esta misma conversación; y en Vida, Salud y Educación eliges, al momento de tomarlo, si prefieres el acompañamiento de un asesor especializado en tu caso.</div></details>
       <details class="faq"><summary>¿Es seguro dar mis datos aquí?</summary><div class="a">Solo pedimos lo necesario para tu póliza y tratamos tus datos según la Ley 1581 de 2012 (habeas data). Puedes ver el detalle en la sección de Privacidad.</div></details>
       <details class="faq"><summary>¿Colsubsidio es la aseguradora?</summary><div class="a">Colsubsidio facilita el acceso a seguros de varias aseguradoras aliadas y te ayuda a encontrar el más adecuado. La póliza la emite la aseguradora correspondiente.</div></details>
-      <details class="faq"><summary>Me perdí en el chat, ¿qué hago?</summary><div class="a">Escribe "empezar de nuevo" y el asistente reinicia. También puedes pedir hablar con un asesor en cualquier momento.</div></details>
+      <details class="faq"><summary>Me perdí en el chat, ¿qué hago?</summary><div class="a">Escribe "empezar de nuevo" y Amparito reinicia la conversación. Y en Vida, Salud o Educación, al momento de tomar tu seguro, puedes elegir el acompañamiento de un asesor humano especializado.</div></details>
     </div>
   </div>
 </section>
@@ -209,7 +209,7 @@
     <div class="wrap">
       <h2>Nosotros</h2>
       <img src="scala-labs.png" alt="Scala Labs" style="height:92px;display:block;margin:6px 0 16px">
-      <p class="lead">Somos <b>Scala Labs</b>, el equipo que construyó este asistente para el Reto de Venta Automatizada de Seguros de la Hackathon Colsubsidio × 30X. Creemos que un buen seguro no debería depender de que alguien tenga tiempo de atenderte.</p>
+      <p class="lead">Somos <b>Scala Labs</b>, el equipo que construyó a <b>Amparito</b> para el Reto de Venta Automatizada de Seguros de la Hackathon Colsubsidio × 30X. Creemos que un buen seguro no debería depender de que alguien tenga tiempo de atenderte.</p>
       <div class="equipo">
         <div class="persona"><div class="av">JD</div><b>Juan Diego Carvajal</b><span>Producto y orquestación</span></div>
         <div class="persona"><div class="av">DR</div><b>Daniel Rojas</b><span>Datos y motor</span></div>
@@ -240,7 +240,7 @@
       <p>Como titular tendrías derecho a conocer, actualizar, rectificar y suprimir tus datos, y a revocar la autorización, según la normativa colombiana de protección de datos.</p>
 
       <h3>3. Finalidad y minimización</h3>
-      <p>El asistente pide únicamente los datos necesarios para el producto que elijas. No solicita información de riesgo específico ni datos ajenos a la ficha del seguro.</p>
+      <p>Amparito pide únicamente los datos necesarios para el producto que elijas. No solicita información de riesgo específico ni datos ajenos a la ficha del seguro.</p>
 
       <h3>4. Cookies</h3>
       <p>Esta demostración no usa cookies de rastreo ni publicidad. Un producto en producción usaría únicamente las cookies técnicas necesarias para mantener tu sesión, informándote de ello.</p>
@@ -295,7 +295,7 @@ function typing(cb){
 
 function startChat(){
   chatStarted=true;
-  typing(()=>{burbuja('¡Hola! 👋 Soy tu asesor de seguros de Colsubsidio. ¿Qué te gustaría proteger hoy?');chips(['Mi mascota','Mi carro','Mi hogar','No sé, ayúdame']);});
+  typing(()=>{burbuja('¡Hola! 👋 Soy <b>Amparito</b>, tu asesora digital de confianza de Colsubsidio. ¿Qué te gustaría proteger hoy?');chips(['Mi mascota','Mi carro','Mi hogar','No sé, ayúdame']);});
 }
 
 // Guiones de demostración por producto (según la spec de Caro). Solo se usan si el
@@ -343,7 +343,7 @@ function demo(texto){
     demoGuion=guiones[p];demoStep=0;
   }
   if(demoStep<demoGuion.length){const s=demoGuion[demoStep++];typing(()=>{if(s.poliza)burbuja(s.poliza,'poliza');burbuja(s.sys);chips(s.chips||[]);});}
-  else typing(()=>{burbuja('Gracias por probar el asistente. Escribe "empezar de nuevo" para verlo otra vez.');chips(['Empezar de nuevo']);});
+  else typing(()=>{burbuja('Gracias por conocer a Amparito. Escribe "empezar de nuevo" para verla otra vez.');chips(['Empezar de nuevo']);});
 }
 
 async function enviar(texto){
