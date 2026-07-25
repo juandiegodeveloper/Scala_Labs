@@ -1,3 +1,4 @@
+<img width="1500" height="600" alt="Banner Scala Labs Hackathon Notion" src="https://github.com/user-attachments/assets/b32af668-9cdc-4b69-af04-47453fff23ab" />
 # Scala Labs — Hackathon Colsubsidio 30X
 
 Repositorio **privado** del equipo Scala Labs para la Hackathon Colsubsidio 30X (22–26 jul 2026).
