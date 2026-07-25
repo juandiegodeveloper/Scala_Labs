@@ -26,7 +26,13 @@ cuando aplica · **el uso visible de la base de datos de Colsubsidio**
 internet · grabar el video del demo.
 
 **📅 DOMINGO (si mañana cerramos bien):** pulir textos y colores · ensayar el
-pitch · revisión final · entrega en la plataforma.
+pitch · **preparar el repo para revisión con IA** (es probable que la primera
+ronda de jurados use agentes para revisar todos los repos: README que explica el
+proyecto de corrido, con cada afirmación enlazada al archivo que la prueba, un
+índice para agentes, y una prueba con nuestro propio "juez simulado" — le damos
+el repo en frío a un agente evaluador y corregimos lo que no entienda. Todo
+honesto: facilitar la comprensión, nunca frases para manipular al evaluador) ·
+revisión final · entrega en la plataforma.
 
 **⏳ SOLO SI SOBRA TIEMPO (nadie lo arranca sin avisar):** sugerir seguros
 adicionales después de la compra · afinar el mapa de prospección con más cortes.
