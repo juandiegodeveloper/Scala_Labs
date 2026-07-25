@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistente de Seguros Colsubsidio · Scala Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul:#0067B1; --azul-80:#3385C1; --azul-40:#99C2E0;
+    --amarillo:#FFD000; --amarillo-40:#FFEC99;
+    --grafito:#575756; --grafito-60:#9A9A99; --grafito-20:#DDDDDD;
+    --blanco:#ffffff; --hueso:#f7f9fb; --linea:#e6ebf0;
+    --f-texto:'Plus Jakarta Sans',sans-serif;
+    --f-cifra:'Montserrat',sans-serif;
+    --sombra:0 6px 24px rgba(0,103,177,.10);
+    --r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--f-texto);color:var(--grafito);background:var(--blanco);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{color:#2b2b2a;line-height:1.2}
+  a{color:var(--azul);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .cifra{font-family:var(--f-cifra)}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--linea)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--azul)}
+  .brand .dot{width:26px;height:26px;border-radius:7px;background:var(--azul);display:flex;align-items:center;justify-content:center;color:var(--amarillo);font-family:var(--f-cifra);font-weight:800;font-size:15px}
+  .nav nav{display:flex;gap:6px;flex-wrap:wrap}
+  .nav nav a{padding:8px 12px;border-radius:9px;color:var(--grafito);font-weight:600;font-size:14.5px;cursor:pointer}
+  .nav nav a:hover{background:var(--hueso);color:var(--azul)}
+  .nav nav a.on{background:var(--azul);color:#fff}
+  .menu-btn{display:none;background:var(--azul);color:#fff;border:0;border-radius:9px;padding:8px 12px;font-weight:700;cursor:pointer}
+  @media(max-width:720px){.nav nav{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;border-bottom:1px solid var(--linea);flex-direction:column;padding:8px}.nav nav.open{display:flex}.menu-btn{display:block}}
+
+  section.page{display:none;animation:fade .3s ease}
+  section.page.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--azul),#004d84);color:#fff;padding:64px 0 72px}
+  .hero h1{color:#fff;font-size:40px;font-weight:800;max-width:15ch}
+  .hero p{color:#dbe9f5;font-size:18px;margin:16px 0 28px;max-width:52ch}
+  .cta{display:inline-flex;align-items:center;gap:9px;background:var(--amarillo);color:#3a3a2e;font-weight:800;border:0;border-radius:12px;padding:14px 26px;font-size:16px;cursor:pointer;box-shadow:0 6px 18px rgba(255,208,0,.35)}
+  .cta:hover{filter:brightness(1.04)}
+  .badges{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;color:#cfe2f2;font-size:14px;font-weight:600}
+  .badges b{color:#fff}
+
+  .banda{background:var(--hueso);padding:52px 0}
+  .banda h2{font-size:26px;font-weight:800;text-align:center;margin-bottom:8px}
+  .banda .lead{text-align:center;color:var(--grafito-60);max-width:56ch;margin:0 auto 34px}
+  .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:720px){.pasos{grid-template-columns:1fr}.hero h1{font-size:30px}}
+  .paso{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:22px;box-shadow:var(--sombra)}
+  .paso .n{width:34px;height:34px;border-radius:9px;background:var(--amarillo);color:#3a3a2e;font-family:var(--f-cifra);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+  .paso h3{font-size:17px;margin-bottom:6px}
+  .paso p{font-size:14.5px;color:var(--grafito)}
+
+  .videobox{margin:38px auto 0;max-width:760px;background:#0e1b28;border-radius:var(--r);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#7fa8c9;border:1px dashed #2b4a66;text-align:center;font-size:14px;padding:20px}
+
+  .seccion{padding:56px 0}
+  .seccion h2{font-size:28px;font-weight:800;margin-bottom:6px}
+  .seccion .lead{color:var(--grafito-60);margin-bottom:28px;max-width:60ch}
+  .card{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:22px;margin-bottom:14px;box-shadow:var(--sombra)}
+  .card h3{font-size:17px;margin-bottom:6px;color:var(--azul)}
+
+  /* CHAT */
+  .chatwrap{max-width:460px;margin:0 auto;border:1px solid var(--linea);border-radius:22px;overflow:hidden;box-shadow:0 18px 50px rgba(0,103,177,.18);background:#fff}
+  .chathead{background:var(--azul);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px}
+  .chathead .av{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--azul);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--f-cifra)}
+  .chathead b{font-size:15px}.chathead span{font-size:12px;color:#bfe0f6;display:block}
+  .chatbody{height:420px;overflow-y:auto;padding:18px;background:#eef3f7;display:flex;flex-direction:column;gap:8px}
+  .b{max-width:80%;font-size:14.5px;line-height:1.4;padding:10px 14px;border-radius:16px}
+  .b.sys{background:var(--azul);color:#fff;border-bottom-left-radius:5px;align-self:flex-start}
+  .b.usr{background:#fff;color:#333;border:1px solid var(--linea);border-bottom-right-radius:5px;align-self:flex-end}
+  .poliza{align-self:center;font-family:ui-monospace,monospace;color:#8a6d00;background:var(--amarillo-40);border:1px solid var(--amarillo);border-radius:8px;padding:6px 14px;font-size:13px;margin:4px 0}
+  .quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 10px;background:#eef3f7}
+  .quick button{background:#fff;border:1px solid var(--azul-40);color:var(--azul);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f-texto)}
+  .quick button:hover{background:var(--azul);color:#fff}
+  .chatform{display:flex;gap:8px;padding:12px;border-top:1px solid var(--linea);background:#fff}
+  .chatform input{flex:1;border:1px solid var(--linea);border-radius:12px;padding:11px 14px;font-size:14.5px;font-family:var(--f-texto);outline:none}
+  .chatform input:focus{border-color:var(--azul-40)}
+  .chatform button{background:var(--amarillo);border:0;border-radius:12px;padding:0 18px;font-weight:800;color:#3a3a2e;cursor:pointer}
+  .modo{text-align:center;font-size:12px;color:var(--grafito-60);margin-top:12px}
+
+  .faq{border:1px solid var(--linea);border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff}
+  .faq summary{padding:15px 18px;font-weight:600;cursor:pointer;list-style:none;color:#2b2b2a}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";float:right;color:var(--azul);font-weight:800}
+  .faq[open] summary::after{content:"–"}
+  .faq .a{padding:0 18px 16px;color:var(--grafito);font-size:14.5px}
+
+  .equipo{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:720px){.equipo{grid-template-columns:1fr 1fr}}
+  .persona{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--sombra)}
+  .persona .av{width:52px;height:52px;border-radius:50%;background:var(--azul);color:var(--amarillo);font-family:var(--f-cifra);font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:19px}
+  .persona b{display:block;font-size:15px;color:#2b2b2a}
+  .persona span{font-size:13px;color:var(--grafito-60)}
+
+  footer{background:#0e1b28;color:#9fb8cc;padding:32px 0;font-size:13.5px;margin-top:20px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  footer a{color:#bfe0f6}
+  .aviso{background:var(--amarillo-40);border:1px solid var(--amarillo);border-radius:12px;padding:14px 18px;font-size:13.5px;color:#6b5600;margin-bottom:20px}
+  .legal h3{margin:22px 0 6px;font-size:16px}
+  .legal p{margin-bottom:10px;font-size:14.5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><img src="colsubsidio-isotipo.png" alt="Colsubsidio" style="height:30px"> <span>Seguros Colsubsidio</span><span style="color:var(--grafito-60);font-weight:600;font-size:13px">· por Scala Labs</span></div>
+    <button class="menu-btn" onclick="document.getElementById('menu').classList.toggle('open')">Menú</button>
+    <nav id="menu">
+      <a data-p="inicio" class="on">Inicio</a>
+      <a data-p="cotiza">Cotiza tu seguro</a>
+      <a data-p="docs">Documentación</a>
+      <a data-p="nosotros">Nosotros</a>
+      <a data-p="privacidad">Privacidad</a>
+    </nav>
+  </div>
+</header>
+
+<!-- INICIO -->
+<section class="page on" id="inicio">
+  <div class="hero">
+    <div class="wrap">
+      <img src="colsubsidio-blanco.png" alt="Colsubsidio" style="height:38px;margin-bottom:22px">
+      <h1>El seguro que de verdad te sirve, en 3 minutos.</h1>
+      <p>Sin llamar a nadie, sin formularios y sin letra pequeña. Un asesor te escucha, te recomienda con un porqué claro y te deja asegurado. 24/7.</p>
+      <button class="cta" onclick="go('cotiza')">Cotiza tu seguro →</button>
+      <div class="badges">
+        <span><b>Respaldado</b> por Colsubsidio</span>
+        <span><b>24/7</b> sin esperas</span>
+        <span><b>Sin</b> papeleo</span>
+      </div>
+    </div>
+  </div>
+  <div class="banda">
+    <div class="wrap">
+      <h2>Cómo funciona</h2>
+      <p class="lead">Tres pasos, una conversación. La inteligencia entiende qué necesitas; un motor de reglas transparente pone las cifras. Nada de caja negra.</p>
+      <div class="pasos">
+        <div class="paso"><div class="n cifra">1</div><h3>Cuéntanos</h3><p>Chateas normal, con tus palabras. Te hacemos pocas preguntas, una a la vez, sin tecnicismos.</p></div>
+        <div class="paso"><div class="n cifra">2</div><h3>Te recomendamos</h3><p>Te sugerimos el seguro que encaja con tu momento de vida y tu bolsillo, y te explicamos por qué.</p></div>
+        <div class="paso"><div class="n cifra">3</div><h3>Quedas asegurado</h3><p>Firmas y pagas en el mismo chat. Recibes tu certificado y una copia a tu correo. Listo.</p></div>
+      </div>
+      <div class="videobox">▶ Espacio para el video del pitch / demo<br><span style="font-size:12px">(se incrusta aquí el recorrido grabado)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZA (CHAT) -->
+<section class="page" id="cotiza">
+  <div class="seccion">
+    <div class="wrap">
+      <h2 style="text-align:center">Cotiza tu seguro</h2>
+      <p class="lead" style="text-align:center;margin:0 auto 28px">Habla con el asistente como le hablarías a una persona. Empieza escribiendo o toca una opción.</p>
+      <div class="chatwrap">
+        <div class="chathead"><div class="av">C</div><div><b>Asistente de Seguros</b><span>Colsubsidio · en línea</span></div></div>
+        <div class="chatbody" id="chat"></div>
+        <div class="quick" id="quick"></div>
+        <form class="chatform" id="form" autocomplete="off">
+          <input id="msg" placeholder="Escribe aquí…" />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+      <p class="modo" id="modo">Modo demostración · conecta el motor real cambiando la URL en el código.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTACION -->
+<section class="page" id="docs">
+  <div class="seccion">
+    <div class="wrap">
+      <h2>Documentación</h2>
+      <p class="lead">Cómo funciona el asistente, para el equipo de Colsubsidio y para quien se pierda en el chat.</p>
+
+      <div class="card">
+        <h3>Qué hace el asistente</h3>
+        <p>Lleva a la persona de "no sé qué seguro necesito" a "quedé asegurado" sin intervención humana, sobre 9 productos (Autos y Motos, Patinetas y Bicicletas, Hogar, Mascotas, Viajes, Exequial, Vida, Salud y Educación). Identifica el producto, valida si es afiliado, recolecta solo los datos necesarios, recomienda con un porqué y cierra.</p>
+      </div>
+      <div class="card">
+        <h3>Cómo decide qué recomendar</h3>
+        <p>La conversación la lleva un modelo de lenguaje; las cifras y la priorización de productos las pone un motor determinista de reglas expertas (scoring), no el modelo. Por eso cada recomendación tiene un porqué que se puede auditar. Los productos complejos (Vida, Salud, Educación) ofrecen, al cerrar, la opción de hablar con un asesor.</p>
+      </div>
+      <div class="card">
+        <h3>Qué datos pide y por qué</h3>
+        <p>Solo los datos de la ficha de cada producto, nunca de más. La cédula se pide al final. El afiliado se valida con una consulta (simulada en esta demo) que ahorra preguntas. Nada de datos de riesgo específico ni preguntas invasivas.</p>
+      </div>
+
+      <h2 style="font-size:22px;margin:34px 0 14px">Preguntas frecuentes</h2>
+      <details class="faq"><summary>¿Tengo que ser afiliado a Colsubsidio?</summary><div class="a">No. El asistente atiende a afiliados y no afiliados. Si eres afiliado, te hacemos menos preguntas porque ya tenemos parte de tu información.</div></details>
+      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">Para la mayoría de productos, sí: puedes quedar asegurado solo. En Vida, Salud y Educación, al momento de comprar puedes elegir seguir solo o hablar con un asesor humano.</div></details>
+      <details class="faq"><summary>¿Es seguro dar mis datos aquí?</summary><div class="a">Solo pedimos lo necesario para tu póliza y tratamos tus datos según la Ley 1581 de 2012 (habeas data). Puedes ver el detalle en la sección de Privacidad.</div></details>
+      <details class="faq"><summary>¿Colsubsidio es la aseguradora?</summary><div class="a">Colsubsidio facilita el acceso a seguros de varias aseguradoras aliadas y te ayuda a encontrar el más adecuado. La póliza la emite la aseguradora correspondiente.</div></details>
+      <details class="faq"><summary>Me perdí en el chat, ¿qué hago?</summary><div class="a">Escribe "empezar de nuevo" y el asistente reinicia. También puedes pedir hablar con un asesor en cualquier momento.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section class="page" id="nosotros">
+  <div class="seccion">
+    <div class="wrap">
+      <h2>Nosotros</h2>
+      <img src="scala-labs.png" alt="Scala Labs" style="height:92px;display:block;margin:6px 0 16px">
+      <p class="lead">Somos <b>Scala Labs</b>, el equipo que construyó este asistente para el Reto de Venta Automatizada de Seguros de la Hackathon Colsubsidio × 30X. Creemos que un buen seguro no debería depender de que alguien tenga tiempo de atenderte.</p>
+      <div class="equipo">
+        <div class="persona"><div class="av">JD</div><b>Juan Diego Carvajal</b><span>Producto y orquestación</span></div>
+        <div class="persona"><div class="av">DR</div><b>Daniel Rojas</b><span>Datos y motor</span></div>
+        <div class="persona"><div class="av">SB</div><b>Sebastián</b><span>Desarrollo del motor</span></div>
+        <div class="persona"><div class="av">CP</div><b>Carolina Pinzón</b><span>Dominio de seguros</span></div>
+        <div class="persona"><div class="av">JP</div><b>Juan Pablo Jara</b><span>Investigación y estrategia</span></div>
+        <div class="persona"><div class="av">MT</div><b>Melissa Tobón</b><span>Apoyo · Ing. de sistemas</span></div>
+      </div>
+      <div class="card" style="margin-top:22px">
+        <h3>Nuestra regla</h3>
+        <p>El modelo conversa y explica; un motor determinista pone las cifras. Vender sin vender: primero entender a la persona, después recomendar, y siempre con un porqué claro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACIDAD -->
+<section class="page" id="privacidad">
+  <div class="seccion">
+    <div class="wrap legal">
+      <h2>Privacidad, cookies y aspectos legales</h2>
+      <div class="aviso"><b>Aviso de demostración:</b> este sitio es un prototipo (MVP) creado en una hackathon. Los datos que ingreses son simulados y no se almacenan ni se comparten; no hay tratamiento real de datos ni emisión de pólizas reales.</div>
+
+      <h3>1. Tratamiento de datos personales (Ley 1581 de 2012)</h3>
+      <p>En una versión de producción, Colsubsidio y las aseguradoras aliadas tratarían tus datos personales con una finalidad explícita: identificar, cotizar y gestionar tu póliza. El tratamiento se haría con tu autorización previa, informada y expresa, recogida dentro de la misma conversación.</p>
+
+      <h3>2. Tus derechos</h3>
+      <p>Como titular tendrías derecho a conocer, actualizar, rectificar y suprimir tus datos, y a revocar la autorización, según la normativa colombiana de protección de datos.</p>
+
+      <h3>3. Finalidad y minimización</h3>
+      <p>El asistente pide únicamente los datos necesarios para el producto que elijas. No solicita información de riesgo específico ni datos ajenos a la ficha del seguro.</p>
+
+      <h3>4. Cookies</h3>
+      <p>Esta demostración no usa cookies de rastreo ni publicidad. Un producto en producción usaría únicamente las cookies técnicas necesarias para mantener tu sesión, informándote de ello.</p>
+
+      <h3>5. Rol de Colsubsidio</h3>
+      <p>Colsubsidio actúa como facilitador del acceso a seguros de distintas aseguradoras; no es el emisor de las pólizas. La cobertura y las condiciones las define la aseguradora correspondiente.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:12px"><img src="scala-labs.png" alt="Scala Labs" style="height:38px;filter:invert(1) brightness(2)"><span>© 2026 Scala Labs · Hackathon Colsubsidio × 30X · Reto 02 Seguros</span></div>
+    <div><a onclick="go('docs')">Documentación</a> · <a onclick="go('privacidad')">Privacidad</a> · <a onclick="go('cotiza')">Cotizar</a></div>
+  </div>
+</footer>
+
+<script>
+// ---- Navegación entre páginas ----
+const links=document.querySelectorAll('#menu a');
+function go(p){
+  document.querySelectorAll('.page').forEach(s=>s.classList.toggle('on',s.id===p));
+  links.forEach(a=>a.classList.toggle('on',a.dataset.p===p));
+  document.getElementById('menu').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(p==='cotiza' && !chatStarted) startChat();
+}
+links.forEach(a=>a.addEventListener('click',()=>go(a.dataset.p)));
+
+// ---- Chat ----
+// Cuando el motor esté alojado, este webhook de Make ya lo llama. Si falla (CORS o
+// motor aún no conectado), corre el guion de demostración para que nunca se vea roto.
+const WEBHOOK="https://hook.us2.make.com/jxufpdbianincx5bhbuqyeuvcz8kvxux";
+const chat=document.getElementById('chat');
+const quick=document.getElementById('quick');
+let chatStarted=false, demoStep=0, demoGuion=null;
+
+function burbuja(txt,tipo){
+  const d=document.createElement('div');
+  if(tipo==='poliza'){d.className='poliza';d.textContent=txt;}
+  else{d.className='b '+(tipo==='usr'?'usr':'sys');d.innerHTML=txt;}
+  chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+}
+function chips(arr){
+  quick.innerHTML='';
+  arr.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>enviar(t);quick.appendChild(b);});
+}
+function typing(cb){
+  const d=document.createElement('div');d.className='b sys';d.textContent='…';chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+  setTimeout(()=>{d.remove();cb();},700);
+}
+
+function startChat(){
+  chatStarted=true;
+  typing(()=>{burbuja('¡Hola! 👋 Soy tu asesor de seguros de Colsubsidio. ¿Qué te gustaría proteger hoy?');chips(['Mi mascota','Mi carro','Mi hogar','No sé, ayúdame']);});
+}
+
+// Guiones de demostración por producto (según la spec de Caro). Solo se usan si el
+// motor aún no responde por el webhook. Reemplázalos por el JSON real del motor.
+const guiones={
+  mascota:[
+    {sys:'¡Qué lindo cuidar a los que más queremos! 🐾 ¿Cómo se llama tu mascota?'},
+    {sys:'¡Me encanta ese nombre! ¿Es perrito o gatico?',chips:['Perrito','Gatico']},
+    {sys:'¿Cuántos años tiene, más o menos?'},
+    {sys:'Con eso te recomiendo el <b>Plan Mascota Tranquila</b>: urgencias veterinarias, consultas y vacunas, y responsabilidad civil. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
+    {sys:'¡Genial! ¿Cómo te llamas?'},
+    {sys:'Un gusto. Para dejar todo listo, tu número de cédula. 🔒'},
+    {poliza:'PÓLIZA Nº COL-2026-8841',sys:'🎉 ¡Listo! Ya estás asegurado. Te llegó copia a tu correo y guardé todo por si lo necesitas. Cuídate mucho. 🙌',chips:['Empezar de nuevo']}
+  ],
+  carro:[
+    {sys:'¡Listo, aseguremos tu carro! 🚗 ¿Cuál es la placa?'},
+    {sys:'Gracias. ¿En qué ciudad circula normalmente?'},
+    {sys:'¿Y tu fecha de nacimiento? Es para ajustar tu plan.'},
+    {sys:'Te recomiendo el <b>Plan Auto Esencial</b>: responsabilidad civil, asistencia en vía 24/7 y pérdida total por accidente. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
+    {sys:'¡Genial! ¿Cómo te llamas?'},
+    {sys:'Un gusto. Por último, tu número de cédula. 🔒'},
+    {poliza:'PÓLIZA Nº COL-2026-7420',sys:'🎉 ¡Listo! Tu carro quedó asegurado. Te enviamos la copia a tu correo. 🙌',chips:['Empezar de nuevo']}
+  ],
+  hogar:[
+    {sys:'¡Cuidemos tu hogar! 🏡 ¿Vives en casa o apartamento?',chips:['Casa','Apartamento']},
+    {sys:'¿La vivienda es propia o arrendada?',chips:['Propia','Arrendada']},
+    {sys:'¿En qué ciudad queda?'},
+    {sys:'Para asegurar bien tu patrimonio: si lo quisieras vender hoy, ¿en cuánto, más o menos?'},
+    {sys:'Con eso te recomiendo el <b>Plan Hogar Protegido</b>: incendio, daños y responsabilidad civil. ¿Le sumamos protección de contenidos (electrodomésticos y muebles)?',chips:['Sí, súmalo','Así está bien']},
+    {sys:'¡Perfecto! ¿Cómo te llamas?'},
+    {sys:'Un gusto. Por último, tu número de cédula. 🔒'},
+    {poliza:'PÓLIZA Nº COL-2026-6155',sys:'🎉 ¡Listo! Tu hogar quedó protegido. Copia enviada a tu correo. 🙌',chips:['Empezar de nuevo']}
+  ]
+};
+function detectar(t){t=t.toLowerCase();
+  if(/mascota|perr|gat|michi|lomito/.test(t))return'mascota';
+  if(/carro|auto|veh|moto|placa/.test(t))return'carro';
+  if(/hogar|casa|apart|vivienda|inmueble/.test(t))return'hogar';
+  return null;}
+
+function demo(texto){
+  if(!demoGuion){
+    const p=detectar(texto);
+    if(!p){typing(()=>{burbuja('¿Qué te gustaría proteger: tu mascota, tu carro o tu hogar?');chips(['Mi mascota','Mi carro','Mi hogar']);});return;}
+    demoGuion=guiones[p];demoStep=0;
+  }
+  if(demoStep<demoGuion.length){const s=demoGuion[demoStep++];typing(()=>{if(s.poliza)burbuja(s.poliza,'poliza');burbuja(s.sys);chips(s.chips||[]);});}
+  else typing(()=>{burbuja('Gracias por probar el asistente. Escribe "empezar de nuevo" para verlo otra vez.');chips(['Empezar de nuevo']);});
+}
+
+async function enviar(texto){
+  if(!texto.trim())return;
+  burbuja(texto,'usr');quick.innerHTML='';
+  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;startChat();return;}
+  // 1) Intento con el motor real vía Make. 2) Si falla, guion de demostración por producto.
+  try{
+    const r=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:texto})});
+    if(r.ok){const data=await r.json();if(data&&data.reply){typing(()=>{burbuja(data.reply);if(data.chips)chips(data.chips);});return;}}
+    throw new Error('sin reply');
+  }catch(e){ demo(texto); }
+}
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('msg');enviar(i.value);i.value='';});
+</script>
+</body>
+</html>
