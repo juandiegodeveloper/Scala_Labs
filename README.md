@@ -5,8 +5,7 @@ Repositorio **privado** del equipo Scala Labs para la Hackathon Colsubsidio 30X 
 Trabajo colaborativo y documentación del reto. Parte de los activos son **preexistentes** (ver Bitácora de PI en Notion) y el resto se construye durante el evento.
 
 ## Retos
-- **Reto 01** — Crédito Hiperpersonalizado
-- **Reto 02** — Venta Automatizada de Seguros _(foco principal según el diagnóstico Montecarlo)_
+- **Reto 01** — Venta Automatizada de Seguros _(foco principal según el diagnóstico Montecarlo)_
 
 ## Estructura
 
