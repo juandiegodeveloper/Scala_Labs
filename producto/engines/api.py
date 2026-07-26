@@ -148,7 +148,9 @@ def _llm_raw(historial):
         req = _urlreq.Request("https://api.groq.com/openai/v1/chat/completions",
                               data=json.dumps(payload).encode("utf-8"),
                               headers={"Authorization": "Bearer " + GROQ_API_KEY,
-                                       "Content-Type": "application/json"})
+                                       "Content-Type": "application/json",
+                                       "Accept": "application/json",
+                                       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"})
         try:
             with _urlreq.urlopen(req, timeout=45) as r:
                 d = json.loads(r.read().decode("utf-8"))
