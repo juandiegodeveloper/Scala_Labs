@@ -274,6 +274,13 @@ links.forEach(a=>a.addEventListener('click',()=>go(a.dataset.p)));
 // Cuando el motor esté alojado, este webhook de Make ya lo llama. Si falla (CORS o
 // motor aún no conectado), corre el guion de demostración para que nunca se vea roto.
 const WEBHOOK="https://hook.us2.make.com/jxufpdbianincx5bhbuqyeuvcz8kvxux";
+// Motor real (Render). El demo lo llama en vivo; si está dormido, usa el resultado real precalculado.
+const MOTOR="https://scala-labs.onrender.com/recomendar";
+const PERSONAS={
+  "Madre soltera, 2 hijos":{afiliado:true,perfil:{V1:"26-35 años",V2:"Femenino",V3:"Formal dependiente",V4:"Bajo (< $1.3M)",V5:"Monoparental con hijos",V6:"Arrendada",V7:"No",V8:"No tiene",V9:"No",V10:"No",V11:"Sí"},fb:{nombre:"Vida",pct:61.3,modo:"asesoria"}},
+  "Joven en moto, independiente":{afiliado:false,perfil:{V1:"18-25 años",V2:"Masculino",V3:"Informal / cuenta propia sin cotización",V4:"Bajo (< $1.3M)",V5:"Soltero(a) sin hijos",V6:"Arrendada",V7:"No",V8:"Moto",V9:"No",V10:"No",V11:"No"},fb:{nombre:"Accidentes personales",pct:87.5,modo:"auto"}},
+  "Pareja con casa y carro":{afiliado:true,perfil:{V1:"36-45 años",V2:"Femenino",V3:"Formal independiente / profesional",V4:"Alto (> $4.6M)",V5:"Pareja sin hijos",V6:"Propia financiada (hipoteca)",V7:"No",V8:"Carro",V9:"Sí",V10:"No",V11:"No"},fb:{nombre:"Todo riesgo autos y motos",pct:96.0,modo:"auto"}}
+};
 const chat=document.getElementById('chat');
 const quick=document.getElementById('quick');
 let chatStarted=false, demoStep=0, demoGuion=null;
@@ -295,7 +302,24 @@ function typing(cb){
 
 function startChat(){
   chatStarted=true;
-  typing(()=>{burbuja('¡Hola! 👋 Soy <b>Amparito</b>, tu asesora digital de confianza de Colsubsidio. ¿Qué te gustaría proteger hoy?');chips(['Mi mascota','Mi carro','Mi hogar','No sé, ayúdame']);});
+  typing(()=>{burbuja('¡Hola! 👋 Soy <b>Amparito</b>, tu asesora digital de confianza de Colsubsidio. Para mostrarte cómo decido con datos reales, ¿con cuál de estas personas te identificas?');chips(Object.keys(PERSONAS));});
+}
+
+async function recomendarPersona(label){
+  const p=PERSONAS[label];
+  const pintar=(nombre,pct,modo,viva)=>typing(()=>{
+    burbuja('Miré tu perfil y '+(viva?'el motor lo calculó en vivo':'el motor lo calculó')+'. Para ti, lo que más encaja es:');
+    burbuja('🛡️ <b>'+nombre+'</b> — '+pct+'% de afinidad · '+(modo==='auto'?'lo tomas al instante en el chat':'con un asesor especializado'));
+    burbuja('Y esto no lo decidió la IA: lo puso el <b>motor</b> con tus datos. Por eso hay un porqué, no una caja negra. 🙌');
+    chips(['Empezar de nuevo']);
+  });
+  try{
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),9000);
+    const r=await fetch(MOTOR,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({perfil:p.perfil,afiliado:p.afiliado}),signal:ctrl.signal});
+    clearTimeout(t);
+    if(r.ok){const d=await r.json();if(d&&d.top){pintar(d.top.nombre,d.top.pct,d.top.modo_cierre,true);return;}}
+    throw new Error('sin datos');
+  }catch(e){ pintar(p.fb.nombre,p.fb.pct,p.fb.modo,false); }
 }
 
 // Guiones de demostración por producto (según la spec de Caro). Solo se usan si el
@@ -350,6 +374,7 @@ async function enviar(texto){
   if(!texto.trim())return;
   burbuja(texto,'usr');quick.innerHTML='';
   if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;startChat();return;}
+  if(PERSONAS[texto]){ recomendarPersona(texto); return; }
   // 1) Intento con el motor real vía Make. 2) Si falla, guion de demostración por producto.
   try{
     const r=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({message:texto})});
