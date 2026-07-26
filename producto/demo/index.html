@@ -352,7 +352,7 @@ async function enviar(texto){
   if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;startChat();return;}
   // 1) Intento con el motor real vía Make. 2) Si falla, guion de demostración por producto.
   try{
-    const r=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:texto})});
+    const r=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({message:texto})});
     if(r.ok){const data=await r.json();if(data&&data.reply){typing(()=>{burbuja(data.reply);if(data.chips)chips(data.chips);});return;}}
     throw new Error('sin reply');
   }catch(e){ demo(texto); }
