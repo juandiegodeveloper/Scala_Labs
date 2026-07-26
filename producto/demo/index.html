@@ -329,6 +329,8 @@ async function conversar(texto){
       const top=_rec.top;
       burbuja('🛡️ <b>'+top.nombre+'</b> — '+top.pct+'% de afinidad · '+(top.modo_cierre==='auto'?'lo tomas al instante en el chat':'con un asesor especializado'));
       burbuja('Y esto lo puso el <b>motor</b> con tus datos, no la IA. ¿Te cuento por qué, o lo tomamos? 🙌');
+      // Memoria para el LLM: si la persona sigue escribiendo libre, que no contradiga la recomendación.
+      historial.push({rol:'amparito',texto:'[Nota interna] El motor de scoring recomendó '+top.nombre+' ('+top.pct+'% de afinidad) con el perfil de la persona. Porqué: '+(_rec.porque||'es lo que mejor encaja con su situación')+'. Si pregunta por el motor o el porqué, explícalo con naturalidad; nunca niegues que existe el motor.'});
       chips(['Me interesa','¿Por qué este?']);
     }
   }catch(e){
