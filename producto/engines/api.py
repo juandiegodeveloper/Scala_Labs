@@ -135,7 +135,7 @@ def _proveedor():
     return None
 
 def _llm_raw(historial):
-    """Texto crudo del LLM. Groq si hay key (gratis, rápido, límites amplios); si no, Gemini."""
+    """print(">>> DEBUG: API Key de Groq es:", GROQ_API_KEY)"""
     if GROQ_API_KEY:
         msgs = [{"role": "system", "content": _system_prompt()}]
         for m in historial:
