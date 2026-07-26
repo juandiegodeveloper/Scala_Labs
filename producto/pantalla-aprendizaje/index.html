@@ -953,8 +953,8 @@ async function cargarDatos() {
         poliza = ce.poliza || ce.poliza_numero || null;
       } catch(_) {}
     }
-    // Fallback: buscar en contenido_raw
-    if (!poliza && evCierre) {
+    // Fallback: buscar en contenido_raw (puede venir null desde la DB real)
+    if (!poliza && evCierre && evCierre.contenido_raw) {
       const m = evCierre.contenido_raw.match(/N[º°]\s*([A-Z0-9-]+)/i);
       if (m) poliza = m[1];
     }

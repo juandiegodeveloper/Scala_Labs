@@ -8,8 +8,7 @@
     "{{prima_mes}}": "Lo que paga al mes, ya formateado por el motor",
     "{{porque}}": "La variable del perfil que justifica la recomendación, en lenguaje llano (la arma el motor)",
     "{{afinidad_pct}}": "Porcentaje de afinidad del top 1",
-    "{{top3}}": "Lista de las 3 opciones con prima, formateada por el motor",
-    "{{numero_poliza}}": "Número de póliza simulado que genera el sistema al cierre"
+    "{{top3}}": "Lista de las 3 opciones con prima, formateada por el motor"
   },
   "variables_de_contexto": {
     "{{nombre}}": "Nombre de pila del usuario (solo después del consentimiento)",
@@ -87,15 +86,15 @@
     },
     "cierre": {
       "resumen": [
-        "Resumen antes de cerrar: {{producto}}, por {{prima_mes}} al mes. Te lo recomendé porque {{porque}}. Si estás de acuerdo, confirma y pasamos a la firma y el pago. Y si prefieres pensarlo o hablarlo con un asesor, también está bien."
+        "Resumen antes de cerrar: {{producto}}, por {{prima_mes}} al mes. Te lo recomendé porque {{porque}}. Si estás de acuerdo, confirma y envío tu solicitud directo a la aseguradora. Y si prefieres pensarlo o hablarlo con un asesor, también está bien."
       ],
       "firma_pago_simulado": [
-        "Listo. Aquí firmarías y pagarías en el mismo chat, sin filas ni papeleo. (En esta demo el paso es simulado)."
+        "Listo. Aquí confirmas y tu solicitud sale directo a la aseguradora, sin filas ni papeleo. (En esta demo el paso es simulado)."
       ]
     },
     "confirmacion": {
       "asegurado": [
-        "🎉 ¡Ya estás asegurado! Tu número de póliza es {{numero_poliza}} y te enviamos el certificado al correo. Sin 'aprobación pendiente': quedaste protegido desde ya. Guarda este chat con un clic para tener todo a la mano."
+        "🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. Guarda este chat con un clic para tener todo a la mano."
       ]
     },
     "respaldo": {

@@ -146,7 +146,7 @@
       <div class="pasos">
         <div class="paso"><div class="n cifra">1</div><h3>Cuéntanos</h3><p>Chateas normal, con tus palabras. Te hacemos pocas preguntas, una a la vez, sin tecnicismos.</p></div>
         <div class="paso"><div class="n cifra">2</div><h3>Te recomendamos</h3><p>Te sugerimos el seguro que encaja con tu momento de vida y tu bolsillo, y te explicamos por qué.</p></div>
-        <div class="paso"><div class="n cifra">3</div><h3>Quedas asegurado</h3><p>Firmas y pagas en el mismo chat. Recibes tu certificado y una copia a tu correo. Listo.</p></div>
+        <div class="paso"><div class="n cifra">3</div><h3>Quedas protegido</h3><p>Confirmas en el chat y tu solicitud va directo a la aseguradora. La confirmación llega a tu correo. Listo.</p></div>
       </div>
       <div class="videobox">▶ Espacio para el video del pitch / demo<br><span style="font-size:12px">(se incrusta aquí el recorrido grabado)</span></div>
     </div>
@@ -195,7 +195,7 @@
 
       <h2 style="font-size:22px;margin:34px 0 14px">Preguntas frecuentes</h2>
       <details class="faq"><summary>¿Tengo que ser afiliado a Colsubsidio?</summary><div class="a">No. Amparito atiende a afiliados y no afiliados. Si eres afiliado, te hace menos preguntas porque ya tenemos parte de tu información.</div></details>
-      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">No. En la mayoría de seguros quedas asegurado en esta misma conversación; y en Vida, Salud y Educación eliges, al momento de tomarlo, si prefieres el acompañamiento de un asesor especializado en tu caso.</div></details>
+      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">No. En la mayoría de seguros dejas tu solicitud lista y enviada a la aseguradora en esta misma conversación; y en Vida, Salud y Educación eliges, al momento de tomarlo, si prefieres el acompañamiento de un asesor especializado en tu caso.</div></details>
       <details class="faq"><summary>¿Es seguro dar mis datos aquí?</summary><div class="a">Solo pedimos lo necesario para tu póliza y tratamos tus datos según la Ley 1581 de 2012 (habeas data). Puedes ver el detalle en la sección de Privacidad.</div></details>
       <details class="faq"><summary>¿Colsubsidio es la aseguradora?</summary><div class="a">Colsubsidio facilita el acceso a seguros de varias aseguradoras aliadas y te ayuda a encontrar el más adecuado. La póliza la emite la aseguradora correspondiente.</div></details>
       <details class="faq"><summary>Me perdí en el chat, ¿qué hago?</summary><div class="a">Escribe "empezar de nuevo" y Amparito reinicia la conversación. Y en Vida, Salud o Educación, al momento de tomar tu seguro, puedes elegir el acompañamiento de un asesor humano especializado.</div></details>
@@ -305,52 +305,101 @@ const guiones={
     {sys:'¡Qué lindo cuidar a los que más queremos! 🐾 ¿Cómo se llama tu mascota?'},
     {sys:'¡Me encanta ese nombre! ¿Es perrito o gatico?',chips:['Perrito','Gatico']},
     {sys:'¿Cuántos años tiene, más o menos?'},
-    {sys:'Con eso te recomiendo el <b>Plan Mascota Tranquila</b>: urgencias veterinarias, consultas y vacunas, y responsabilidad civil. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
+    {motor:true,sys:'Con eso te recomiendo el <b>Plan Mascota Tranquila</b>: urgencias veterinarias, consultas y vacunas, y responsabilidad civil. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
     {sys:'¡Genial! ¿Cómo te llamas?'},
     {sys:'Un gusto. Para dejar todo listo, tu número de cédula. 🔒'},
-    {poliza:'PÓLIZA Nº COL-2026-8841',sys:'🎉 ¡Listo! Ya estás asegurado. Te llegó copia a tu correo y guardé todo por si lo necesitas. Cuídate mucho. 🙌',chips:['Empezar de nuevo']}
+    {poliza:'SOLICITUD Nº SOL-2026-8841',sys:'🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. Cuídate mucho. 🙌',chips:['Empezar de nuevo']}
   ],
   carro:[
     {sys:'¡Listo, aseguremos tu carro! 🚗 ¿Cuál es la placa?'},
     {sys:'Gracias. ¿En qué ciudad circula normalmente?'},
     {sys:'¿Y tu fecha de nacimiento? Es para ajustar tu plan.'},
-    {sys:'Te recomiendo el <b>Plan Auto Esencial</b>: responsabilidad civil, asistencia en vía 24/7 y pérdida total por accidente. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
+    {motor:true,sys:'Te recomiendo el <b>Plan Auto Esencial</b>: responsabilidad civil, asistencia en vía 24/7 y pérdida total por accidente. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
     {sys:'¡Genial! ¿Cómo te llamas?'},
     {sys:'Un gusto. Por último, tu número de cédula. 🔒'},
-    {poliza:'PÓLIZA Nº COL-2026-7420',sys:'🎉 ¡Listo! Tu carro quedó asegurado. Te enviamos la copia a tu correo. 🙌',chips:['Empezar de nuevo']}
+    {poliza:'SOLICITUD Nº SOL-2026-7420',sys:'🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. 🙌',chips:['Empezar de nuevo']}
   ],
   hogar:[
     {sys:'¡Cuidemos tu hogar! 🏡 ¿Vives en casa o apartamento?',chips:['Casa','Apartamento']},
     {sys:'¿La vivienda es propia o arrendada?',chips:['Propia','Arrendada']},
     {sys:'¿En qué ciudad queda?'},
     {sys:'Para asegurar bien tu patrimonio: si lo quisieras vender hoy, ¿en cuánto, más o menos?'},
-    {sys:'Con eso te recomiendo el <b>Plan Hogar Protegido</b>: incendio, daños y responsabilidad civil. ¿Le sumamos protección de contenidos (electrodomésticos y muebles)?',chips:['Sí, súmalo','Así está bien']},
+    {motor:true,sys:'Con eso te recomiendo el <b>Plan Hogar Protegido</b>: incendio, daños y responsabilidad civil. ¿Le sumamos protección de contenidos (electrodomésticos y muebles)?',chips:['Sí, súmalo','Así está bien']},
     {sys:'¡Perfecto! ¿Cómo te llamas?'},
     {sys:'Un gusto. Por último, tu número de cédula. 🔒'},
-    {poliza:'PÓLIZA Nº COL-2026-6155',sys:'🎉 ¡Listo! Tu hogar quedó protegido. Copia enviada a tu correo. 🙌',chips:['Empezar de nuevo']}
+    {poliza:'SOLICITUD Nº SOL-2026-6155',sys:'🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. 🙌',chips:['Empezar de nuevo']}
   ]
 };
+// Regla 16 del MD v3 (spec del asistente): lenguaje colombiano y sinónimos.
+// "mi casa", "apto", "la nave" o "mi peludito" se homologan al producto oficial
+// sin pedir aclaraciones — así "quiero asegurar mi casa" nunca entra en loop.
+const SINONIMOS={
+  mascota:['mascota','perr','gat','michi','lomito','pelud','criatura','cachorr','felino'],
+  carro:['carro','auto','veh','moto','nave','autov','placa','camioneta','campero'],
+  hogar:['hogar','casa','apto','apart','finca','techo','propiedad','vivienda','inmueble']
+};
 function detectar(t){t=t.toLowerCase();
-  if(/mascota|perr|gat|michi|lomito/.test(t))return'mascota';
-  if(/carro|auto|veh|moto|placa/.test(t))return'carro';
-  if(/hogar|casa|apart|vivienda|inmueble/.test(t))return'hogar';
+  for(const p in SINONIMOS) if(SINONIMOS[p].some(s=>t.includes(s))) return p;
   return null;}
 
-function demo(texto){
+// ---- Conexión al motor determinista (endpoint local, producto/engines/endpoint_motor.py) ----
+// Interfaz: POST /recomendar {"perfil":{V1..V11},"producto_explicito":key} — ver README-endpoint.md.
+// Regla de oro: las cifras (pct, score) las pone SIEMPRE el motor, nunca este front.
+const MOTOR_URL='http://localhost:8090/recomendar';
+const MOTOR_KEY={mascota:'mascotas',carro:'autos',hogar:'hogar'}; // guion demo → key del motor
+// Perfil V1–V11. Los campos que el chat de demo no pregunta quedan en un valor por
+// defecto razonable (persona joven-adulta, empleo formal, ingreso medio, arriendo,
+// sin dependientes) documentado aquí; los que sí se conversan se actualizan al vuelo:
+// V6 (vivienda propia/arrendada, guion hogar), V8 (Carro/Moto), V9 (mascota Sí).
+let perfil=null,demoProd=null;
+function perfilBase(){return{
+  V1:'26-35 años',V2:'Femenino',V3:'Formal dependiente',V4:'Medio ($1.3M - $4.6M)',
+  V5:'Pareja sin hijos',V6:'Arrendada',V7:'No',V8:'No tiene',V9:'No',V10:'No',V11:'No'};}
+function actualizarPerfil(prod,t){
+  t=t.toLowerCase();
+  if(prod==='hogar'){if(/propi/.test(t))perfil.V6='Propia pagada';if(/arrend|arriendo/.test(t))perfil.V6='Arrendada';}
+  if(prod==='carro'&&/\bmoto/.test(t))perfil.V8='Moto';
+}
+async function consultarMotor(prod){
+  try{
+    const r=await fetch(MOTOR_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({perfil:perfil,producto_explicito:MOTOR_KEY[prod]})});
+    if(!r.ok)throw new Error('motor no ok');
+    const d=await r.json();
+    if(d&&d.top_3&&d.top_3.length){
+      const filas=d.top_3.map(p=>`${p.rank}. <b>${p.nombre}</b> — ${p.pct}% de afinidad · cierre ${p.modo_cierre==='auto'?'inmediato en el chat':'con asesor'}`).join('<br>');
+      burbuja('Según tu perfil, esta es la afinidad que calcula nuestro motor de reglas:<br>'+filas+'<br><span style="font-size:11.5px;opacity:.8">Cifras del motor determinista · sesión registrada con trazabilidad</span>');
+      document.getElementById('modo').textContent='Motor determinista conectado ✓ · las cifras las pone el motor, no el modelo.';
+    }
+  }catch(e){/* sin motor local: el guion sigue igual — la demo standalone nunca se rompe */}
+}
+
+async function demo(texto){
   if(!demoGuion){
     const p=detectar(texto);
     if(!p){typing(()=>{burbuja('¿Qué te gustaría proteger: tu mascota, tu carro o tu hogar?');chips(['Mi mascota','Mi carro','Mi hogar']);});return;}
-    demoGuion=guiones[p];demoStep=0;
+    demoGuion=guiones[p];demoStep=0;demoProd=p;
+    perfil=perfilBase();
+    if(p==='mascota')perfil.V9='Sí';
+    if(p==='carro')perfil.V8=/\bmoto/.test(texto.toLowerCase())?'Moto':'Carro';
+  }else if(demoProd){actualizarPerfil(demoProd,texto);}
+  if(demoStep<demoGuion.length){
+    const s=demoGuion[demoStep++];
+    if(s.motor)await consultarMotor(demoProd); // top 3 real del motor antes de la recomendación
+    typing(()=>{if(s.poliza)burbuja(s.poliza,'poliza');burbuja(s.sys);chips(s.chips||[]);});
   }
-  if(demoStep<demoGuion.length){const s=demoGuion[demoStep++];typing(()=>{if(s.poliza)burbuja(s.poliza,'poliza');burbuja(s.sys);chips(s.chips||[]);});}
   else typing(()=>{burbuja('Gracias por conocer a Amparito. Escribe "empezar de nuevo" para verla otra vez.');chips(['Empezar de nuevo']);});
 }
 
 async function enviar(texto){
   if(!texto.trim())return;
   burbuja(texto,'usr');quick.innerHTML='';
-  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;startChat();return;}
-  // 1) Intento con el motor real vía Make. 2) Si falla, guion de demostración por producto.
+  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;demoProd=null;perfil=null;startChat();return;}
+  // 1) Si hay guion activo o se reconoce el producto (sinónimos de la regla 16),
+  //    la conversación la lleva el front + motor local — así el webhook no interrumpe
+  //    un flujo en curso ni repite respuestas genéricas.
+  if(demoGuion||detectar(texto)){await demo(texto);return;}
+  // 2) Entradas no reconocidas: intento con el motor real vía Make. 3) Si falla, guion de demostración.
   try{
     const r=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:texto})});
     if(r.ok){const data=await r.json();if(data&&data.reply){typing(()=>{burbuja(data.reply);if(data.chips)chips(data.chips);});return;}}
