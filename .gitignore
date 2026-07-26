@@ -32,3 +32,6 @@ pg-*.jpg
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# DB local de trazabilidad (runtime del MVP local — nunca al repo)
+producto/db/interactions.db
