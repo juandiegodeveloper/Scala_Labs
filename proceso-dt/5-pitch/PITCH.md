@@ -142,6 +142,115 @@ paredes de texto) · subtítulos quemados (se ve sin audio en la plataforma).
 *Guion v1 asistido por Claude Fable 5 (esfuerzo alto) sobre decisiones creativas
 de JP (hook híbrido, formato Loom, cierre piloto+flywheel) · 2026-07-24*
 
+---
+
+## 🎬 CHANGELOG v2 — `video/pitch-scala-labs-v2.mp4` (25-jul noche)
+
+Feedback aplicado (mentores + JD + discovery 25-jul). **La voz NO se regeneró** —
+todo es visual/timing. Cambios que requerirían regrabar quedan en "Decisiones
+pendientes de JP" (abajo).
+
+**Naming y lenguaje (feedback mentor):**
+- El personaje ahora es **"Amparito · tu asesora digital de confianza"** en la
+  cabecera del chat de E2 y E3 (antes "Asesor de seguros").
+- **"actuario" eliminado de pantalla** (E2: "Decide como un actuario" →
+  "Decide con rigor matemático · reglas claras y auditables"). La voz aún lo
+  dice — ver pendientes.
+
+**Modelo de remisión (hallazgo de JP, discovery 25-jul):** Colsubsidio no
+recauda ni emite. En E2/E3 el cierre del chat ya NO muestra pago/firma:
+- Chips "✓ Firma electrónica / ✓ Pago aprobado" → "✓ Lead validado /
+  ✓ Solicitud remitida a la aseguradora".
+- Tarjeta final "Quedaste asegurada · PÓLIZA POL-905446" → "Solicitud enviada
+  a la aseguradora · SOL-905446 · confirmación a tu correo".
+- Mensaje de consentimiento: "¿Confirmas que enviemos tu solicitud a la
+  aseguradora?" (antes "¿Confirmas la compra?").
+- E2 k6: "3 minutos → tu seguro en camino" (antes "tu primera póliza").
+
+**Diferenciación explícita (feedback mentor de pitch):**
+- E3 (cola del acto 2): badges **"Expediente vivo del cliente"** y **"Motor que
+  aprende de cada conversación"** (27.9s/28.7s de la escena).
+- E4: panel **"HOY → CON AMPARITO"** con los números del discovery (tal cual):
+  contacto→cotización **8 días → minutos** · feedback aseguradoras **1 Excel al
+  mes → labels en tiempo real** · pie: **1.200 leads/mes · 15% conversión ·
+  CAC $40.000** (fuente: discovery 25-jul).
+
+**Silencio incómodo 1:18–1:25 (feedback JD) — diagnóstico y solución:**
+La voz del bloque 3 termina en 1:18.6 y la del bloque 4 arranca en 1:22.3
+(~3.7s de aire que caían sobre pantalla casi estática). Además la transcripción
+palabra-a-palabra reveló que los MP3 se cortaron en fronteras distintas al
+guion: el bloque 2 TERMINA con "Míralo en vivo…" y el bloque 4 ARRANCA con
+"Y eso es oro". Solución visual: la cola de E3 ahora encadena remate "Y eso es
+oro." (27.0s) + los 2 badges de diferenciación (27.9/28.7s), y E4 abre con el
+panel HOY→AMPARITO animado desde 0.5s — no queda pantalla muerta. Sin cama
+musical: **no hay pista de música licenciable en el sistema** (se buscó);
+pipeline de mezcla listo abajo.
+
+**Desalineaciones voz↔pantalla (feedback JD)** — verificado con transcripción
+word-level (faster-whisper) de los 5 bloques y corregido:
+- **E1**: remate "es que nadie les ha mostrado…" 21.3s → 23.3s (la voz lo dice
+  en 23.5s).
+- **E2**: las claves iban 3–5s tarde. Retimed: "rigor" 4.0s · chips 7.8s ·
+  "por qué ese seguro" 13.0s · "sin letra pequeña" 15.9s (voz: 15.9s) ·
+  "3 minutos" 17.6s (voz: 17.5s) · tarjeta final 19.3s · sellos ley 20.3s
+  (voz "las de la ley": 20.2s) · nueva clave "Míralo en vivo →" 22.2s (la voz
+  lo dice en 22.0s, dentro del bloque 2).
+- **E3**: acto 1 comprimido a ritmo timelapse real: reco 3.7s (voz "prima
+  ajustada" 2.8s) · porqué 4.8s (voz 4.8s) · consentimiento 6.0s (voz 6.1s) ·
+  solicitud enviada 8.6s (voz "su primera póliza" 8.5s) · acto 2 entra 9.6s
+  (voz "pero en esos mismos 3 minutos" 9.3s) · "datos de siempre" 15.0s (voz
+  15.3s) · filas sincronizadas (contacto 18.5s = voz 18.5s) · filas oro 21.2 /
+  22.6 / 24.1 / 25.3s (voz: 21.2 / 22.7 / 24.2 / 25.3s).
+- **E5**: nuevo beat **"Somos Scala Labs."** en 9.0–11.2s — la voz lo dice en
+  9.3–10.4s y la pantalla quedaba en velo vacío.
+- Micro-fix técnico en E3 (reloj del cronómetro anclado al primer frame del
+  rAF — elimina el salto del timer en render headless).
+
+**Cama musical (pendiente de pista de JP)** — cuando exista `musica.mp3`:
+```bash
+ffmpeg -y -i pitch-scala-labs-v2.mp4 -i musica.mp3 \
+  -filter_complex "[1:a]atrim=0:119.6,volume=-22dB,afade=t=in:st=0:d=2,afade=t=out:st=115.6:d=4[m];\
+[0:a][m]amix=inputs=2:duration=first:normalize=0[a]" \
+  -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k pitch-scala-labs-v2-musica.mp4
+```
+
+## 🔶 DECISIONES PENDIENTES DE JP
+
+**1. One-liner más simple (feedback mentor: el actual es complejo).** Tres
+opciones — el producto: chat que vende seguros 24/7, perfila en ≤5 preguntas,
+recomienda con su porqué y remite el lead listo a la aseguradora en minutos:
+- (a) **"Amparito convierte una conversación en un seguro: 5 preguntas, una
+  recomendación con su porqué, y tu solicitud con la aseguradora en minutos."**
+- (b) **"Un chat que vende seguros 24/7 — de '¿qué necesito?' a lead remitido
+  en 3 minutos, no en 8 días."**
+- (c) **"La asesora digital que nunca duerme: te perfila en 5 preguntas, te
+  explica el porqué y deja tu seguro en camino en minutos."**
+
+**2. Frases de la VOZ actual desalineadas con los cambios** (por si JP quiere
+regrabar en ElevenLabs web, ~10 min — bloques afectados: 2 y 3):
+- B2 dice **"un asesor que… decide como un actuario"** → pantalla ya dice
+  Amparito y sin "actuario". Reemplazo propuesto: *"Por eso construimos a
+  Amparito: una asesora que funciona como una conversación y decide con rigor
+  matemático."*
+- B2 dice **"tienes tu primera póliza — con todas las de la ley"** y B3
+  **"…y su primera póliza"** → modelo remisión (Colsubsidio no emite). Es
+  DEFENDIBLE sin regrabar porque la pantalla muestra la secuencia correcta
+  (consentimiento → solicitud → aseguradora → confirmación al correo), pero si
+  se regraba: B2 *"Y en tres minutos, tu solicitud ya está con la aseguradora —
+  con todas las de la ley."* · B3 *"…consentimiento… y su solicitud remitida."*
+- B3 dice **"el asesor"** (2 veces) → *"Amparito se lo descubre en cinco
+  preguntas"* / *"Amparito construyó el expediente de Camila"*.
+- Nota de refuerzo: el antes/después del discovery (remisión hoy manual por
+  correo → automática en segundos) apoya exactamente este cierre de remisión —
+  vale la pena decirlo en el Q&A aunque no se regrabe.
+
+**3. Cama musical**: no hay pista en el sistema. Si JP consigue una (licencia
+limpia), el comando de mezcla de arriba la monta a -22dB con fades en <1 min.
+
+*v2 construida por Claude Fable 5 (esfuerzo alto): transcripción word-level de
+la voz, retiming de las 5 escenas, re-render determinista Chrome headless
+(3.588 frames, 30fps) + ensamble ffmpeg · 2026-07-25*
+
 ## ⏱ Tiempos v3 — escenas retimeadas a la voz real (El Faraón, 25-jul)
 
 | Escena | Duración | Audio | Acumulado |
