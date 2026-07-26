@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Colsubsidio · Back-office de Amparito · Scala Labs</title>
+<title>Centro de Control · Área de Seguros · Colsubsidio · Scala Labs</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -12,6 +12,7 @@
     --grafito:#575756; --grafito-60:#9A9A99; --grafito-20:#DDDDDD;
     --blanco:#ffffff; --hueso:#f7f9fb; --linea:#e6ebf0;
     --verde:#1a7a4a; --verde-bg:#e8f5ee;
+    --morado:#5b4a9e; --morado-bg:#efecf9;
     --rojo:#c0392b; --rojo-bg:#fdf0ee;
     --f-texto:'Poppins',sans-serif;
     --sombra:0 6px 24px rgba(0,103,177,.10);
@@ -30,27 +31,55 @@
   .bo-header .brand{display:flex;align-items:center;gap:12px}
   .bo-header .brand img{height:34px}
   .bo-header h1{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
-  .bo-header .sub{color:#bfe0f6;font-size:14px;font-weight:500;max-width:64ch}
+  .bo-header .sub{color:#bfe0f6;font-size:14px;font-weight:500;max-width:66ch}
   .badge-bo{background:var(--amarillo);color:#3a3a2e;font-weight:800;font-size:12px;padding:5px 12px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:6px}
 
-  /* SELECTOR */
-  .selector-section{background:#fff;border-bottom:1px solid var(--linea);padding:22px 0}
-  .selector-inner{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .selector-inner label{font-weight:700;font-size:15px;color:#2b2b2a;white-space:nowrap}
-  .lead-btn{background:var(--hueso);border:2px solid var(--linea);border-radius:12px;padding:11px 20px;font-size:14.5px;font-weight:600;color:var(--grafito);cursor:pointer;font-family:var(--f-texto);transition:border-color .15s,background .15s}
-  .lead-btn:hover{border-color:var(--azul-40);background:var(--azul-10);color:var(--azul)}
-  .lead-btn.activo{border-color:var(--azul);background:var(--azul);color:#fff}
+  /* AVISO DEMO */
+  .aviso-demo{background:var(--amarillo-40);border:1px solid var(--amarillo);border-radius:12px;padding:12px 18px;font-size:13.5px;color:#6b5600;margin:22px 0 0;line-height:1.5}
+  .aviso-demo b{font-weight:800}
 
-  /* ESTADO */
-  .estado{padding:22px 0;text-align:center;color:var(--grafito-60);font-size:15px;min-height:60px}
+  /* KPIs */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:22px 0 6px}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:600px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sombra)}
+  .kpi .num{font-size:30px;font-weight:800;color:var(--azul);line-height:1.1}
+  .kpi .lbl{font-size:12.5px;color:var(--grafito-60);font-weight:600;margin-top:4px;line-height:1.3}
+
+  /* TABLA DE LEADS */
+  .panel{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:24px 26px;margin:18px 0;box-shadow:var(--sombra)}
+  .panel h2{font-size:18px;font-weight:800;margin-bottom:4px}
+  .panel .hint{font-size:13px;color:var(--grafito-60);margin-bottom:16px}
+  .tabla-leads{width:100%;border-collapse:collapse;font-size:14px}
+  .tabla-leads th{text-align:left;color:var(--grafito-60);font-weight:600;padding:8px 10px 8px 0;border-bottom:2px solid var(--linea);font-size:12px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .tabla-leads td{padding:11px 10px 11px 0;border-bottom:1px solid var(--linea);vertical-align:middle}
+  .tabla-leads tr:last-child td{border-bottom:none}
+  .tabla-leads tr.clicable{cursor:pointer;transition:background .12s}
+  .tabla-leads tr.clicable:hover{background:var(--azul-10)}
+  .tabla-leads tr.activa{background:var(--azul-10);box-shadow:inset 3px 0 0 var(--azul)}
+  .lead-nombre{font-weight:700;color:#2b2b2a}
+  .lead-sub{font-size:12px;color:var(--grafito-60)}
+  .ver-detalle{font-size:12px;font-weight:700;color:var(--azul);white-space:nowrap}
+  .estado-chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  .st-conversacion{background:var(--grafito-20);color:var(--grafito)}
+  .st-cotizacion{background:var(--azul-10);color:var(--azul)}
+  .st-acepto{background:var(--verde-bg);color:var(--verde)}
+  .st-remitido{background:var(--amarillo-40);color:#8a6d00}
+  .st-derivado{background:var(--morado-bg);color:var(--morado)}
+  .afinidad-val{font-weight:700;color:var(--azul)}
+  .hora-val{font-size:13px;color:var(--grafito-60);white-space:nowrap}
+
+  /* ESTADO / LOADING */
+  .estado{padding:18px 0;text-align:center;color:var(--grafito-60);font-size:15px}
+  .estado:empty{padding:0}
   .estado .spinner{display:inline-block;width:22px;height:22px;border:3px solid var(--azul-40);border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
   @keyframes spin{to{transform:rotate(360deg)}}
   .estado.error-txt{color:var(--rojo);font-weight:600}
   .btn-retry{background:var(--azul);color:#fff;border:0;border-radius:10px;padding:9px 20px;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--f-texto);margin-top:10px}
   .btn-retry:hover{background:var(--azul-80)}
 
-  /* BLOQUES */
-  .main{padding:28px 0 48px}
+  /* BLOQUES DE DETALLE */
+  .detalle{padding:6px 0 40px}
   .bloque{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--sombra)}
   .bloque-titulo{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--grafito-60);margin-bottom:6px}
   .bloque h2{font-size:19px;font-weight:800;margin-bottom:18px;color:#2b2b2a;display:flex;align-items:center;gap:10px}
@@ -88,25 +117,38 @@
   .badge-modo{background:var(--amarillo-40);color:#8a6d00;font-weight:700;padding:4px 12px;border-radius:999px;font-size:13px;display:inline-block;margin-left:6px}
   .badge-linea{background:var(--verde-bg);color:var(--verde);font-weight:700;padding:4px 12px;border-radius:999px;font-size:13px;display:inline-block;margin-left:6px}
 
+  /* COMPARACIÓN HOY vs AMPARITO */
+  .comparacion{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+  @media(max-width:720px){.comparacion{grid-template-columns:1fr}}
+  .comp-card{border-radius:12px;padding:16px 18px;font-size:13.5px;line-height:1.5}
+  .comp-hoy{background:var(--hueso);border:1px dashed var(--grafito-20);color:var(--grafito)}
+  .comp-amparito{background:var(--azul-10);border:1px solid var(--azul-40);color:#2b2b2a}
+  .comp-card .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+  .comp-hoy .tag{background:var(--grafito-20);color:var(--grafito)}
+  .comp-amparito .tag{background:var(--azul);color:#fff}
+
   /* AVISO SIMULACIÓN */
   .aviso-simulacion{background:var(--amarillo-40);border:2px solid var(--amarillo);border-radius:12px;padding:14px 18px;font-size:14px;color:#6b5600;margin-bottom:16px;line-height:1.5}
   .aviso-simulacion b{font-weight:800}
 
-  /* JSON REPORT */
-  .json-wrap{background:#1e2a38;border-radius:12px;padding:20px;overflow-x:auto;font-family:ui-monospace,'Cascadia Code','Fira Mono',monospace;font-size:13px;line-height:1.6;color:#c8d8e8}
-  .json-key{color:#7ec8e3}
-  .json-str{color:#a8d8a0}
-  .json-num{color:#f4c36c}
-  .json-bool{color:#ff9fa5}
-  .json-null{color:#9a9a99}
+  /* FILA DE PLANILLA */
+  .planilla-scroll{overflow-x:auto;border:1px solid var(--linea);border-radius:12px}
+  .planilla{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+  .planilla th{background:var(--hueso);text-align:left;color:var(--grafito);font-weight:700;padding:10px 14px;border-bottom:2px solid var(--linea);font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .planilla td{padding:12px 14px;color:#2b2b2a;vertical-align:top}
+  .planilla td.pend{font-size:12.5px;line-height:1.5;color:var(--grafito);min-width:220px}
+  .btn-copiar{background:var(--amarillo);color:#3a3a2e;border:0;border-radius:10px;padding:10px 20px;font-weight:800;font-size:14px;cursor:pointer;font-family:var(--f-texto);margin-top:14px;box-shadow:0 4px 12px rgba(255,208,0,.3)}
+  .btn-copiar:hover{filter:brightness(1.04)}
+  .btn-copiar.copiado{background:var(--verde);color:#fff}
 
   /* RESPONSIVE */
   @media(max-width:720px){
     .bo-header h1{font-size:18px}
-    .selector-inner{flex-direction:column;align-items:flex-start}
     .tabla-perfil .etiqueta{width:auto}
     .bloque{padding:18px}
     .bloque h2{font-size:16px}
+    .panel{padding:16px}
+    .tabla-leads .col-oculta-movil{display:none}
   }
 
   /* FOOTER */
@@ -115,11 +157,6 @@
   footer a{color:#bfe0f6}
   .footer-brand{display:flex;align-items:center;gap:10px}
   .footer-brand img{height:32px;filter:invert(1) brightness(2)}
-
-  /* ESTADO VACÍO */
-  .vacio{text-align:center;padding:48px 0;color:var(--grafito-60)}
-  .vacio .ico{font-size:40px;margin-bottom:12px}
-  .vacio p{font-size:15px;max-width:40ch;margin:0 auto}
 </style>
 </head>
 <body>
@@ -132,39 +169,55 @@
         <div class="brand">
           <img src="colsubsidio-blanco.png" alt="Colsubsidio">
           <div>
-            <h1>Panel Colsubsidio · Back-office de Amparito</h1>
+            <h1>Centro de Control · Área de Seguros</h1>
           </div>
         </div>
-        <p class="sub" style="margin-top:6px">Lo que el sistema entrega cuando el afiliado acepta la cotización — expediente del lead y handoff a la aseguradora</p>
+        <p class="sub" style="margin-top:6px">La vista del asesor Colsubsidio sobre Amparito — qué está pasando con los afiliados que cotizan, quiénes aceptaron y qué se le reporta a la aseguradora</p>
       </div>
       <span class="badge-bo">Vista de jurados</span>
     </div>
   </div>
 </header>
 
-<!-- SELECTOR -->
-<div class="selector-section">
-  <div class="wrap">
-    <div class="selector-inner">
-      <label>Selecciona un lead de ejemplo:</label>
-      <button class="lead-btn" data-lead="madre">Madre soltera, 2 hijos</button>
-      <button class="lead-btn" data-lead="joven">Joven en moto, independiente</button>
-      <button class="lead-btn" data-lead="pareja">Pareja con casa y carro</button>
+<div class="wrap">
+  <div class="aviso-demo">
+    <b>Vista de demostración</b> — datos de ejemplo; en producción se alimenta de la base de interacciones del chat. Los leads con "Ver detalle" consultan el motor real en vivo.
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis" id="kpis"></div>
+
+  <!-- TABLA DE LEADS -->
+  <div class="panel">
+    <h2>Leads del día</h2>
+    <p class="hint">Haz clic en un lead con perfil completo para abrir su expediente (llamada en vivo al motor determinista).</p>
+    <div style="overflow-x:auto">
+      <table class="tabla-leads">
+        <thead>
+          <tr>
+            <th>Lead</th>
+            <th>Intención</th>
+            <th>Estado</th>
+            <th class="col-oculta-movil">Afinidad</th>
+            <th class="col-oculta-movil">Hora</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-leads-body"></tbody>
+      </table>
     </div>
   </div>
-</div>
 
-<!-- ESTADO / LOADING -->
-<div class="wrap">
+  <!-- ESTADO / LOADING -->
   <div class="estado" id="estado"></div>
 </div>
 
-<!-- CONTENIDO PRINCIPAL -->
-<div class="main wrap" id="contenido" style="display:none">
+<!-- DETALLE DEL LEAD -->
+<div class="detalle wrap" id="contenido" style="display:none">
 
   <!-- BLOQUE 1: LEAD PERFILADO -->
   <div class="bloque" id="bloque-perfil">
-    <p class="bloque-titulo">Bloque 1 de 3</p>
+    <p class="bloque-titulo">Expediente · bloque 1 de 3</p>
     <h2><span class="icono icono-perfil">👤</span>Lead perfilado — lo que entregó el afiliado</h2>
     <table class="tabla-perfil">
       <thead>
@@ -182,7 +235,7 @@
 
   <!-- BLOQUE 2: EXPEDIENTE DEL MOTOR -->
   <div class="bloque" id="bloque-expediente">
-    <p class="bloque-titulo">Bloque 2 de 3</p>
+    <p class="bloque-titulo">Expediente · bloque 2 de 3</p>
     <h2><span class="icono icono-expediente">🔍</span>Expediente del motor — lo que recibe Colsubsidio</h2>
     <div class="ficha-meta" id="ficha-meta"></div>
     <div class="ficha-wrap" id="ficha-wrap"></div>
@@ -190,22 +243,45 @@
 
   <!-- BLOQUE 3: REPORTE A LA ASEGURADORA -->
   <div class="bloque" id="bloque-reporte">
-    <p class="bloque-titulo">Bloque 3 de 3</p>
-    <h2><span class="icono icono-reporte">📋</span>Reporte a la aseguradora — handoff del lead aceptado</h2>
-    <div class="aviso-simulacion">
-      <b>Simulación del handoff</b> — este es el payload que el sistema genera cuando el afiliado acepta la cotización. La integración con la aseguradora vía API/CRM (Salesforce) hace parte del roadmap y <b>no está operando en esta demo</b>.
+    <p class="bloque-titulo">Expediente · bloque 3 de 3</p>
+    <h2><span class="icono icono-reporte">📋</span>Reporte a la aseguradora — el registro por evento</h2>
+
+    <div class="comparacion">
+      <div class="comp-card comp-hoy">
+        <span class="tag">Hoy</span>
+        <p>Planilla mensual de Google Sheets con todos los leads del mes, consolidada a mano y enviada a la aseguradora <b>una vez al mes</b>.</p>
+      </div>
+      <div class="comp-card comp-amparito">
+        <span class="tag">Con Amparito</span>
+        <p>Este registro se genera <b>en el momento</b> en que el afiliado acepta la cotización, listo para agregarse a la planilla o enviarse por correo a la aseguradora.</p>
+      </div>
     </div>
-    <div class="json-wrap" id="json-reporte"></div>
+
+    <div class="aviso-simulacion">
+      <b>Simulación del flujo de reporte</b> — el registro se construye con los datos reales del motor; el envío automático (planilla/correo) hace parte del roadmap.
+    </div>
+
+    <div class="planilla-scroll">
+      <table class="planilla">
+        <thead>
+          <tr>
+            <th>Fecha / hora</th>
+            <th>Afiliado</th>
+            <th>Producto</th>
+            <th>Línea</th>
+            <th>Afinidad</th>
+            <th>Modo de cierre</th>
+            <th>Estado</th>
+            <th>Datos pendientes para póliza</th>
+          </tr>
+        </thead>
+        <tbody id="planilla-body"></tbody>
+      </table>
+    </div>
+    <button class="btn-copiar" id="btn-copiar">⧉ Copiar registro</button>
+    <span style="font-size:12.5px;color:var(--grafito-60);margin-left:10px">Formato separado por tabulaciones — se pega directo en Google Sheets.</span>
   </div>
 
-</div>
-
-<!-- ESTADO VACÍO INICIAL -->
-<div class="wrap" id="estado-vacio">
-  <div class="vacio">
-    <div class="ico">🏛️</div>
-    <p>Selecciona uno de los tres perfiles de ejemplo para ver el expediente completo que generaría el sistema.</p>
-  </div>
 </div>
 
 <footer>
@@ -220,7 +296,7 @@
 
 <script>
 // ============================================================
-// DATOS DE PERFILES — tomados EXACTOS del index.html
+// PERFILES REALES — tomados EXACTOS del index.html
 // ============================================================
 const PERSONAS = {
   madre: {
@@ -272,11 +348,35 @@ const PERSONAS = {
       V6: "Propia financiada (hipoteca)",
       V7: "No",
       V8: "Carro",
-      V9: "No",
+      V9: "Sí",
       V10: "No",
       V11: "No"
     }
   }
+};
+
+// ============================================================
+// DATASET DE DEMOSTRACIÓN (rotulado como tal en la interfaz).
+// Las afinidades mostradas provienen de resultados reales del
+// motor (precalculadas con los mismos perfiles de la demo).
+// ============================================================
+const LEADS = [
+  { id: 1, nombre: "Madre soltera, 2 hijos",       sub: "Afiliada · Bogotá",        intencion: "Explorando (sin producto)", estado: "Aceptó",                 afinidad: "61.3%", hora: "09:12", persona: "madre"  },
+  { id: 2, nombre: "Joven en moto, independiente", sub: "No afiliado · Medellín",   intencion: "Movilidad",                 estado: "Cotización enviada",     afinidad: "87.5%", hora: "10:05", persona: "joven"  },
+  { id: 3, nombre: "Afiliado · Soacha",            sub: "Registro de demostración", intencion: "Mascotas",                  estado: "En conversación",        afinidad: null,    hora: "10:47", persona: null     },
+  { id: 4, nombre: "Pareja con casa y carro",      sub: "Afiliada · Bogotá",        intencion: "Hogar",                     estado: "Aceptó",                 afinidad: "95.8%", hora: "11:40", persona: "pareja" },
+  { id: 5, nombre: "Afiliada · Chía",              sub: "Registro de demostración", intencion: "Exequial",                  estado: "Remitido a aseguradora", afinidad: "70.8%", hora: "12:18", persona: null     },
+  { id: 6, nombre: "Afiliada · Bogotá",            sub: "Registro de demostración", intencion: "Educación",                 estado: "Derivado a asesor",      afinidad: "72.0%", hora: "13:02", persona: null     },
+  { id: 7, nombre: "Afiliado · Bogotá",            sub: "Registro de demostración", intencion: "Viajes",                    estado: "En conversación",        afinidad: null,    hora: "13:45", persona: null     },
+  { id: 8, nombre: "No afiliada · Cali",           sub: "Registro de demostración", intencion: "Mascotas",                  estado: "Remitido a aseguradora", afinidad: null,    hora: "14:10", persona: null     }
+];
+
+const ESTADO_CLASE = {
+  "En conversación":        "st-conversacion",
+  "Cotización enviada":     "st-cotizacion",
+  "Aceptó":                 "st-acepto",
+  "Remitido a aseguradora": "st-remitido",
+  "Derivado a asesor":      "st-derivado"
 };
 
 // Etiquetas legibles para las variables del perfil
@@ -295,7 +395,64 @@ const ETIQUETAS = {
 };
 
 // ============================================================
-// ESTADO GLOBAL
+// KPIs — calculados del dataset, no quemados
+// ============================================================
+function renderKpis() {
+  const total = LEADS.length;
+  const conCotizacion = LEADS.filter(l =>
+    ["Cotización enviada", "Aceptó", "Remitido a aseguradora", "Derivado a asesor"].includes(l.estado)
+  ).length;
+  const aceptadas = LEADS.filter(l =>
+    ["Aceptó", "Remitido a aseguradora"].includes(l.estado)
+  ).length;
+  const remitidas = LEADS.filter(l => l.estado === "Remitido a aseguradora").length;
+  const derivadas = LEADS.filter(l => l.estado === "Derivado a asesor").length;
+
+  const datos = [
+    { num: total,         lbl: "Conversaciones hoy" },
+    { num: conCotizacion, lbl: "Cotizaciones generadas" },
+    { num: aceptadas,     lbl: "Aceptadas" },
+    { num: remitidas,     lbl: "Remitidas a aseguradora" },
+    { num: derivadas,     lbl: "Derivadas a asesor humano" }
+  ];
+
+  const cont = document.getElementById('kpis');
+  cont.innerHTML = '';
+  datos.forEach(d => {
+    const div = document.createElement('div');
+    div.className = 'kpi';
+    div.innerHTML = `<div class="num">${d.num}</div><div class="lbl">${escHtml(d.lbl)}</div>`;
+    cont.appendChild(div);
+  });
+}
+
+// ============================================================
+// TABLA DE LEADS
+// ============================================================
+function renderTablaLeads() {
+  const tbody = document.getElementById('tabla-leads-body');
+  tbody.innerHTML = '';
+  LEADS.forEach(l => {
+    const tr = document.createElement('tr');
+    if (l.persona) {
+      tr.className = 'clicable';
+      tr.dataset.persona = l.persona;
+      tr.addEventListener('click', () => seleccionarLead(l.persona, tr));
+    }
+    tr.innerHTML = `
+      <td><span class="lead-nombre">${escHtml(l.nombre)}</span><br><span class="lead-sub">${escHtml(l.sub)}</span></td>
+      <td>${escHtml(l.intencion)}</td>
+      <td><span class="estado-chip ${ESTADO_CLASE[l.estado] || ''}">${escHtml(l.estado)}</span></td>
+      <td class="col-oculta-movil">${l.afinidad ? `<span class="afinidad-val">${escHtml(l.afinidad)}</span>` : '<span style="color:var(--grafito-60)">—</span>'}</td>
+      <td class="col-oculta-movil"><span class="hora-val">${escHtml(l.hora)}</span></td>
+      <td>${l.persona ? '<span class="ver-detalle">Ver detalle →</span>' : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+// ESTADO GLOBAL / LLAMADA AL MOTOR
 // ============================================================
 let leadActual = null;
 let respuestaMotor = null;
@@ -306,38 +463,27 @@ const TIMEOUT_NORMAL = 10000;   // 10s primer intento
 const TIMEOUT_TOTAL  = 90000;   // 90s máximo
 let tiempoInicio = 0;
 
-// ============================================================
-// UTILIDADES DOM
-// ============================================================
 function mostrarEstado(html, esError) {
   const el = document.getElementById('estado');
   el.innerHTML = html;
   el.className = 'estado' + (esError ? ' error-txt' : '');
 }
-
 function ocultarEstado() {
   document.getElementById('estado').innerHTML = '';
   document.getElementById('estado').className = 'estado';
 }
-
 function mostrarContenido(visible) {
   document.getElementById('contenido').style.display = visible ? 'block' : 'none';
-  document.getElementById('estado-vacio').style.display = visible ? 'none' : 'block';
 }
 
-// ============================================================
-// LLAMADA AL MOTOR
-// ============================================================
 async function llamarMotor(lead) {
-  const body = { perfil: lead.perfil, afiliado: lead.afiliado };
-  if (lead.producto_explicito) body.producto_explicito = lead.producto_explicito;
-  else body.producto_explicito = null;
+  const body = { perfil: lead.perfil, afiliado: lead.afiliado, producto_explicito: lead.producto_explicito || null };
 
   const elapsed = Date.now() - tiempoInicio;
   if (elapsed > TIMEOUT_TOTAL) {
     mostrarEstado(
       '<span>El motor no respondió en 90 segundos.</span><br>' +
-      '<button class="btn-retry" onclick="seleccionarLead(leadActual)">Reintentar</button>',
+      '<button class="btn-retry" onclick="reintentar()">Reintentar</button>',
       true
     );
     return;
@@ -374,7 +520,6 @@ async function llamarMotor(lead) {
     renderizar(lead, datos);
 
   } catch (err) {
-    // Si aún hay tiempo, reintentar
     const elapsed2 = Date.now() - tiempoInicio;
     if (elapsed2 < TIMEOUT_TOTAL) {
       const resta = Math.round((TIMEOUT_TOTAL - elapsed2) / 1000);
@@ -386,22 +531,28 @@ async function llamarMotor(lead) {
     } else {
       mostrarEstado(
         '<span>No se pudo conectar con el motor.</span><br>' +
-        '<button class="btn-retry" onclick="seleccionarLead(leadActual)">Reintentar</button>',
+        '<button class="btn-retry" onclick="reintentar()">Reintentar</button>',
         true
       );
     }
   }
 }
 
+function reintentar() {
+  if (!leadActual) return;
+  intentos = 0;
+  tiempoInicio = Date.now();
+  llamarMotor(leadActual);
+}
+
 // ============================================================
-// RENDERIZADO
+// RENDERIZADO DEL DETALLE
 // ============================================================
 function renderizar(lead, datos) {
   mostrarContenido(true);
   renderPerfil(lead, datos);
   renderExpediente(lead, datos);
   renderReporte(lead, datos);
-  // scroll suave al primer bloque
   document.getElementById('bloque-perfil').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -433,24 +584,18 @@ function renderPerfil(lead, datos) {
   chipAfil.textContent = lead.afiliado ? '✓ Afiliado a Colsubsidio' : '✕ No afiliado';
   chips.appendChild(chipAfil);
 
-  if (lead.producto_explicito) {
-    const chipInt = document.createElement('span');
-    chipInt.className = 'chip chip-intention';
-    chipInt.textContent = 'Intención explícita: ' + lead.producto_explicito;
-    chips.appendChild(chipInt);
-  } else {
-    const chipInt = document.createElement('span');
-    chipInt.className = 'chip chip-intention';
-    chipInt.textContent = 'Sin intención explícita — motor decide';
-    chips.appendChild(chipInt);
-  }
+  const chipInt = document.createElement('span');
+  chipInt.className = 'chip chip-intention';
+  chipInt.textContent = lead.producto_explicito
+    ? 'Intención explícita: ' + lead.producto_explicito
+    : 'Sin intención explícita — motor decide';
+  chips.appendChild(chipInt);
 }
 
 // --- BLOQUE 2: EXPEDIENTE ---
 function renderExpediente(lead, datos) {
   const top = datos.top;
 
-  // Meta resumen
   const meta = document.getElementById('ficha-meta');
   const modoLabel = top.modo_cierre === 'auto' ? 'Cierre automático en el chat' : 'Con asesor especializado';
   meta.innerHTML = `
@@ -460,7 +605,6 @@ function renderExpediente(lead, datos) {
     <div style="margin-top:8px;font-weight:600">Producto recomendado: <strong style="color:var(--azul)">${escHtml(top.nombre)}</strong> <span style="color:var(--grafito-60);font-size:13px">(${escHtml(top.key)})</span></div>
   `;
 
-  // Parsear la ficha en secciones
   const wrap = document.getElementById('ficha-wrap');
   wrap.innerHTML = '';
   parsearFicha(datos.ficha, wrap);
@@ -471,16 +615,11 @@ function parsearFicha(fichaTexto, container) {
   let seccionActual = null;
   let itemsActuales = [];
 
-  // Títulos de sección reconocibles
-  const esTitulo = (l) =>
-    /^Perfil capturado:|^Por qué este producto:|^Datos para cotizar:|^Siguiente paso:|^Cliente afiliado|^Producto recomendado:|^Modo de cierre:|^RESUMEN PARA ASESOR|^FICHA DE CIERRE AUTOMATIZADO|^Perfilador Colsubsidio/.test(l.trim());
-
-  // Separadores de sección semánticos
   const SECCIONES = {
-    'Perfil capturado:':         'Perfil capturado por el chat',
-    'Por qué este producto:':    'Razonamiento del motor',
-    'Datos para cotizar:':       'Datos pendientes para cotizar',
-    'Siguiente paso:':           'Siguiente paso',
+    'Perfil capturado:':      'Perfil capturado por el chat',
+    'Por qué este producto:': 'Razonamiento del motor',
+    'Datos para cotizar:':    'Datos pendientes para cotizar',
+    'Siguiente paso:':        'Siguiente paso'
   };
 
   function flushSeccion() {
@@ -492,7 +631,6 @@ function parsearFicha(fichaTexto, container) {
       itemsActuales.forEach(item => {
         const p = document.createElement('p');
         p.className = 'ficha-linea';
-        // Resaltar la parte antes de ":" como label
         const colonIdx = item.indexOf(':');
         if (colonIdx > 0 && colonIdx < item.length - 1) {
           const label = item.substring(0, colonIdx + 1);
@@ -511,13 +649,10 @@ function parsearFicha(fichaTexto, container) {
     const l = raw.trim();
     if (!l) return;
 
-    // Cabeceras del documento — omitir o mostrar como meta
+    // Cabeceras del documento y meta ya mostrada arriba
     if (/^FICHA DE CIERRE AUTOMATIZADO|^RESUMEN PARA ASESOR|^Perfilador Colsubsidio/.test(l)) return;
+    if (/^Cliente afiliado|^Producto recomendado:|^Modo de cierre:/.test(l)) return;
 
-    // Líneas de meta antes de las secciones (afiliado, producto, modo)
-    if (/^Cliente afiliado|^Producto recomendado:|^Modo de cierre:/.test(l)) return; // ya se muestran en ficha-meta
-
-    // ¿Es inicio de sección?
     if (SECCIONES[l] !== undefined) {
       flushSeccion();
       seccionActual = l;
@@ -531,7 +666,7 @@ function parsearFicha(fichaTexto, container) {
 
   flushSeccion();
 
-  // Si no se parseó nada (formato no reconocido), mostrar texto plano limpio
+  // Fallback: formato no reconocido → texto plano limpio
   if (container.children.length === 0) {
     lineas.forEach(l => {
       if (!l.trim()) return;
@@ -543,29 +678,46 @@ function parsearFicha(fichaTexto, container) {
   }
 }
 
-// --- BLOQUE 3: REPORTE JSON ---
+// --- BLOQUE 3: FILA DE PLANILLA ---
+let registroActual = null; // para el botón de copiar
+
 function renderReporte(lead, datos) {
   const top = datos.top;
-  const ts = new Date().toISOString();
+  const ahora = new Date();
+  const fechaHora = ahora.toLocaleDateString('es-CO') + ' ' + ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
 
-  // Extraer datos pendientes de cotización de la ficha
   const datosPendientes = extraerDatosCotizar(datos.ficha);
+  const modoLabel = top.modo_cierre === 'auto' ? 'Automático en el chat' : 'Con asesor especializado';
 
-  const payload = {
-    evento: "LEAD_ACEPTADO",
-    timestamp: ts,
-    afiliado: lead.afiliado,
-    producto: top.key,
-    nombre: top.nombre,
+  registroActual = {
+    fechaHora: fechaHora,
+    afiliado: lead.afiliado ? 'Sí' : 'No',
+    producto: top.nombre,
     linea: top.linea,
-    score: top.score + "/" + top.max_score,
-    afinidad_pct: top.pct,
-    modo_cierre: top.modo_cierre,
-    perfil: lead.perfil,
-    datos_pendientes_cotizacion: datosPendientes
+    afinidad: top.pct + '%',
+    modo: modoLabel,
+    estado: 'Aceptó cotización',
+    pendientes: datosPendientes.join('; ')
   };
 
-  document.getElementById('json-reporte').innerHTML = colorearJson(payload, 0);
+  const tbody = document.getElementById('planilla-body');
+  tbody.innerHTML = `
+    <tr>
+      <td style="white-space:nowrap">${escHtml(registroActual.fechaHora)}</td>
+      <td>${escHtml(registroActual.afiliado)}</td>
+      <td style="font-weight:700;color:var(--azul)">${escHtml(registroActual.producto)}</td>
+      <td>${escHtml(registroActual.linea)}</td>
+      <td style="font-weight:700">${escHtml(registroActual.afinidad)}</td>
+      <td>${escHtml(registroActual.modo)}</td>
+      <td><span class="estado-chip st-acepto">Aceptó cotización</span></td>
+      <td class="pend">${escHtml(registroActual.pendientes)}</td>
+    </tr>
+  `;
+
+  // Reset del botón de copiar
+  const btn = document.getElementById('btn-copiar');
+  btn.classList.remove('copiado');
+  btn.textContent = '⧉ Copiar registro';
 }
 
 function extraerDatosCotizar(ficha) {
@@ -584,40 +736,56 @@ function extraerDatosCotizar(ficha) {
   return items;
 }
 
+// --- COPIAR AL PORTAPAPELES (tab-separated, pegable en Sheets) ---
+document.getElementById('btn-copiar').addEventListener('click', async () => {
+  if (!registroActual) return;
+  const cab = ['Fecha/hora', 'Afiliado', 'Producto', 'Línea', 'Afinidad', 'Modo de cierre', 'Estado', 'Datos pendientes para póliza'];
+  const fila = [
+    registroActual.fechaHora,
+    registroActual.afiliado,
+    registroActual.producto,
+    registroActual.linea,
+    registroActual.afinidad,
+    registroActual.modo,
+    registroActual.estado,
+    registroActual.pendientes
+  ];
+  const tsv = cab.join('\t') + '\n' + fila.join('\t');
+  const btn = document.getElementById('btn-copiar');
+  try {
+    await navigator.clipboard.writeText(tsv);
+    btn.classList.add('copiado');
+    btn.textContent = '✓ Copiado — pégalo en Sheets';
+    setTimeout(() => {
+      btn.classList.remove('copiado');
+      btn.textContent = '⧉ Copiar registro';
+    }, 2500);
+  } catch (e) {
+    btn.textContent = 'No se pudo copiar';
+    setTimeout(() => { btn.textContent = '⧉ Copiar registro'; }, 2000);
+  }
+});
+
 // ============================================================
-// COLOREADO JSON (sin dependencias)
+// SELECCIÓN DE LEAD
 // ============================================================
-function colorearJson(obj, indent) {
-  return formatJson(obj, indent);
+function seleccionarLead(personaKey, fila) {
+  if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+
+  document.querySelectorAll('.tabla-leads tr').forEach(tr => tr.classList.remove('activa'));
+  if (fila) fila.classList.add('activa');
+
+  leadActual = PERSONAS[personaKey];
+  respuestaMotor = null;
+  intentos = 0;
+  tiempoInicio = Date.now();
+  mostrarContenido(false);
+  llamarMotor(leadActual);
 }
 
-function formatJson(val, depth) {
-  const pad = '  '.repeat(depth);
-  const padIn = '  '.repeat(depth + 1);
-
-  if (val === null) return `<span class="json-null">null</span>`;
-  if (typeof val === 'boolean') return `<span class="json-bool">${val}</span>`;
-  if (typeof val === 'number') return `<span class="json-num">${val}</span>`;
-  if (typeof val === 'string') return `<span class="json-str">"${escHtml(val)}"</span>`;
-
-  if (Array.isArray(val)) {
-    if (val.length === 0) return `<span class="json-null">[]</span>`;
-    const items = val.map(v => `${padIn}${formatJson(v, depth + 1)}`).join(',\n');
-    return `[\n${items}\n${pad}]`;
-  }
-
-  if (typeof val === 'object') {
-    const entries = Object.entries(val);
-    if (entries.length === 0) return `<span class="json-null">{}</span>`;
-    const lines = entries.map(([k, v]) =>
-      `${padIn}<span class="json-key">"${escHtml(k)}"</span>: ${formatJson(v, depth + 1)}`
-    ).join(',\n');
-    return `{\n${lines}\n${pad}}`;
-  }
-
-  return String(val);
-}
-
+// ============================================================
+// UTILIDADES
+// ============================================================
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -627,29 +795,10 @@ function escHtml(str) {
 }
 
 // ============================================================
-// SELECCIÓN DE LEAD
+// INIT
 // ============================================================
-function seleccionarLead(leadKey) {
-  // Limpiar timer previo
-  if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
-
-  // UI buttons
-  document.querySelectorAll('.lead-btn').forEach(b => {
-    b.classList.toggle('activo', b.dataset.lead === leadKey);
-  });
-
-  leadActual = PERSONAS[leadKey];
-  respuestaMotor = null;
-  intentos = 0;
-  tiempoInicio = Date.now();
-  mostrarContenido(false);
-  llamarMotor(leadActual);
-}
-
-// Botones
-document.querySelectorAll('.lead-btn').forEach(btn => {
-  btn.addEventListener('click', () => seleccionarLead(btn.dataset.lead));
-});
+renderKpis();
+renderTablaLeads();
 </script>
 </body>
 </html>
