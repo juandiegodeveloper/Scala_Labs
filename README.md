@@ -98,4 +98,4 @@ Repositorio **privado**. Los activos preexistentes al evento están registrados 
 
 ## Centro de mando
 
-Notion — página raíz del equipo: <https://app.notion.com/p/jddevs/Hackathon-Colsubsidio-2026-Scala-Labs-3a4aaa9c5e0b818cb1d0f13475744ca1?source=copy_link>
+Notion — página raíz del equipo: <https://jddevs.notion.site/Hackathon-Colsubsidio-2026-Scala-Labs-3a4aaa9c5e0b818cb1d0f13475744ca1?source=copy_link>
