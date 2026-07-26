@@ -90,7 +90,6 @@ Interfaz conversacional (WhatsApp / chat web) · un modelo de lenguaje para la c
 | Sebastián | Desarrollo del motor |
 | Carolina Pinzón | Dominio de seguros |
 | Juan Pablo Jara | Investigación y estrategia (Scrum) |
-| Melissa Tobón | Apoyo · Ing. de sistemas |
 
 ## Propiedad intelectual
 
