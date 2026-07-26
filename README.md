@@ -2,14 +2,14 @@
   <img width="1500" height="600" alt="Banner Scala Labs — Hackathon Colsubsidio × 30X" src="https://github.com/user-attachments/assets/b32af668-9cdc-4b69-af04-47453fff23ab" />
 </p>
 
-<h1 align="center">Scala Labs · Jarvis</h1>
+<h1 align="center">Amparito by Scala Labs</h1>
 <p align="center"><b>Un asesor de seguros en WhatsApp que lleva a la persona de "no sé qué seguro necesito" a "quedé asegurado", ya quedé asegurado" sin que tenga que hablar con nadie y con soporte 24/7.</b></p>
 
 <p align="center">
   <img alt="Hackathon" src="https://img.shields.io/badge/Hackathon-Colsubsidio%20%C3%97%2030X-0067B1">
   <img alt="Reto" src="https://img.shields.io/badge/Reto%2002-Venta%20automatizada%20de%20seguros-FFD000?labelColor=575756">
   <img alt="Estado" src="https://img.shields.io/badge/Estado-MVP%20en%20construcci%C3%B3n-0067B1">
-  <img alt="Repositorio" src="https://img.shields.io/badge/Repositorio-Privado-575756">
+  <img alt="Repositorio" src="https://img.shields.io/badge/Repositorio-Público-575756">
 </p>
 
 ---
