@@ -22,8 +22,6 @@ CRM_A_VARIABLE = {
     "edad":                "V1",
     "genero":              "V2",
     "ocupacion":           "V3",
-    "tiene_seguro_previo": "V10",
-    "afiliado_activo":     "V11",
 }
 
 MAX_PREGUNTAS_EFECTIVAS = 5  # FR-001
