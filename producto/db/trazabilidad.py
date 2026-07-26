@@ -29,8 +29,14 @@ def _now():
 
 
 def init_db():
+    """Crea la DB desde schema.sql. Idempotente: si la DB ya existe, migra
+    columnas nuevas sin tocar filas existentes (evita romper DBs previas)."""
     with _conn() as con:
         con.executescript(SCHEMA_PATH.read_text())
+        # Migraciones idempotentes para DBs creadas antes del cambio.
+        cols_sessions = {r[1] for r in con.execute("PRAGMA table_info(sessions)")}
+        if "aseguradora_id" not in cols_sessions:
+            con.execute("ALTER TABLE sessions ADD COLUMN aseguradora_id TEXT")
 
 
 def hash_id(cedula: str) -> str:
@@ -83,11 +89,11 @@ def registrar_label(session_id, label, producto_id=None, ts=None):
 
 
 def cerrar_sesion(session_id, estado_final, producto_cerrado=None, paso_abandono=None,
-                  consent_datos=None, consent_compra=None, id_hash=None):
+                  consent_datos=None, consent_compra=None, id_hash=None, aseguradora_id=None):
     sets, vals = ["ended_at=?", "estado_final=?"], [_now(), estado_final]
     for col, v in (("producto_cerrado", producto_cerrado), ("paso_abandono", paso_abandono),
                    ("consent_datos", consent_datos), ("consent_compra", consent_compra),
-                   ("id_hash", id_hash)):
+                   ("id_hash", id_hash), ("aseguradora_id", aseguradora_id)):
         if v is not None:
             sets.append(f"{col}=?")
             vals.append(v)

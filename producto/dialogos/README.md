@@ -29,6 +29,27 @@ y la capa LLM lo consuman desde `main` sin que Caro toque flujos ni código.
 2. JP los versiona aquí vía rama + PR (historial = trazabilidad de cada versión).
 3. Make/LLM consumen SIEMPRE la versión de `main`.
 
+## Cierre del proceso — dos capas (discovery 25-jul)
+
+Colsubsidio es **canal de comercialización**: quien cotiza en firme, asume el riesgo
+y recauda es la aseguradora del convenio. Eso parte el copy en dos capas que **nunca
+se mezclan**:
+
+| Capa | Quién la ve | Qué dice |
+|---|---|---|
+| **1 — conversación** | El usuario, en el chat | El chat reúne los datos → Amparito presenta la **cotización** y pide aprobarla → aprobada, cierre textual exacto: *"Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para terminar con tu afiliación."* |
+| **2 — sistema** | El equipo y el jurado (paneles, sellos, logs, informe de remisión) | *"✓ Solicitud remitida a la aseguradora"* — la remisión ocurre por detrás: informe estructurado a la aseguradora, que asume y recauda. |
+
+**Al usuario NUNCA se le dice que su solicitud fue enviada a la aseguradora.** Esa es
+información de la operación, no de la conversación. Ningún texto de capa 1 puede
+nombrar a la aseguradora, decir "remitir mi caso", "te ponemos en contacto con
+{{aseguradora}}" ni prometer póliza emitida — porque en producción ninguna de esas
+tres cosas ocurre en el chat.
+
+El valor del modelo está en la capa 2: la aseguradora recibe un lead validado,
+calificado y con consentimiento **en segundos**, contra el correo manual de una vez
+al día del proceso actual.
+
 ## Regla de oro (innegociable)
 
 **Las cifras (prima, score, % de afinidad) y su porqué los pone el motor

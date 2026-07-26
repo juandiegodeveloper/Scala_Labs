@@ -16,6 +16,11 @@ venv/
 env/
 .ipynb_checkpoints/
 
+# === Bases de datos generadas (regenerables desde schema_seguros.sql) ===
+*.db
+*.sqlite
+*.sqlite3
+
 # === Node (si el frontend crece) ===
 node_modules/
 npm-debug.log*
