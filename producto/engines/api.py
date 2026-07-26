@@ -27,6 +27,8 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 try:
     import google.generativeai as genai
     if GEMINI_API_KEY:
@@ -253,6 +255,8 @@ def _parse_json_loose(txt):
     return None
 
 def _proveedor():
+    if ANTHROPIC_API_KEY:
+        return "anthropic"
     if GROQ_API_KEY:
         return "groq"
     if genai and GEMINI_API_KEY:
@@ -260,7 +264,31 @@ def _proveedor():
     return None
 
 def _llm_raw(historial):
-    """print(">>> DEBUG: API Key de Groq es:", GROQ_API_KEY)"""
+    if ANTHROPIC_API_KEY:
+        msgs = []
+        for m in historial:
+            msgs.append({"role": "user" if m.get("rol") == "usuario" else "assistant",
+                         "content": str(m.get("texto", ""))})
+        if not msgs:
+            msgs.append({"role": "user", "content": "Hola"})
+        payload = {"model": ANTHROPIC_MODEL, "max_tokens": 600,
+                   "system": _system_prompt(), "messages": msgs}
+        req = _urlreq.Request("https://api.anthropic.com/v1/messages",
+                              data=json.dumps(payload).encode("utf-8"),
+                              headers={"x-api-key": ANTHROPIC_API_KEY,
+                                       "anthropic-version": "2023-06-01",
+                                       "Content-Type": "application/json"})
+        try:
+            with _urlreq.urlopen(req, timeout=20) as r:
+                d = json.loads(r.read().decode("utf-8"))
+        except _urlerr.HTTPError as he:
+            detail = ""
+            try:
+                detail = he.read().decode("utf-8")[:500]
+            except Exception:
+                pass
+            raise RuntimeError("Anthropic HTTP " + str(he.code) + ": " + detail)
+        return "".join(b.get("text", "") for b in d.get("content", []))
     if GROQ_API_KEY:
         msgs = [{"role": "system", "content": _system_prompt()}]
         for m in historial:
@@ -362,6 +390,7 @@ def diag():
     """Diagnóstico legible (no muestra la key): proveedor activo y una prueba real."""
     out = []
     out.append("Proveedor activo: " + str(_proveedor()))
+    out.append("ANTHROPIC_API_KEY presente: " + ("SI" if ANTHROPIC_API_KEY else "NO") + " · modelo: " + ANTHROPIC_MODEL)
     out.append("GROQ_API_KEY presente: " + ("SI" if GROQ_API_KEY else "NO") + " · modelo: " + GROQ_MODEL)
     out.append("GEMINI_API_KEY presente: " + ("SI" if GEMINI_API_KEY else "NO"))
     try:
