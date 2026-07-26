@@ -21,10 +21,12 @@ _spec.loader.exec_module(_mod)
 
 motor = _mod.MotorScoring()
 
-# --- LLM (Gemini) para la conversación de Amparito ---
-import json
+# --- LLM para la conversación de Amparito (Groq preferido; Gemini como respaldo) ---
+import json, urllib.request as _urlreq
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 try:
     import google.generativeai as genai
     if GEMINI_API_KEY:
@@ -92,7 +94,7 @@ async def recomendar(req: Request):
 
 _RESOLVED_MODEL = None
 def _pick_model():
-    """Elige automáticamente un modelo Gemini válido para esta cuenta (evita adivinar el nombre)."""
+    """Elige automáticamente un modelo Gemini válido (respaldo)."""
     global _RESOLVED_MODEL
     if _RESOLVED_MODEL:
         return _RESOLVED_MODEL
@@ -101,8 +103,7 @@ def _pick_model():
                  if "generateContent" in getattr(m, "supported_generation_methods", [])]
     except Exception:
         avail = []
-    prefer = os.environ.get("GEMINI_MODEL")
-    cands = ([prefer] if prefer else []) + [
+    cands = ([GEMINI_MODEL] if GEMINI_MODEL else []) + [
         "gemini-2.0-flash", "gemini-2.0-flash-001", "gemini-1.5-flash",
         "gemini-1.5-flash-latest", "gemini-flash-latest",
     ]
@@ -111,7 +112,7 @@ def _pick_model():
             _RESOLVED_MODEL = c
             return c
     flash = [a for a in avail if "flash" in a]
-    _RESOLVED_MODEL = flash[0] if flash else (avail[0] if avail else (prefer or "gemini-1.5-flash"))
+    _RESOLVED_MODEL = flash[0] if flash else (avail[0] if avail else (GEMINI_MODEL or "gemini-1.5-flash"))
     return _RESOLVED_MODEL
 
 def _parse_json_loose(txt):
@@ -126,32 +127,55 @@ def _parse_json_loose(txt):
                 pass
     return None
 
+def _proveedor():
+    if GROQ_API_KEY:
+        return "groq"
+    if genai and GEMINI_API_KEY:
+        return "gemini"
+    return None
+
+def _llm_raw(historial):
+    """Texto crudo del LLM. Groq si hay key (gratis, rápido, límites amplios); si no, Gemini."""
+    if GROQ_API_KEY:
+        msgs = [{"role": "system", "content": _system_prompt()}]
+        for m in historial:
+            msgs.append({"role": "user" if m.get("rol") == "usuario" else "assistant",
+                         "content": str(m.get("texto", ""))})
+        if len(msgs) == 1:
+            msgs.append({"role": "user", "content": "Hola"})
+        payload = {"model": GROQ_MODEL, "messages": msgs, "temperature": 0.6,
+                   "response_format": {"type": "json_object"}}
+        req = _urlreq.Request("https://api.groq.com/openai/v1/chat/completions",
+                              data=json.dumps(payload).encode("utf-8"),
+                              headers={"Authorization": "Bearer " + GROQ_API_KEY,
+                                       "Content-Type": "application/json"})
+        with _urlreq.urlopen(req, timeout=45) as r:
+            d = json.loads(r.read().decode("utf-8"))
+        return d["choices"][0]["message"]["content"]
+    contents = [{"role": "user" if m.get("rol") == "usuario" else "model",
+                 "parts": [str(m.get("texto", ""))]} for m in historial] or [{"role": "user", "parts": ["Hola"]}]
+    model = genai.GenerativeModel(_pick_model(), system_instruction=_system_prompt())
+    try:
+        resp = model.generate_content(contents, generation_config={"response_mime_type": "application/json"})
+    except Exception:
+        resp = model.generate_content(contents)
+    return getattr(resp, "text", "") or ""
+
 @app.post("/chat")
 async def chat(req: Request):
-    """Conversación con Amparito (LLM Gemini). Recibe {historial:[{rol,texto}]} y devuelve
-    {reply, perfil, completo, recomendacion?}. Si el LLM no está configurado, avisa sin romper."""
-    if genai is None or not GEMINI_API_KEY:
+    """Conversación con Amparito. Recibe {historial:[{rol,texto}]} y devuelve {reply, perfil, completo, recomendacion?}."""
+    if _proveedor() is None:
         return {"reply": "El asistente conversacional aún no está configurado.", "completo": False, "perfil": {}}
     try:
         body = await req.json()
     except Exception:
         return JSONResponse(status_code=400, content={"error": "El body debe ser JSON."})
     historial = body.get("historial") or []
-    contents = []
-    for msg in historial:
-        rol = "user" if msg.get("rol") == "usuario" else "model"
-        contents.append({"role": rol, "parts": [str(msg.get("texto", ""))]})
-    if not contents:
-        contents = [{"role": "user", "parts": ["Hola"]}]
     try:
-        model = genai.GenerativeModel(_pick_model(), system_instruction=_system_prompt())
-        try:
-            resp = model.generate_content(contents, generation_config={"response_mime_type": "application/json"})
-        except Exception:
-            resp = model.generate_content(contents)  # reintento sin forzar JSON
-        data = _parse_json_loose(getattr(resp, "text", "") or "")
+        raw = _llm_raw(historial)
+        data = _parse_json_loose(raw)
         if data is None:
-            return {"reply": (getattr(resp, "text", "") or "…")[:600], "completo": False, "perfil": {}}
+            return {"reply": (raw or "…")[:600], "completo": False, "perfil": {}}
     except Exception as e:
         return {"reply": "Uy, se me cruzaron los cables un segundo. ¿Me lo repites?", "completo": False, "perfil": {}, "error": str(e)[:200]}
     perfil = data.get("perfil") or {}
@@ -165,22 +189,14 @@ async def chat(req: Request):
 
 @app.get("/diag", response_class=PlainTextResponse)
 def diag():
-    """Diagnóstico legible (no muestra la key): estado, modelos disponibles y una prueba real."""
+    """Diagnóstico legible (no muestra la key): proveedor activo y una prueba real."""
     out = []
+    out.append("Proveedor activo: " + str(_proveedor()))
+    out.append("GROQ_API_KEY presente: " + ("SI" if GROQ_API_KEY else "NO") + " · modelo: " + GROQ_MODEL)
     out.append("GEMINI_API_KEY presente: " + ("SI" if GEMINI_API_KEY else "NO"))
-    out.append("genai importado: " + ("SI" if genai else "NO"))
-    out.append("GEMINI_MODEL (env): " + str(os.environ.get("GEMINI_MODEL")))
-    if genai and GEMINI_API_KEY:
-        try:
-            avail = [m.name.replace("models/", "") for m in genai.list_models()
-                     if "generateContent" in getattr(m, "supported_generation_methods", [])]
-            out.append("Modelos disponibles (" + str(len(avail)) + "): " + ", ".join(avail[:30]))
-        except Exception as e:
-            out.append("ERROR list_models: " + repr(e)[:300])
-        try:
-            out.append("Modelo elegido: " + _pick_model())
-            r = genai.GenerativeModel(_pick_model()).generate_content("Responde solo: ok")
-            out.append("PRUEBA generate_content: OK -> " + ((getattr(r, "text", "") or "")[:60]))
-        except Exception as e:
-            out.append("PRUEBA generate_content ERROR: " + repr(e)[:300])
+    try:
+        raw = _llm_raw([{"rol": "usuario", "texto": 'Responde exactamente este JSON: {"reply":"ok","perfil":{},"completo":false}'}])
+        out.append("PRUEBA LLM: OK -> " + (raw or "")[:160])
+    except Exception as e:
+        out.append("PRUEBA LLM ERROR: " + repr(e)[:300])
     return "\n".join(out)
