@@ -8,7 +8,7 @@ En Render:      Start Command  ->  uvicorn api:app --host 0.0.0.0 --port $PORT
 """
 import importlib.util, os, sys
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 # El motor tiene guion en el nombre de archivo, así que no es importable normal:
@@ -90,6 +90,42 @@ async def recomendar(req: Request):
         "ficha": motor.ficha_texto(perfil, explicito, afiliado),
     }
 
+_RESOLVED_MODEL = None
+def _pick_model():
+    """Elige automáticamente un modelo Gemini válido para esta cuenta (evita adivinar el nombre)."""
+    global _RESOLVED_MODEL
+    if _RESOLVED_MODEL:
+        return _RESOLVED_MODEL
+    try:
+        avail = [m.name.replace("models/", "") for m in genai.list_models()
+                 if "generateContent" in getattr(m, "supported_generation_methods", [])]
+    except Exception:
+        avail = []
+    prefer = os.environ.get("GEMINI_MODEL")
+    cands = ([prefer] if prefer else []) + [
+        "gemini-2.0-flash", "gemini-2.0-flash-001", "gemini-1.5-flash",
+        "gemini-1.5-flash-latest", "gemini-flash-latest",
+    ]
+    for c in cands:
+        if c and c in avail:
+            _RESOLVED_MODEL = c
+            return c
+    flash = [a for a in avail if "flash" in a]
+    _RESOLVED_MODEL = flash[0] if flash else (avail[0] if avail else (prefer or "gemini-1.5-flash"))
+    return _RESOLVED_MODEL
+
+def _parse_json_loose(txt):
+    try:
+        return json.loads(txt)
+    except Exception:
+        i, j = txt.find("{"), txt.rfind("}")
+        if i != -1 and j != -1:
+            try:
+                return json.loads(txt[i:j + 1])
+            except Exception:
+                pass
+    return None
+
 @app.post("/chat")
 async def chat(req: Request):
     """Conversación con Amparito (LLM Gemini). Recibe {historial:[{rol,texto}]} y devuelve
@@ -108,11 +144,16 @@ async def chat(req: Request):
     if not contents:
         contents = [{"role": "user", "parts": ["Hola"]}]
     try:
-        model = genai.GenerativeModel(GEMINI_MODEL, system_instruction=_system_prompt())
-        resp = model.generate_content(contents, generation_config={"response_mime_type": "application/json"})
-        data = json.loads(resp.text)
+        model = genai.GenerativeModel(_pick_model(), system_instruction=_system_prompt())
+        try:
+            resp = model.generate_content(contents, generation_config={"response_mime_type": "application/json"})
+        except Exception:
+            resp = model.generate_content(contents)  # reintento sin forzar JSON
+        data = _parse_json_loose(getattr(resp, "text", "") or "")
+        if data is None:
+            return {"reply": (getattr(resp, "text", "") or "…")[:600], "completo": False, "perfil": {}}
     except Exception as e:
-        return {"reply": "Uy, se me cruzaron los cables un segundo. ¿Me lo repites?", "completo": False, "perfil": {}, "error": str(e)[:150]}
+        return {"reply": "Uy, se me cruzaron los cables un segundo. ¿Me lo repites?", "completo": False, "perfil": {}, "error": str(e)[:200]}
     perfil = data.get("perfil") or {}
     if data.get("completo") and all(v["code"] in perfil for v in motor.variables):
         try:
@@ -121,3 +162,25 @@ async def chat(req: Request):
         except ValueError:
             data["completo"] = False
     return data
+
+@app.get("/diag", response_class=PlainTextResponse)
+def diag():
+    """Diagnóstico legible (no muestra la key): estado, modelos disponibles y una prueba real."""
+    out = []
+    out.append("GEMINI_API_KEY presente: " + ("SI" if GEMINI_API_KEY else "NO"))
+    out.append("genai importado: " + ("SI" if genai else "NO"))
+    out.append("GEMINI_MODEL (env): " + str(os.environ.get("GEMINI_MODEL")))
+    if genai and GEMINI_API_KEY:
+        try:
+            avail = [m.name.replace("models/", "") for m in genai.list_models()
+                     if "generateContent" in getattr(m, "supported_generation_methods", [])]
+            out.append("Modelos disponibles (" + str(len(avail)) + "): " + ", ".join(avail[:30]))
+        except Exception as e:
+            out.append("ERROR list_models: " + repr(e)[:300])
+        try:
+            out.append("Modelo elegido: " + _pick_model())
+            r = genai.GenerativeModel(_pick_model()).generate_content("Responde solo: ok")
+            out.append("PRUEBA generate_content: OK -> " + ((getattr(r, "text", "") or "")[:60]))
+        except Exception as e:
+            out.append("PRUEBA generate_content ERROR: " + repr(e)[:300])
+    return "\n".join(out)
