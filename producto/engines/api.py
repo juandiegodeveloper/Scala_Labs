@@ -27,6 +27,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.groq.com/openai/v1/chat/completions")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 try:
@@ -298,7 +299,7 @@ def _llm_raw(historial):
             msgs.append({"role": "user", "content": "Hola"})
         payload = {"model": GROQ_MODEL, "messages": msgs, "temperature": 0.6,
                    "response_format": {"type": "json_object"}}
-        req = _urlreq.Request("https://api.groq.com/openai/v1/chat/completions",
+        req = _urlreq.Request(LLM_BASE_URL,
                               data=json.dumps(payload).encode("utf-8"),
                               headers={"Authorization": "Bearer " + GROQ_API_KEY,
                                        "Content-Type": "application/json",
@@ -392,6 +393,7 @@ def diag():
     out.append("Proveedor activo: " + str(_proveedor()))
     out.append("ANTHROPIC_API_KEY presente: " + ("SI" if ANTHROPIC_API_KEY else "NO") + " · modelo: " + ANTHROPIC_MODEL)
     out.append("GROQ_API_KEY presente: " + ("SI" if GROQ_API_KEY else "NO") + " · modelo: " + GROQ_MODEL)
+    out.append("LLM_BASE_URL: " + LLM_BASE_URL)
     out.append("GEMINI_API_KEY presente: " + ("SI" if GEMINI_API_KEY else "NO"))
     try:
         raw = _llm_raw([{"rol": "usuario", "texto": 'Responde exactamente este JSON: {"reply":"ok","perfil":{},"completo":false}'}])
