@@ -86,15 +86,15 @@
     },
     "cierre": {
       "resumen": [
-        "Resumen antes de cerrar: {{producto}}, por {{prima_mes}} al mes. Te lo recomendé porque {{porque}}. Si estás de acuerdo, confirma y envío tu solicitud directo a la aseguradora. Y si prefieres pensarlo o hablarlo con un asesor, también está bien."
+        "Resumen antes de cerrar: {{producto}}, por {{prima_mes}} al mes. Te lo recomendé porque {{porque}}. Si estás de acuerdo, apruebas la cotización y dejo tu solicitud en trámite. Y si prefieres pensarlo o hablarlo con un asesor, también está bien."
       ],
       "firma_pago_simulado": [
-        "Listo. Aquí confirmas y tu solicitud sale directo a la aseguradora, sin filas ni papeleo. (En esta demo el paso es simulado)."
+        "Listo. Aquí apruebas tu cotización y tu solicitud queda en trámite, sin filas ni papeleo. (En esta demo el paso es simulado)."
       ]
     },
     "confirmacion": {
       "asegurado": [
-        "🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. Guarda este chat con un clic para tener todo a la mano."
+        "🎉 Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para terminar con tu afiliación. Guarda este chat con un clic para tener todo a la mano."
       ]
     },
     "respaldo": {

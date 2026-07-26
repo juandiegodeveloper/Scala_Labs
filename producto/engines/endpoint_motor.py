@@ -52,15 +52,24 @@ except Exception:
     _TRAZ_OK = False
 
 
-def _registrar(perfil: dict, resultado, session_id: str) -> None:
+FUENTES_VALIDAS = {"pregunta", "precarga_crm", "inferencia"}
+
+
+def _registrar(perfil: dict, resultado, session_id: str, fuentes: dict = None) -> None:
     """Escribe sesión + features + outputs en la DB. Lanza excepción si falla."""
     if not _TRAZ_OK:
         raise RuntimeError("módulo trazabilidad no disponible")
 
     _traz.crear_sesion(canal="api_rest", origen="endpoint_respaldo", session_id=session_id)
 
+    # El cliente declara de dónde salió cada variable; lo que no declare se asume
+    # inferido (default documentado), que es como lo grafica la pantalla de aprendizaje.
+    fuentes = fuentes or {}
     for code, valor in perfil.items():
-        _traz.registrar_feature(session_id, code, valor, "api_rest")
+        fuente = fuentes.get(code, "inferencia")
+        if fuente not in FUENTES_VALIDAS:
+            fuente = "inferencia"
+        _traz.registrar_feature(session_id, code, valor, fuente)
 
     for r in resultado.top_3:
         # Construye el 'porque' con las variables de alto peso del producto
@@ -154,6 +163,9 @@ class MotorHandler(BaseHTTPRequestHandler):
         # 2. Extraer campos
         perfil = data.get("perfil")
         producto_explicito = data.get("producto_explicito")  # opcional
+        fuentes = data.get("fuentes")  # opcional: {"V6": "pregunta", ...}
+        if not isinstance(fuentes, dict):
+            fuentes = None
 
         if not isinstance(perfil, dict):
             self._send(400, {"error": "Campo 'perfil' requerido (objeto con V1-V11)"})
@@ -176,7 +188,7 @@ class MotorHandler(BaseHTTPRequestHandler):
         # 5. Trazabilidad (best-effort)
         session_id = str(uuid.uuid4())
         try:
-            _registrar(perfil, resultado, session_id)
+            _registrar(perfil, resultado, session_id, fuentes)
             response["trazabilidad"] = "ok"
             response["session_id"] = session_id
         except Exception:

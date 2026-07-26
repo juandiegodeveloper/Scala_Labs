@@ -27,6 +27,11 @@ python3 -c "import sys; sys.path.insert(0,'producto/db'); import trazabilidad; \
 trazabilidad.exportar_interactions_json('producto/pantalla-aprendizaje/interactions.json')"
 ```
 
+> ⚠️ Ese comando **sobrescribe** `interactions.json`, que en el repo trae el dataset
+> sintético rico de la demo (3 sesiones con eventos, CRM y labels). Si lo corres y
+> quieres volver al dataset de presentación: `git checkout -- producto/pantalla-aprendizaje/interactions.json`.
+> Nunca commitees el export de tu DB local.
+
 ## Qué demuestra
 
 1. **Comprensión de lenguaje colombiano (regla 16 del MD):** escribe *"quiero asegurar
@@ -38,13 +43,34 @@ trazabilidad.exportar_interactions_json('producto/pantalla-aprendizaje/interacti
    de cierre que se muestra en el chat viene tal cual del JSON del motor determinista.
 3. **Trazabilidad real:** cada llamada al motor crea una sesión en
    `producto/db/interactions.db` (features V1–V11 + outputs top 3 con su porqué).
-4. **Cierre honesto (discovery 25-jul):** la venta directa cierra con
-   *"¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al
-   correo"* — remisión del lead validado, no emisión ni recaudo en el chat.
+4. **Cierre honesto en dos capas (discovery 25-jul):** el chat reúne los datos, Amparito
+   presenta la **cotización** y pide aprobarla; aprobada, cierra con la frase canónica
+   *"Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para
+   terminar con tu afiliación."* Al usuario **nunca** se le habla de la aseguradora.
+   La remisión ocurre por detrás (ver abajo): no hay emisión ni recaudo en el chat.
 5. **Flywheel visible:** la pantalla de aprendizaje consume el export de la DB y muestra
    la sesión real: perfil capturado, recomendación del motor y estado de consentimientos.
 6. **Fallback limpio:** si el endpoint no está corriendo, el demo sigue funcionando
    standalone con sus guiones — nunca se ve roto.
+
+## Las dos capas del cierre
+
+| | Qué ve / recibe | Frase |
+|---|---|---|
+| **Capa 1 — usuario** | El chat de Amparito | *"Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para terminar con tu afiliación."* |
+| **Capa 2 — aseguradora** | Informe de remisión (correo + fila de Excel/CSV) | *"Remisión de solicitud aprobada — {producto} · sesión {id}"* con perfil V1–V11, afinidad del motor y consentimientos |
+
+La capa 2 se genera desde la misma DB de trazabilidad, sin escribir nada a mano:
+
+```bash
+python3 producto/db/generar_remision.py            # última sesión cerrada
+python3 producto/db/generar_remision.py <session_id>
+```
+
+Imprime el informe listo para el correo y anexa la fila a `producto/db/remisiones.csv`
+(la infraestructura actual Colsubsidio ↔ aseguradoras es Excel; la ruta definitiva
+—correo, Excel o API— queda por validar con los mentores). **Cero PII:** la identidad
+viaja solo como hash SHA-256 y el perfil son valores categóricos.
 
 ## Flujo (diagrama en texto)
 
@@ -64,8 +90,11 @@ motor-colsubsidio.py ──► top 3 {pct, score, modo_cierre}  ─► burbuja e
    ▼
 trazabilidad.py ──► interactions.db (sessions + features + outputs)
    │
-   ▼  exportar_interactions_json()
-interactions.json ──► pantalla-aprendizaje/index.html ("Esto aprendió el sistema")
+   ├──► exportar_interactions_json()
+   │      └─► interactions.json ──► pantalla-aprendizaje/index.html ("Esto aprendió el sistema")
+   │
+   └──► generar_remision.py  [capa 2, por detrás]
+          └─► informe formato correo + remisiones.csv ──► aseguradora del convenio
 ```
 
 ## Notas
@@ -79,3 +108,4 @@ interactions.json ──► pantalla-aprendizaje/index.html ("Esto aprendió el 
 ---
 
 > Construido con Claude (agente delegado supervisado por Fable 5) — 25 jul 2026, noche.
+> Cierre en 2 capas, remisión y trazabilidad de fuentes: Claude Opus 5, esfuerzo alto — 25 jul 2026, 9:50 pm.

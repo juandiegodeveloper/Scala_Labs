@@ -130,7 +130,7 @@
     <div class="wrap">
       <img src="colsubsidio-blanco.png" alt="Colsubsidio" style="height:38px;margin-bottom:22px">
       <h1>El seguro que de verdad te sirve, en 3 minutos.</h1>
-      <p>Sin llamar a nadie, sin formularios y sin letra pequeña. Amparito te escucha, te recomienda con un porqué claro y deja tu solicitud en manos de la aseguradora en minutos. 24/7.</p>
+      <p>Sin llamar a nadie, sin formularios y sin letra pequeña. Amparito te escucha, te recomienda con un porqué claro, te cotiza al instante y deja tu solicitud en trámite en minutos. 24/7.</p>
       <button class="cta" onclick="go('cotiza')">Cotiza tu seguro →</button>
       <div class="badges">
         <span><b>Respaldado</b> por Colsubsidio</span>
@@ -146,7 +146,7 @@
       <div class="pasos">
         <div class="paso"><div class="n cifra">1</div><h3>Cuéntanos</h3><p>Chateas normal, con tus palabras. Te hacemos pocas preguntas, una a la vez, sin tecnicismos.</p></div>
         <div class="paso"><div class="n cifra">2</div><h3>Te recomendamos</h3><p>Te sugerimos el seguro que encaja con tu momento de vida y tu bolsillo, y te explicamos por qué.</p></div>
-        <div class="paso"><div class="n cifra">3</div><h3>Quedas protegido</h3><p>Confirmas en el chat y tu solicitud va directo a la aseguradora. La confirmación llega a tu correo. Listo.</p></div>
+        <div class="paso"><div class="n cifra">3</div><h3>Apruebas y listo</h3><p>Apruebas tu cotización en el chat y tu solicitud queda en trámite — un asesor te contacta para cerrar tu afiliación.</p></div>
       </div>
       <div class="videobox">▶ Espacio para el video del pitch / demo<br><span style="font-size:12px">(se incrusta aquí el recorrido grabado)</span></div>
     </div>
@@ -182,7 +182,7 @@
 
       <div class="card">
         <h3>Qué hace Amparito</h3>
-        <p>Lleva a la persona de "no sé qué seguro necesito" a "mi solicitud ya está en la aseguradora" sin intervención humana, sobre 9 productos (Autos y Motos, Patinetas y Bicicletas, Hogar, Mascotas, Viajes, Exequial, Vida, Salud y Educación). Identifica el producto, valida si es afiliado, recolecta solo los datos necesarios, recomienda con un porqué y cierra.</p>
+        <p>Lleva a la persona de "no sé qué seguro necesito" a "mi solicitud quedó en trámite" sin intervención humana, sobre 9 productos (Autos y Motos, Patinetas y Bicicletas, Hogar, Mascotas, Viajes, Exequial, Vida, Salud y Educación). Identifica el producto, valida si es afiliado, recolecta solo los datos necesarios, recomienda con un porqué y cierra.</p>
       </div>
       <div class="card">
         <h3>Cómo decide qué recomendar</h3>
@@ -195,7 +195,7 @@
 
       <h2 style="font-size:22px;margin:34px 0 14px">Preguntas frecuentes</h2>
       <details class="faq"><summary>¿Tengo que ser afiliado a Colsubsidio?</summary><div class="a">No. Amparito atiende a afiliados y no afiliados. Si eres afiliado, te hace menos preguntas porque ya tenemos parte de tu información.</div></details>
-      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">No. En la mayoría de seguros dejas tu solicitud lista y enviada a la aseguradora en esta misma conversación; y en Vida, Salud y Educación eliges, al momento de tomarlo, si prefieres el acompañamiento de un asesor especializado en tu caso.</div></details>
+      <details class="faq"><summary>¿Esto reemplaza a un asesor?</summary><div class="a">No. En la mayoría de seguros dejas tu cotización aprobada y tu solicitud en trámite en esta misma conversación; y en Vida, Salud y Educación eliges, al momento de tomarlo, si prefieres el acompañamiento de un asesor especializado en tu caso.</div></details>
       <details class="faq"><summary>¿Es seguro dar mis datos aquí?</summary><div class="a">Solo pedimos lo necesario para tu póliza y tratamos tus datos según la Ley 1581 de 2012 (habeas data). Puedes ver el detalle en la sección de Privacidad.</div></details>
       <details class="faq"><summary>¿Colsubsidio es la aseguradora?</summary><div class="a">Colsubsidio facilita el acceso a seguros de varias aseguradoras aliadas y te ayuda a encontrar el más adecuado. La póliza la emite la aseguradora correspondiente.</div></details>
       <details class="faq"><summary>Me perdí en el chat, ¿qué hago?</summary><div class="a">Escribe "empezar de nuevo" y Amparito reinicia la conversación. Y en Vida, Salud o Educación, al momento de tomar tu seguro, puedes elegir el acompañamiento de un asesor humano especializado.</div></details>
@@ -308,7 +308,8 @@ const guiones={
     {motor:true,sys:'Con eso te recomiendo el <b>Plan Mascota Tranquila</b>: urgencias veterinarias, consultas y vacunas, y responsabilidad civil. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
     {sys:'¡Genial! ¿Cómo te llamas?'},
     {sys:'Un gusto. Para dejar todo listo, tu número de cédula. 🔒'},
-    {poliza:'SOLICITUD Nº SOL-2026-8841',sys:'🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. Cuídate mucho. 🙌',chips:['Empezar de nuevo']}
+    {sys:'Tu cotización del <b>Plan Mascota Tranquila</b> quedó lista. ¿La apruebo y dejo tu solicitud en trámite?',chips:['Sí, apruébala','Todavía no']},
+    {poliza:'SOLICITUD Nº SOL-2026-8841',sys:'🎉 Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para terminar con tu afiliación.',chips:['Empezar de nuevo']}
   ],
   carro:[
     {sys:'¡Listo, aseguremos tu carro! 🚗 ¿Cuál es la placa?'},
@@ -317,7 +318,8 @@ const guiones={
     {motor:true,sys:'Te recomiendo el <b>Plan Auto Esencial</b>: responsabilidad civil, asistencia en vía 24/7 y pérdida total por accidente. ¿Continuamos?',chips:['Sí, continuar','Ver otra opción']},
     {sys:'¡Genial! ¿Cómo te llamas?'},
     {sys:'Un gusto. Por último, tu número de cédula. 🔒'},
-    {poliza:'SOLICITUD Nº SOL-2026-7420',sys:'🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. 🙌',chips:['Empezar de nuevo']}
+    {sys:'Tu cotización del <b>Plan Auto Esencial</b> quedó lista. ¿La apruebo y dejo tu solicitud en trámite?',chips:['Sí, apruébala','Todavía no']},
+    {poliza:'SOLICITUD Nº SOL-2026-7420',sys:'🎉 Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para terminar con tu afiliación.',chips:['Empezar de nuevo']}
   ],
   hogar:[
     {sys:'¡Cuidemos tu hogar! 🏡 ¿Vives en casa o apartamento?',chips:['Casa','Apartamento']},
@@ -327,7 +329,8 @@ const guiones={
     {motor:true,sys:'Con eso te recomiendo el <b>Plan Hogar Protegido</b>: incendio, daños y responsabilidad civil. ¿Le sumamos protección de contenidos (electrodomésticos y muebles)?',chips:['Sí, súmalo','Así está bien']},
     {sys:'¡Perfecto! ¿Cómo te llamas?'},
     {sys:'Un gusto. Por último, tu número de cédula. 🔒'},
-    {poliza:'SOLICITUD Nº SOL-2026-6155',sys:'🎉 ¡Listo! Tu solicitud va directo a la aseguradora — te llega la confirmación al correo. 🙌',chips:['Empezar de nuevo']}
+    {sys:'Tu cotización del <b>Plan Hogar Protegido</b> quedó lista. ¿La apruebo y dejo tu solicitud en trámite?',chips:['Sí, apruébala','Todavía no']},
+    {poliza:'SOLICITUD Nº SOL-2026-6155',sys:'🎉 Listo, tu solicitud está en trámite. Un asesor se pondrá en contacto contigo para terminar con tu afiliación.',chips:['Empezar de nuevo']}
   ]
 };
 // Regla 16 del MD v3 (spec del asistente): lenguaje colombiano y sinónimos.
@@ -351,19 +354,24 @@ const MOTOR_KEY={mascota:'mascotas',carro:'autos',hogar:'hogar'}; // guion demo 
 // defecto razonable (persona joven-adulta, empleo formal, ingreso medio, arriendo,
 // sin dependientes) documentado aquí; los que sí se conversan se actualizan al vuelo:
 // V6 (vivienda propia/arrendada, guion hogar), V8 (Carro/Moto), V9 (mascota Sí).
-let perfil=null,demoProd=null;
+// `fuentes` marca de dónde salió cada variable (pregunta / precarga_crm / inferencia).
+// Es lo que la pantalla de aprendizaje grafica como "máximo 5 preguntas efectivas —
+// el sistema completa el resto": todo arranca en inferencia y sube a pregunta al conversarse.
+let perfil=null,demoProd=null,fuentes=null;
 function perfilBase(){return{
   V1:'26-35 años',V2:'Femenino',V3:'Formal dependiente',V4:'Medio ($1.3M - $4.6M)',
   V5:'Pareja sin hijos',V6:'Arrendada',V7:'No',V8:'No tiene',V9:'No',V10:'No',V11:'No'};}
+function fuentesBase(){const f={};for(const v in perfilBase())f[v]='inferencia';return f;}
+function marcar(v){if(fuentes)fuentes[v]='pregunta';}
 function actualizarPerfil(prod,t){
   t=t.toLowerCase();
-  if(prod==='hogar'){if(/propi/.test(t))perfil.V6='Propia pagada';if(/arrend|arriendo/.test(t))perfil.V6='Arrendada';}
-  if(prod==='carro'&&/\bmoto/.test(t))perfil.V8='Moto';
+  if(prod==='hogar'){if(/propi/.test(t)){perfil.V6='Propia pagada';marcar('V6');}if(/arrend|arriendo/.test(t)){perfil.V6='Arrendada';marcar('V6');}}
+  if(prod==='carro'&&/\bmoto/.test(t)){perfil.V8='Moto';marcar('V8');}
 }
 async function consultarMotor(prod){
   try{
     const r=await fetch(MOTOR_URL,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({perfil:perfil,producto_explicito:MOTOR_KEY[prod]})});
+      body:JSON.stringify({perfil:perfil,fuentes:fuentes,producto_explicito:MOTOR_KEY[prod]})});
     if(!r.ok)throw new Error('motor no ok');
     const d=await r.json();
     if(d&&d.top_3&&d.top_3.length){
@@ -379,9 +387,9 @@ async function demo(texto){
     const p=detectar(texto);
     if(!p){typing(()=>{burbuja('¿Qué te gustaría proteger: tu mascota, tu carro o tu hogar?');chips(['Mi mascota','Mi carro','Mi hogar']);});return;}
     demoGuion=guiones[p];demoStep=0;demoProd=p;
-    perfil=perfilBase();
-    if(p==='mascota')perfil.V9='Sí';
-    if(p==='carro')perfil.V8=/\bmoto/.test(texto.toLowerCase())?'Moto':'Carro';
+    perfil=perfilBase();fuentes=fuentesBase();
+    if(p==='mascota'){perfil.V9='Sí';marcar('V9');}
+    if(p==='carro'){perfil.V8=/\bmoto/.test(texto.toLowerCase())?'Moto':'Carro';marcar('V8');}
   }else if(demoProd){actualizarPerfil(demoProd,texto);}
   if(demoStep<demoGuion.length){
     const s=demoGuion[demoStep++];

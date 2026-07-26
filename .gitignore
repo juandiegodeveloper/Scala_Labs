@@ -35,3 +35,4 @@ desktop.ini
 
 # DB local de trazabilidad (runtime del MVP local — nunca al repo)
 producto/db/interactions.db
+producto/db/remisiones.csv
