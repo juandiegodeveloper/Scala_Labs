@@ -375,8 +375,21 @@ async function consultarMotor(prod){
     if(!r.ok)throw new Error('motor no ok');
     const d=await r.json();
     if(d&&d.top_3&&d.top_3.length){
-      const filas=d.top_3.map(p=>`${p.rank}. <b>${p.nombre}</b> — ${p.pct}% de afinidad · cierre ${p.modo_cierre==='auto'?'inmediato en el chat':'con asesor'}`).join('<br>');
-      burbuja('Según tu perfil, esta es la afinidad que calcula nuestro motor de reglas:<br>'+filas+'<br><span style="font-size:11.5px;opacity:.8">Cifras del motor determinista · sesión registrada con trazabilidad</span>');
+      // El motor fija de primero el producto que la persona pidió (forced_explicit),
+      // así que su % puede ser menor al de los otros. Se separan las dos cosas para no
+      // mostrar un "1." con menos afinidad que un "2.": lo pedido va aparte y las
+      // demás opciones se listan ordenadas por afinidad.
+      const linea=p=>`<b>${p.nombre}</b> — ${p.pct}% de afinidad · cierre ${p.modo_cierre==='auto'?'inmediato en el chat':'con asesor'}`;
+      const pedido=d.top_3.find(p=>p.forced_explicit);
+      const otras=d.top_3.filter(p=>p!==pedido).sort((a,b)=>b.pct-a.pct);
+      let texto;
+      if(pedido){
+        texto='Lo que pediste: '+linea(pedido);
+        if(otras.length)texto+='<br><br>Y por tu perfil también te encajan:<br>'+otras.map((p,i)=>`${i+1}. ${linea(p)}`).join('<br>');
+      }else{
+        texto='Según tu perfil, esta es la afinidad que calcula nuestro motor de reglas:<br>'+otras.map((p,i)=>`${i+1}. ${linea(p)}`).join('<br>');
+      }
+      burbuja(texto+'<br><span style="font-size:11.5px;opacity:.8">Cifras del motor determinista · sesión registrada con trazabilidad</span>');
       document.getElementById('modo').textContent='Motor determinista conectado ✓ · las cifras las pone el motor, no el modelo.';
     }
   }catch(e){/* sin motor local: el guion sigue igual — la demo standalone nunca se rompe */}
