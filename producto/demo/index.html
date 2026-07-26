@@ -278,6 +278,8 @@ const WEBHOOK="https://hook.us2.make.com/jxufpdbianincx5bhbuqyeuvcz8kvxux";
 const MOTOR="https://scala-labs.onrender.com/recomendar";
 const CHAT="https://scala-labs.onrender.com/chat";
 let historial=[];
+let _rec=null;
+const _CIERRE=['¿Por qué este?','No, gracias','Me interesa','Acepto y continúo','Firmar y pagar'];
 const PERSONAS={
   "Madre soltera, 2 hijos":{afiliado:true,perfil:{V1:"26-35 años",V2:"Femenino",V3:"Formal dependiente",V4:"Bajo (< $1.3M)",V5:"Monoparental con hijos",V6:"Arrendada",V7:"No",V8:"No tiene",V9:"No",V10:"No",V11:"Sí"},fb:{nombre:"Vida",pct:61.3,modo:"asesoria"}},
   "Joven en moto, independiente":{afiliado:false,perfil:{V1:"18-25 años",V2:"Masculino",V3:"Informal / cuenta propia sin cotización",V4:"Bajo (< $1.3M)",V5:"Soltero(a) sin hijos",V6:"Arrendada",V7:"No",V8:"Moto",V9:"No",V10:"No",V11:"No"},fb:{nombre:"Accidentes personales",pct:87.5,modo:"auto"}},
@@ -323,10 +325,11 @@ async function conversar(texto){
     historial.push({rol:'amparito',texto:reply});
     burbuja(reply);
     if(d.recomendacion&&d.recomendacion.top){
-      const top=d.recomendacion.top;
+      _rec=d.recomendacion;
+      const top=_rec.top;
       burbuja('🛡️ <b>'+top.nombre+'</b> — '+top.pct+'% de afinidad · '+(top.modo_cierre==='auto'?'lo tomas al instante en el chat':'con un asesor especializado'));
-      burbuja('Y esto lo puso el <b>motor</b> con tus datos, no la IA. Por eso hay un porqué. 🙌');
-      chips(['Empezar de nuevo']);
+      burbuja('Y esto lo puso el <b>motor</b> con tus datos, no la IA. ¿Te cuento por qué, o lo tomamos? 🙌');
+      chips(['Me interesa','¿Por qué este?']);
     }
   }catch(e){
     dots.remove();
@@ -399,11 +402,20 @@ function demo(texto){
   else typing(()=>{burbuja('Gracias por conocer a Amparito. Escribe "empezar de nuevo" para verla otra vez.');chips(['Empezar de nuevo']);});
 }
 
+function manejarCierre(t){
+  if(t==='¿Por qué este?'){typing(()=>{burbuja(_rec&&_rec.porque?_rec.porque:'Te lo recomiendo porque es lo que mejor encaja con lo que me contaste de tu vida.');chips(['Me interesa','No, gracias']);});return;}
+  if(t==='No, gracias'){typing(()=>{burbuja('Sin problema, sin presión. Cuando quieras retomamos. 🙌');chips(['Empezar de nuevo']);});return;}
+  if(t==='Me interesa'){typing(()=>{burbuja('Perfecto. Antes de seguir, algo importante: tus datos se usan solo para tu póliza y con tu autorización (Ley 1581, habeas data). Sin letra pequeña.');chips(['Acepto y continúo']);});return;}
+  if(t==='Acepto y continúo'){typing(()=>{burbuja('Genial 🙌 Firma aquí mismo con un toque y eliges cómo pagar. (En esta demo, la firma y el pago son simulados.)');chips(['Firmar y pagar']);});return;}
+  if(t==='Firmar y pagar'){const n='COL-2026-'+Math.floor(1000+Math.random()*9000);typing(()=>{burbuja('PÓLIZA Nº '+n,'poliza');burbuja('🎉 ¡Listo! Ya quedaste asegurado. Te enviamos una copia a tu correo y guardamos tu conversación por si la necesitas. Cuídate mucho.');chips(['Empezar de nuevo']);});return;}
+}
+
 async function enviar(texto){
   if(!texto.trim())return;
   burbuja(texto,'usr');quick.innerHTML='';
-  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;historial=[];startChat();return;}
+  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;historial=[];_rec=null;startChat();return;}
   if(PERSONAS[texto]){ recomendarPersona(texto); return; }
+  if(_CIERRE.includes(texto)){ manejarCierre(texto); return; }
   conversar(texto);
 }
 document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('msg');enviar(i.value);i.value='';});

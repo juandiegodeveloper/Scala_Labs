@@ -192,7 +192,10 @@ async def chat(req: Request):
     if data.get("completo") and all(v["code"] in perfil for v in motor.variables):
         try:
             r = motor.calcular_scores(perfil)
-            data["recomendacion"] = {"top": r.top.to_dict(), "top_3": [p.to_dict() for p in r.top_3]}
+            idx = motor._product_index[r.top.key]
+            razones = [d.rationale for d in r.desglose if d.pesos[idx] >= 3 and d.rationale][:3]
+            data["recomendacion"] = {"top": r.top.to_dict(), "top_3": [p.to_dict() for p in r.top_3],
+                                     "porque": " · ".join(razones)}
         except ValueError:
             data["completo"] = False
     return data
