@@ -276,6 +276,8 @@ links.forEach(a=>a.addEventListener('click',()=>go(a.dataset.p)));
 const WEBHOOK="https://hook.us2.make.com/jxufpdbianincx5bhbuqyeuvcz8kvxux";
 // Motor real (Render). El demo lo llama en vivo; si está dormido, usa el resultado real precalculado.
 const MOTOR="https://scala-labs.onrender.com/recomendar";
+const CHAT="https://scala-labs.onrender.com/chat";
+let historial=[];
 const PERSONAS={
   "Madre soltera, 2 hijos":{afiliado:true,perfil:{V1:"26-35 años",V2:"Femenino",V3:"Formal dependiente",V4:"Bajo (< $1.3M)",V5:"Monoparental con hijos",V6:"Arrendada",V7:"No",V8:"No tiene",V9:"No",V10:"No",V11:"Sí"},fb:{nombre:"Vida",pct:61.3,modo:"asesoria"}},
   "Joven en moto, independiente":{afiliado:false,perfil:{V1:"18-25 años",V2:"Masculino",V3:"Informal / cuenta propia sin cotización",V4:"Bajo (< $1.3M)",V5:"Soltero(a) sin hijos",V6:"Arrendada",V7:"No",V8:"Moto",V9:"No",V10:"No",V11:"No"},fb:{nombre:"Accidentes personales",pct:87.5,modo:"auto"}},
@@ -301,8 +303,34 @@ function typing(cb){
 }
 
 function startChat(){
-  chatStarted=true;
-  typing(()=>{burbuja('¡Hola! 👋 Soy <b>Amparito</b>, tu asesora digital de confianza de Colsubsidio. Para mostrarte cómo decido con datos reales, ¿con cuál de estas personas te identificas?');chips(Object.keys(PERSONAS));});
+  chatStarted=true; historial=[];
+  typing(()=>{burbuja('¡Hola! 👋 Soy <b>Amparito</b>, tu asesora digital de Colsubsidio. Cuéntame con tus palabras qué quieres proteger, y te acompaño. O si prefieres, elige un perfil de ejemplo:');chips(Object.keys(PERSONAS));});
+}
+
+// Conversación real con Amparito (LLM en el backend). Si falla o está fría, ofrece los perfiles.
+async function conversar(texto){
+  historial.push({rol:'usuario',texto:texto});
+  const dots=document.createElement('div');dots.className='b sys';dots.textContent='…';
+  chat.appendChild(dots);chat.scrollTop=chat.scrollHeight;
+  try{
+    const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),25000);
+    const r=await fetch(CHAT,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({historial:historial}),signal:ctrl.signal});
+    clearTimeout(t);dots.remove();
+    if(!r.ok) throw new Error('http');
+    const d=await r.json();
+    const reply=d.reply||'…';
+    historial.push({rol:'amparito',texto:reply});
+    burbuja(reply);
+    if(d.recomendacion&&d.recomendacion.top){
+      const top=d.recomendacion.top;
+      burbuja('🛡️ <b>'+top.nombre+'</b> — '+top.pct+'% de afinidad · '+(top.modo_cierre==='auto'?'lo tomas al instante en el chat':'con un asesor especializado'));
+      burbuja('Y esto lo puso el <b>motor</b> con tus datos, no la IA. Por eso hay un porqué. 🙌');
+      chips(['Empezar de nuevo']);
+    }
+  }catch(e){
+    dots.remove();
+    typing(()=>{burbuja('Uy, se me fue la conexión un momento. ¿Probamos con un perfil de ejemplo mientras tanto?');chips(Object.keys(PERSONAS));});
+  }
 }
 
 async function recomendarPersona(label){
@@ -373,14 +401,9 @@ function demo(texto){
 async function enviar(texto){
   if(!texto.trim())return;
   burbuja(texto,'usr');quick.innerHTML='';
-  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;startChat();return;}
+  if(/empezar de nuevo|reiniciar/i.test(texto)){chat.innerHTML='';demoGuion=null;demoStep=0;historial=[];startChat();return;}
   if(PERSONAS[texto]){ recomendarPersona(texto); return; }
-  // 1) Intento con el motor real vía Make. 2) Si falla, guion de demostración por producto.
-  try{
-    const r=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({message:texto})});
-    if(r.ok){const data=await r.json();if(data&&data.reply){typing(()=>{burbuja(data.reply);if(data.chips)chips(data.chips);});return;}}
-    throw new Error('sin reply');
-  }catch(e){ demo(texto); }
+  conversar(texto);
 }
 document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('msg');enviar(i.value);i.value='';});
 </script>
