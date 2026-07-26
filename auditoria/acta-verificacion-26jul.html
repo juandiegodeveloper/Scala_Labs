@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Acta de verificación — Amparito · 26 jul 2026</title>
+<style>
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#f7f9fb;color:#333;margin:0;padding:28px;max-width:900px;margin:0 auto}
+  h1{color:#0067B1;font-size:22px;margin-bottom:2px}
+  .sub{color:#888;font-size:13px;margin-bottom:22px}
+  .card{background:#fff;border:1px solid #e6ebf0;border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:0 4px 16px rgba(0,103,177,.07)}
+  .card h2{font-size:16px;color:#0067B1;margin:0 0 12px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;color:#888;font-weight:600;padding:6px 10px;border-bottom:2px solid #e6ebf0}
+  td{padding:7px 10px;border-bottom:1px solid #f0f3f6}
+  .pasa{color:#0a7d33;font-weight:700}
+  .chat{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .b{max-width:82%;font-size:13.5px;line-height:1.45;padding:9px 13px;border-radius:14px}
+  .sys{background:#0067B1;color:#fff;border-bottom-left-radius:4px;align-self:flex-start}
+  .usr{background:#fff;border:1px solid #ddd;border-bottom-right-radius:4px;align-self:flex-end}
+  .meta{font-size:11.5px;color:#999;margin-top:6px}
+  .tag{display:inline-block;background:#FFEC99;border:1px solid #FFD000;color:#7a6300;border-radius:6px;font-size:11.5px;font-weight:700;padding:2px 8px;margin-left:6px;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<h1>Acta de verificación en producción — Amparito</h1>
+<p class="sub">Scala Labs · 26 jul 2026, 10:13–10:50 am · pruebas E2E reales contra amparitohelp.netlify.app → scala-labs.onrender.com (main@a359d2c) · ejecutadas por agentes de Claude Code (Fable 5, orquestador)</p>
+
+<div class="card">
+  <h2>Criterios de aceptación — 4/4 <span class="pasa">PASA</span></h2>
+  <table>
+    <tr><th>#</th><th>Criterio</th><th>Resultado</th><th>Evidencia</th></tr>
+    <tr><td>1</td><td>La 2ª pregunta del bot es si la persona es afiliada</td><td class="pasa">✔ PASA</td><td>Transcripción V1 · turno 1</td></tr>
+    <tr><td>2</td><td>Consentimiento de datos (Ley 1581) antes de cualquier dato personal</td><td class="pasa">✔ PASA</td><td>Transcripción V1 · turnos 2–4</td></tr>
+    <tr><td>3</td><td>"No autorizo" → cierre amable, cero datos, se niega a recomendar</td><td class="pasa">✔ PASA</td><td>Transcripción V3 (abajo)</td></tr>
+    <tr><td>4</td><td>Intención "casa" → el motor recomienda Hogar, no Vida</td><td class="pasa">✔ PASA</td><td>E2E 15 turnos + /recomendar</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Prueba V3 — Camino de rechazo del consentimiento <span class="tag">transcripción real · 0.8 s/turno</span></h2>
+  <div class="chat">
+    <div class="b usr">quiero un seguro para mi perro</div>
+    <div class="b sys">¡Hola! Soy Amparito, tu asesora de seguros de Colsubsidio. Qué bueno que quieras proteger a tu perro. Antes de seguir, ¿ya eres afiliado a Colsubsidio?</div>
+    <div class="b usr">no</div>
+    <div class="b sys">¡Bienvenido! No necesitas ser afiliado para asegurarte con nosotros. Para recomendarte bien necesito hacerte unas preguntas y guardar tus respuestas, protegidas según la Ley 1581 de 2012. ¿Me autorizas para continuar?</div>
+    <div class="b usr">no autorizo</div>
+    <div class="b sys">Entendido, no guardo nada. Si cambias de opinión aquí estaré. También puedes hablar con un asesor humano en cualquier sede de Colsubsidio.</div>
+    <div class="b usr">bueno pero dime qué seguro me conviene</div>
+    <div class="b sys">Lo siento, no puedo recomendarte un seguro sin tu autorización para tratar tus datos. Si cambias de opinión, aquí estaré para ayudarte.</div>
+  </div>
+  <p class="meta">JSON verificado en cada turno: intención capturada (producto_explicito: "mascotas"), perfil vacío tras el rechazo, completo: false. El bot detecta la intención, exige afiliación y consentimiento, y NO vende sin autorización — cumplimiento por diseño.</p>
+</div>
+
+<div class="card">
+  <h2>Prueba E2E — Flujo completo hasta la recomendación <span class="tag">15 turnos · 0 errores</span></h2>
+  <table>
+    <tr><th>Fase</th><th>Qué pasó</th></tr>
+    <tr><td>Turno 1</td><td>"hola, quiero asegurar mi casa" → captura intención (hogar) y pregunta afiliación</td></tr>
+    <tr><td>Turnos 2–3</td><td>Afiliación confirmada → consentimiento Ley 1581 autorizado</td></tr>
+    <tr><td>Turnos 4–12</td><td>Perfilamiento cálido, una pregunta por mensaje; manejó bien una respuesta ambigua del usuario pidiendo aclaración</td></tr>
+    <tr><td>Turno 13</td><td>Perfil completo (11/11 variables) → el bot ANUNCIA y pide confirmación, sin adjuntar recomendación</td></tr>
+    <tr><td>Turno 15</td><td>Usuario confirma → el MOTOR entrega: <b>Todo riesgo hogar</b> · 87.5% de afinidad · score 21/24, coherente con la intención declarada</td></tr>
+  </table>
+  <p class="meta">La IA nunca dio cifras ni nombres de producto: la recomendación la calculó el motor determinista de reglas (verificable en /recomendar). Latencia media ~1 s por turno.</p>
+</div>
+
+<div class="card">
+  <h2>Cómo se probó</h2>
+  <table>
+    <tr><th>Prueba</th><th>Agente</th><th>Método</th></tr>
+    <tr><td>V1 — intención amplia ("proteger a mis hijos")</td><td>Verificador 1</td><td>6 turnos vía POST /chat, transcripción cruda + veredicto por criterio</td></tr>
+    <tr><td>V2/E2E — flujo completo ("asegurar mi casa")</td><td>Verificador 2</td><td>15 turnos hasta recomendación, validación del contrato JSON</td></tr>
+    <tr><td>V3 — rechazo de consentimiento</td><td>Verificador 3</td><td>4 turnos incluyendo insistencia post-rechazo</td></tr>
+    <tr><td>Motor determinista</td><td>Directo</td><td>POST /recomendar con perfil completo + producto_explicito</td></tr>
+  </table>
+</div>
+
+</body>
+</html>
