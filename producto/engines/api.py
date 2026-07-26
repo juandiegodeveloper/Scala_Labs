@@ -22,7 +22,7 @@ _spec.loader.exec_module(_mod)
 motor = _mod.MotorScoring()
 
 # --- LLM para la conversación de Amparito (Groq preferido; Gemini como respaldo) ---
-import json, urllib.request as _urlreq
+import json, urllib.request as _urlreq, urllib.error as _urlerr
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
@@ -149,8 +149,16 @@ def _llm_raw(historial):
                               data=json.dumps(payload).encode("utf-8"),
                               headers={"Authorization": "Bearer " + GROQ_API_KEY,
                                        "Content-Type": "application/json"})
-        with _urlreq.urlopen(req, timeout=45) as r:
-            d = json.loads(r.read().decode("utf-8"))
+        try:
+            with _urlreq.urlopen(req, timeout=45) as r:
+                d = json.loads(r.read().decode("utf-8"))
+        except _urlerr.HTTPError as he:
+            detail = ""
+            try:
+                detail = he.read().decode("utf-8")[:500]
+            except Exception:
+                pass
+            raise RuntimeError("Groq HTTP " + str(he.code) + ": " + detail)
         return d["choices"][0]["message"]["content"]
     contents = [{"role": "user" if m.get("rol") == "usuario" else "model",
                  "parts": [str(m.get("texto", ""))]} for m in historial] or [{"role": "user", "parts": ["Hola"]}]
