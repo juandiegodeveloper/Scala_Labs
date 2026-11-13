@@ -347,8 +347,8 @@ async def chat(req: Request):
         data = _parse_json_loose(raw)
         if data is None:
             return {"reply": (raw or "…")[:600], "completo": False, "perfil": {}}
-    except Exception as e:
-        return {"reply": "Uy, se me cruzaron los cables un segundo. ¿Me lo repites?", "completo": False, "perfil": {}, "error": str(e)[:200]}
+    except Exception:
+        return {"reply": "Uy, se me cruzaron los cables un segundo. ¿Me lo repites?", "completo": False, "perfil": {}}
     perfil = data.get("perfil") or {}
 
     # F2 — extraer y validar producto_explicito del JSON del LLM
