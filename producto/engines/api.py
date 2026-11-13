@@ -212,8 +212,8 @@ async def recomendar(req: Request):
     afiliado = body.get("afiliado")
     try:
         r = motor.calcular_scores(perfil, explicito)
-    except ValueError as e:
-        return JSONResponse(status_code=422, content={"error": str(e)})
+    except ValueError as _e:
+        return JSONResponse(status_code=422, content={"error": "No fue posible procesar la solicitud."})
     return {
         "top": r.top.to_dict(),
         "top_3": [p.to_dict() for p in r.top_3],
